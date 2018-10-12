@@ -55,6 +55,7 @@ package object cl {
     *  - `S` the Schönfinkel or strong composition combinator.
     */
   sealed abstract class BasicCombinator extends AtomicConstant
+
   case object I extends BasicCombinator
   case object K extends BasicCombinator
   case object S extends BasicCombinator
