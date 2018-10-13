@@ -1,10 +1,10 @@
 package cl
 
 import cl.generators.CLGen.termGen
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
 import org.scalatest.{ Matchers, WordSpec }
+import org.scalatest.prop.GeneratorDrivenPropertyChecks.{ forAll => ∀, _ }
 
-class ShowTest extends WordSpec with Matchers with GeneratorDrivenPropertyChecks {
+class ShowTest extends WordSpec with Matchers {
 
   "Show class" when {
 
@@ -50,7 +50,7 @@ class ShowTest extends WordSpec with Matchers with GeneratorDrivenPropertyChecks
     "given arbitrary Terms" should {
 
       "satisfy basic properties for the full and short representations" in
-        forAll(termGen, termGen) { (u, v) =>
+        ∀(termGen, termGen) { (u, v) =>
           u.full.length + v.full.length + 2 shouldEqual (u $ v).full.length
           u.short.length + v.short.length + 2 should be >= (u $ v).short.length
           (u $ v).full contains u.full shouldBe true
