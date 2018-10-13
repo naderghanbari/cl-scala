@@ -6,12 +6,12 @@ import org.scalatest.{ Matchers, WordSpec }
 
 class SizableTest extends WordSpec with Matchers with GeneratorDrivenPropertyChecks {
 
-  ".length is a non-negative function" in
+  "length (lgh) is a non-negative function" in
     forAll(termGen) { u =>
       u.length should be > 0
     }
 
-  ".length (lgh) is monotonically increasing and commutative wrt application ($)" in
+  "length (lgh) is monotonically increasing and commutative wrt Application ($)" in
     forAll(termGen, termGen) { (u, v) =>
       u.length should be < (v $ u).length
       u.length should be < (v $ u).length

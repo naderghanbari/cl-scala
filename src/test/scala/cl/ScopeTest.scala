@@ -1,6 +1,6 @@
 package cl
 
-import cl.generators.CLGen.{ atomicConstantGen, termGen }
+import cl.generators.CLGen.{ atomicConstantGen, closedTermGen, termGen }
 import org.scalatest.{ Matchers, WordSpec }
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
 
@@ -8,11 +8,9 @@ class ScopeTest extends WordSpec with Matchers with GeneratorDrivenPropertyCheck
 
   "Scope trait" when {
 
-    "given some CL terms" should {
+    "given some Terms" should {
 
-      val x = Var('x')
-      val y = Var('y')
-      val z = Var('z')
+      val (x, y, z) = (Var('x'), Var('y'), Var('z'))
       val Kx = K $ x
       val Kxy = Kx $ y
       val K_xy = K $ (x $ y)
@@ -27,24 +25,32 @@ class ScopeTest extends WordSpec with Matchers with GeneratorDrivenPropertyCheck
         subTerm ⊆ superTerm shouldBe true
       }
 
-      "return free variables: FV method" in {
+      "return their FV set and define the isClosed attribute" in {
         x.FV shouldBe Set(x)
         y.FV shouldBe Set(y)
         Kxy.FV shouldBe Set(x, y)
         K_xy.FV shouldBe Set(x, y)
+        K_xy.isClosed shouldBe false
       }
 
-      "respect FV rules wrt application" in
-        forAll(termGen, termGen) { (u, v) =>
-          (u $ v).FV should contain allElementsOf u.FV
-          (u $ v).FV should contain allElementsOf v.FV
-        }
+    }
 
-      "return empty FV for atomic constants" in
-        forAll(atomicConstantGen) { c =>
-          c.FV shouldBe empty
-        }
+    "given arbitrary Terms" should {
 
+      "respect FV rules wrt Application" in forAll(termGen, termGen) { (u: Term, v) =>
+        (u $ v).FV should contain allElementsOf u.FV
+        (u $ v).FV should contain allElementsOf v.FV
+      }
+
+      "return empty FV for Atomic Constants" in forAll(atomicConstantGen) { c =>
+        c.FV shouldBe empty
+        c.isClosed shouldBe true
+      }
+
+      "return empty FV for Closed Terms" in forAll(closedTermGen) { U =>
+        U.FV shouldBe empty
+        U.isClosed shouldBe true
+      }
     }
   }
 

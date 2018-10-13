@@ -8,11 +8,9 @@ class ShowTest extends WordSpec with Matchers with GeneratorDrivenPropertyChecks
 
   "Show class" when {
 
-    "given proper CL terms and variables" should {
+    "given some Terms and Variables" should {
 
-      val x = Var('x')
-      val y = Var('y')
-      val z = Var('z')
+      val (x, y, z) = (Var('x'), Var('y'), Var('z'))
 
       val Kx = K $ x
       val Kxy = Kx $ y
@@ -21,7 +19,7 @@ class ShowTest extends WordSpec with Matchers with GeneratorDrivenPropertyChecks
       val S_Kx_SKK = S $ (K $ x) $ (S $ K $ K)
       val S__SI_K___Kx____S_KI = (S $ ((S $ I) $ K) $ (K $ x)) $ (S $ (K $ I))
 
-      "show terms in full format" in {
+      "show Terms in full format" in {
         x.full shouldBe "x"
         y.full shouldBe "y"
         z.full shouldBe "z"
@@ -33,7 +31,7 @@ class ShowTest extends WordSpec with Matchers with GeneratorDrivenPropertyChecks
         S__SI_K___Kx____S_KI.full shouldBe "(((S((SI)K))(Kx))(S(KI)))"
       }
 
-      "show terms in short format by removing unnecessary brackets (left associativity rule)" in {
+      "show Term in short format" in {
         x.short shouldBe "x"
         y.short shouldBe "y"
         z.short shouldBe "z"
@@ -49,7 +47,7 @@ class ShowTest extends WordSpec with Matchers with GeneratorDrivenPropertyChecks
 
     }
 
-    "given arbitrary CL terms" should {
+    "given arbitrary Terms" should {
 
       "satisfy basic properties for the full and short representations" in
         forAll(termGen, termGen) { (u, v) =>

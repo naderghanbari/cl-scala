@@ -2,16 +2,6 @@ package cl
 
 trait Scope { self: Term =>
 
-  /** Set of Free Variables of this term.
-    *
-    * @return Set of Free Variables of this term.
-    */
-  final def FV: Set[Var] = self match {
-    case x: Var => Set(x)
-    case u $ v => u.FV union v.FV
-    case _ => Set.empty
-  }
-
   /** "Occurs in" or "Sub-Term" relation.
     *
     * @param that Subject term.
@@ -33,5 +23,17 @@ trait Scope { self: Term =>
     */
 
   final def ⊇(that: Term) = that ⊆ self
+
+  /** Set of Free Variables of this term.
+    *
+    * @return Set of Free Variables of this term.
+    */
+  lazy val FV: Set[Var] = self match {
+    case x: Var => Set(x)
+    case u $ v => u.FV union v.FV
+    case _ => Set.empty
+  }
+
+  lazy val isClosed: Boolean = FV.isEmpty
 
 }
