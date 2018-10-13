@@ -1,8 +1,10 @@
 package cl
 
+import cl.generators.CLGen.termGen
+import org.scalatest.prop.GeneratorDrivenPropertyChecks
 import org.scalatest.{ Matchers, WordSpec }
 
-class ShowTest extends WordSpec with Matchers {
+class ShowTest extends WordSpec with Matchers with GeneratorDrivenPropertyChecks {
 
   "Show class" when {
 
@@ -44,6 +46,22 @@ class ShowTest extends WordSpec with Matchers {
         (S $ (S $ I $ K) $ (K $ x) $ (S $ (K $ I))).short shouldBe "S(SIK)(Kx)(S(KI))"
         (S $ (S $ (I $ (x $ y)) $ K) $ (K $ x) $ (S $ (K $ I))).short shouldBe "S(S(I(xy))K)(Kx)(S(KI))"
       }
+
+    }
+
+    "given arbitrary CL terms" should {
+
+      "satisfy basic properties for the full and short representations" in
+        forAll(termGen, termGen) { (u, v) =>
+          u.full.length + v.full.length + 2 shouldEqual (u $ v).full.length
+          u.short.length + v.short.length + 2 should be >= (u $ v).short.length
+          (u $ v).full contains u.full shouldBe true
+          (u $ v).full contains v.full shouldBe true
+          (u $ v).short contains u.short shouldBe true
+          (u $ v).short contains v.short shouldBe true
+          u.short.length should be <= u.full.length
+          v.short.length should be <= v.full.length
+        }
 
     }
   }

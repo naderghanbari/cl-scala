@@ -9,7 +9,7 @@ package object cl {
     * you have more than a couple mix-ins, you realize why type-classes exists in Haskell and why they make the
     * code much more concise and spotlight-focused!
     */
-  sealed trait Term extends Show with Container with Sizable with Applicable with Reducible
+  sealed trait Term extends Show with Scope with Sizable with Applicable
 
 
   /** Atoms of the syntax.
