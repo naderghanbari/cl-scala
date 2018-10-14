@@ -48,4 +48,14 @@ class ReductionTest extends WordSpec with Matchers {
       Reduction.reduceToWeakNormalForm(Bxyz) shouldEqual x_yz
     }
 
+  "C ≡ S(BBS)(KK) ⇒ CXYZ ▹w XZY" in
+    ∀(varGen, varGen, varGen) { (x, y, z) =>
+      val B = S $ (K $ S) $ K
+      val C = S $ (B $ B $ S) $ (K $ K)
+      val Cxyz = C $ x $ y $ z
+      val xzy = x $ z $ y
+      Reduction.reduceToWeakNormalForm(Cxyz) shouldEqual xzy
+    }
+
+
 }
