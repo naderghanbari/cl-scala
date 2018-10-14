@@ -27,6 +27,18 @@ trait Reduction { self: Term =>
     */
   def ▹(V: Term): Boolean = reduceToWeakNormalForm(self) == V
 
+  /** Determines if this Term is a Weak Redex or not.
+    *
+    * Does memoize this attribute: much better time complexity for the price of a bit more space (a Boolean and a flag).
+    */
+  lazy val isWeakRedex: Boolean = associatedContractum isDefinedAt self
+
+  /** Determines if this Term is a Weak Normal Form or not.
+    *
+    * Does memoize this attribute so that the Weak Reduction can rely on it for faster performance.
+    */
+  lazy val isWeakNormalForm: Boolean = !(contractPartial isDefinedAt self)
+
 }
 
 object Reduction {
@@ -46,12 +58,6 @@ object Reduction {
     case S $ _X $ _Y $ _Z => _X $ _Z $ (_Y $ _Z)
   }
 
-  /** Given a Term determines if it is a Weak Redex or not.
-    *
-    * @return True if the provided Term is a Weak Redex, false otherwise.
-    */
-  val isWeakRedex: Term => Boolean = associatedContractum.isDefinedAt
-
   /** Contracts the provided Term a Weak Contraction, i.e. replacing left-most occurrence of a Weak Redex by its
     * Associate Contractum.
     *
@@ -64,11 +70,11 @@ object Reduction {
     */
   def contractLeftMost(U: Term): Option[Term] = contractPartial.lift(U)
 
-  private lazy val contractPartial: PartialFunction[Term, Term] =
+  private[Reduction] lazy val contractPartial: PartialFunction[Term, Term] =
     associatedContractum
       .orElse {
-        case _W $ _X if contractPartial.isDefinedAt(_W) => contractPartial(_W) $ _X
-        case _W $ _X if contractPartial.isDefinedAt(_X) => _W $ contractPartial(_X)
+        case _W $ _X if !_W.isWeakNormalForm => contractPartial(_W) $ _X
+        case _W $ _X if !_X.isWeakNormalForm => _W $ contractPartial(_X)
       }
 
   /** Reduces a Term to its Weak Normal Form.

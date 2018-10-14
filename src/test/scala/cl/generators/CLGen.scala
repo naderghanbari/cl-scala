@@ -11,17 +11,22 @@ object CLGen {
   def atomicConstantGen: Gen[AtomicConstant] = basicCombinatorGen
   def atomGen: Gen[Atom] = oneOf(varGen, basicCombinatorGen, basicCombinatorGen, basicCombinatorGen)
 
-  def applicationGen: Gen[$] = for {
-    u <- lzy(frequency((7, termGen), (2, atomGen)))
-    v <- lzy(frequency((1, atomGen), (2, termGen), (6, atomGen)))
-  } yield u $ v
-  def termGen: Gen[Term] = lzy(frequency((7, applicationGen), (2, atomGen)))
+  def weakRedexIGen: Gen[Term] = termGen.map(U => I $ U)
+  def weakRedexKGen: Gen[Term] = termGen.flatMap(U => termGen.map(V => K $ U $ V))
+  def weakRedexSGen: Gen[Term] = termGen.flatMap(U => termGen.flatMap(V => termGen.map(W => S $ U $ V $ W)))
+  def weakRedexGen: Gen[Term] = oneOf(weakRedexIGen, weakRedexKGen, weakRedexSGen)
 
-  private def closedApplicationGen: Gen[$] = for {
-    u <- lzy(frequency((7, closedTermGen), (2, basicCombinatorGen)))
-    v <- lzy(frequency((1, basicCombinatorGen), (2, closedTermGen), (6, basicCombinatorGen)))
-  } yield u $ v
+  private def closedLeftGen = lzy(frequency((7, closedTermGen), (2, basicCombinatorGen)))
+  private def closedRightGen = lzy(frequency((1, basicCombinatorGen), (2, closedTermGen), (6, basicCombinatorGen)))
+  private def closedApplicationGen: Gen[$] = closedLeftGen.flatMap(U => closedRightGen.map(V => U $ V))
+
   def closedTermGen: Gen[Term] = lzy(frequency((7, closedApplicationGen), (2, basicCombinatorGen)))
+
+  private def leftGen = lzy(frequency((7, termGen), (2, atomGen)))
+  private def rightGen = lzy(frequency((1, atomGen), (2, termGen), (6, atomGen)))
+  def applicationGen: Gen[$] = leftGen.flatMap(U => rightGen.map(V => U $ V))
+
+  def termGen: Gen[Term] = lzy(frequency((7, applicationGen), (2, atomGen)))
 
   val basicCombinatorNames = Set('I', 'K', 'S')
   val validCombinatorNames = ('A' to 'Z').toSet.diff(basicCombinatorNames).toSeq

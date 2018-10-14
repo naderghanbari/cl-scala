@@ -16,6 +16,7 @@ package object cl {
       with Occurrence
       with Applicable
       with Substitution
+      with Reduction
 
   /** Atoms of the syntax.
     *
