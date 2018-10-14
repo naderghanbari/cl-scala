@@ -13,7 +13,7 @@ class OccurrenceTest extends WordSpec with Matchers {
       val Kxy = Kx $ y
       val K_xy = K $ (x $ y)
 
-      "define the 'occurs in' partial order relation" in {
+      "define the 'Occurs in' partial order relation" in {
         x ⊆ Kxy shouldBe true
         z ⊆ Kxy shouldBe false
         Kx ⊆ Kxy shouldBe true
@@ -21,6 +21,16 @@ class OccurrenceTest extends WordSpec with Matchers {
         val subTerm = (S $ (K $ x)) $ (I $ K)
         val superTerm = ((S $ ((S $ I) $ ((S $ (K $ x)) $ (I $ K)))) $ (K $ x)) $ (S $ (K $ I))
         subTerm ⊆ superTerm shouldBe true
+      }
+
+      "define the 'Has Occurrence of' partial order relation" in {
+        Kxy ⊇ x shouldBe true
+        Kxy ⊇ z shouldBe false
+        Kxy ⊇ Kx shouldBe true
+        K_xy ⊇ Kx shouldBe false
+        val subTerm = (S $ (K $ x)) $ (I $ K)
+        val superTerm = ((S $ ((S $ I) $ ((S $ (K $ x)) $ (I $ K)))) $ (K $ x)) $ (S $ (K $ I))
+        superTerm ⊇ subTerm shouldBe true
       }
 
       "return their FV set and define the isClosed attribute" in {
