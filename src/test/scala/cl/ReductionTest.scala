@@ -1,5 +1,6 @@
 package cl
 
+import cl.Reduction.{ contractLeftMost, reduceToWeakNormalForm }
 import cl.generators.CLGen.{ termGen, varGen, weakRedexGen }
 import org.scalatest.{ Matchers, WordSpec }
 import org.scalatest.prop.GeneratorDrivenPropertyChecks.{ forAll => ∀, _ }
@@ -36,8 +37,8 @@ class ReductionTest extends WordSpec with Matchers {
     ∀(varGen) { x =>
       val SKKx = S $ K $ K $ x
       val Kx_Kx = K $ x $ (K $ x)
-      Reduction.contractLeftMost(SKKx) shouldEqual Some(Kx_Kx)
-      Reduction.contractLeftMost(Kx_Kx) shouldEqual Some(x)
+      contractLeftMost(SKKx) shouldEqual Some(Kx_Kx)
+      contractLeftMost(Kx_Kx) shouldEqual Some(x)
     }
 
   "B ≡ S(KS)K ⇒ BXYZ ▹w X(YZ)" in
@@ -45,7 +46,7 @@ class ReductionTest extends WordSpec with Matchers {
       val B = S $ (K $ S) $ K
       val Bxyz = B $ x $ y $ z
       val x_yz = x $ (y $ z)
-      Reduction.reduceToWeakNormalForm(Bxyz) shouldEqual x_yz
+      reduceToWeakNormalForm(Bxyz) shouldEqual x_yz
     }
 
   "C ≡ S(BBS)(KK) ⇒ CXYZ ▹w XZY" in
@@ -54,8 +55,24 @@ class ReductionTest extends WordSpec with Matchers {
       val C = S $ (B $ B $ S) $ (K $ K)
       val Cxyz = C $ x $ y $ z
       val xzy = x $ z $ y
-      Reduction.reduceToWeakNormalForm(Cxyz) shouldEqual xzy
+      reduceToWeakNormalForm(Cxyz) shouldEqual xzy
     }
+
+  "Substitution lemma for ▹w" should {
+
+    "X ▹w Y =⇒ FV(X) ⊇ FV(Y)" in
+      ∀(termGen) { X =>
+        val Y = reduceToWeakNormalForm(X)
+        X.FV should contain allElementsOf Y.FV
+      }
+
+    "X ▹w Y =⇒ [X/v]Z ▹w [Y/v]Z  (with Church–Rosser theorem implicitly used)" in
+      ∀(termGen, termGen, varGen) { (X, Z, v) =>
+        val Y = reduceToWeakNormalForm(X)
+        reduceToWeakNormalForm((X / v).apply(Z)) shouldEqual reduceToWeakNormalForm((Y / v).apply(Z))
+      }
+
+  }
 
 
 }
