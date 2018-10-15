@@ -34,28 +34,45 @@ class ReductionTest extends WordSpec with Matchers {
     }
 
   "SKKX ▹1w KX(KX) " in
-    ∀(varGen) { x =>
-      val SKKx = S $ K $ K $ x
-      val Kx_Kx = K $ x $ (K $ x)
-      contractLeftMost(SKKx) shouldEqual Some(Kx_Kx)
-      contractLeftMost(Kx_Kx) shouldEqual Some(x)
+    ∀(termGen) { X =>
+      val SKKX = S $ K $ K $ X
+      val KX$KX = K $ X $ (K $ X)
+      contractLeftMost(SKKX) shouldEqual Some(KX$KX)
+      contractLeftMost(KX$KX) shouldEqual Some(X)
     }
 
-  "B ≡ S(KS)K ⇒ BXYZ ▹w X(YZ)" in
-    ∀(varGen, varGen, varGen) { (x, y, z) =>
+  "B ≡ S(KS)K ⇒ BXYZ ▹w X(YZ)        with Church–Rosser theorem implicitly used" in
+    ∀(termGen, termGen, termGen) { (X, Y, Z) =>
       val B = S $ (K $ S) $ K
-      val Bxyz = B $ x $ y $ z
-      val x_yz = x $ (y $ z)
-      reduceToWeakNormalForm(Bxyz) shouldEqual x_yz
+      val BXYZ = B $ X $ Y $ Z
+      val X$YZ = X $ (Y $ Z)
+      reduceToWeakNormalForm(BXYZ) shouldEqual reduceToWeakNormalForm(X$YZ)
     }
 
-  "C ≡ S(BBS)(KK) ⇒ CXYZ ▹w XZY" in
-    ∀(varGen, varGen, varGen) { (x, y, z) =>
+  "C ≡ S(BBS)(KK) ⇒ CXYZ ▹w XZY      with Church–Rosser theorem implicitly used" in
+    ∀(termGen, termGen, termGen) { (X, Y, Z) =>
       val B = S $ (K $ S) $ K
       val C = S $ (B $ B $ S) $ (K $ K)
-      val Cxyz = C $ x $ y $ z
-      val xzy = x $ z $ y
-      reduceToWeakNormalForm(Cxyz) shouldEqual xzy
+      val CXYZ = C $ X $ Y $ Z
+      val XZY = X $ Z $ Y
+      reduceToWeakNormalForm(CXYZ) shouldEqual reduceToWeakNormalForm(XZY)
+    }
+
+  "W ≡ SS(KI) ⇒ WXY ▹w XYY           with Church–Rosser theorem implicitly used" in
+    ∀(termGen, termGen) { (X, Y) =>
+      val W = S $ S $ (K $ I)
+      val WXY = W $ X $ Y
+      val XYY = X $ Y $ Y
+      reduceToWeakNormalForm(WXY) shouldEqual reduceToWeakNormalForm(XYY)
+    }
+
+  "B′ ≡ S(K(SB))K ⇒ B′XY Z ▹w Y(XZ)       with Church–Rosser theorem implicitly used" in
+    ∀(termGen, termGen, termGen) { (X, Y, Z) =>
+      val B = S $ (K $ S) $ K
+      val Bp = S $ (K $ (S $ B)) $ K
+      val BpXYZ = Bp $ X $ Y $ Z
+      val Y$XZ = Y $ (X $ Z)
+      reduceToWeakNormalForm(BpXYZ) shouldEqual reduceToWeakNormalForm(Y$XZ)
     }
 
   "Substitution lemma for ▹w" should {
@@ -66,7 +83,7 @@ class ReductionTest extends WordSpec with Matchers {
         X.FV should contain allElementsOf Y.FV
       }
 
-    "X ▹w Y =⇒ [X/v]Z ▹w [Y/v]Z  (with Church–Rosser theorem implicitly used)" in
+    "X ▹w Y =⇒ [X/v]Z ▹w [Y/v]Z        with Church–Rosser theorem implicitly used" in
       ∀(termGen, termGen, varGen) { (X, Z, v) =>
         val Y = reduceToWeakNormalForm(X)
         reduceToWeakNormalForm((X / v).apply(Z)) shouldEqual reduceToWeakNormalForm((Y / v).apply(Z))
