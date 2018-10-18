@@ -8,8 +8,6 @@ import org.scalatest.prop.GeneratorDrivenPropertyChecks.{ forAll => ∀, _ }
 
 class PrimitiveAbstractionTest extends WordSpec with Matchers {
 
-  import cl.abstraction.Implicits.PrimitiveAbstraction
-
   "Example 2.19    --- p      [x].xy ≡ SI(Ky)               ∀ x, y" in
     ∀(varGen, varGen) { (x, y) =>
       whenever(x != y) {

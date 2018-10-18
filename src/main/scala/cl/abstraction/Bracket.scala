@@ -8,24 +8,18 @@ import cl._
   *
   * Usage:
   * {{{
-  *   import cl.abstraction.Bracket                   // Direct (non-DSL) use of Bracket
-  *   import cl.abstraction.Implicits.EtaAbstraction  // Or other strategies
-  *   val x = ....                                    // Some Var
-  *   val M =                                         // Some CL Term
-  *   val bracketX = Bracket(x)                       // Same as val abstractionX = Bracket(x)
-  *   bracketX.apply(M)                               // Apply the Bracket, i.e. do the actual Abstraction
+  *   import cl.abstraction._
+  *   import Abstraction.Implicits.etaAbstraction  // Or other strategies
+  *   val x = ....                                 // Some Var
+  *   val M =                                      // Some CL Term
+  *   val bracketX = Bracket(x)                    // Same as val abstractionX = Bracket(x)
+  *   bracketX.apply(M)                            // Apply the Bracket, i.e. do the actual Abstraction
   * }}}
   *
   * @param x variable to abstract away.
   */
-case class Bracket(x: Var) {
+case class Bracket(x: Var) extends AnyVal {
 
-  /** Abstracts by delegating to the provided implicit Abstraction strategy.
-    *
-    * @param M           Term to abstract x away from.
-    * @param abstraction Abstraction strategy.
-    * @return Abstracted term.
-    */
-  def apply(M: Term)(implicit abstraction: Abstraction) = abstraction(x, M)
+  def apply(M: Term)(implicit abstraction: Abstraction): Term = abstraction(x, M)
 
 }
