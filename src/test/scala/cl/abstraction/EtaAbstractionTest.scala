@@ -57,28 +57,38 @@ class EtaAbstractionTest extends WordSpec with Matchers {
   "Exercise 2.22.a --- η      [x].u(vx) ≡ S(Ku)v        ∀ u, v, x" in
     ∀(varGen, varGen, varGen) { (u, v, x) =>
       whenever(u != v && u != x && x != v) {
-        val left = EtaAbstraction(x, u $ (v $ x))
-        val right = S $ (K $ u) $ v
-        left shouldEqual right
+        EtaAbstraction(x, u $ (v $ x)) shouldEqual (S $ (K $ u) $ v)
       }
     }
 
   "Exercise 2.22.b --- η      [x].x(Sy) ≡ SI(K(Sy))     ∀ x, y" in
     ∀(varGen, varGen) { (x, y) =>
       whenever(x != y) {
-        val left = EtaAbstraction(x, x $ (S $ y))
-        val right = S $ I $ (K $ (S $ y))
-        left shouldEqual right
+        EtaAbstraction(x, x $ (S $ y)) shouldEqual (S $ I $ (K $ (S $ y)))
       }
     }
 
   "Exercise 2.22.c --- η      [x].uxxv ≡ S(SuI)(Kv)     ∀ u, v, x" in
     ∀(varGen, varGen, varGen) { (u, v, x) =>
       whenever(u != v && u != x && x != v) {
-        val left = EtaAbstraction(x, u $ x $ x $ v)
-        val right = S $ (S $ u $ I) $ (K $ v)
-        left shouldEqual right
+        EtaAbstraction(x, u $ x $ x $ v) shouldEqual (S $ (S $ u $ I) $ (K $ v))
       }
     }
+
+  "Exercise 2.25.a --- η      [x,y].x ≡ K               ∀ x, y" in
+    ∀(varGen, varGen) { (x, y) =>
+      whenever(x != y) {
+        EtaAbstraction(x, EtaAbstraction(y, x)) shouldEqual K
+      }
+    }
+
+  "Exercise 2.25.b --- η      [x,y,z].xz(yz) ≡ S        ∀ x, y, z" in
+    ∀(varGen, varGen, varGen) { (x, y, z) =>
+      whenever(x != y && x != z && z != y) {
+        val left = EtaAbstraction(x, EtaAbstraction(y, EtaAbstraction(z, x $ z $ (y $ z))))
+        left shouldEqual S
+      }
+    }
+
 
 }

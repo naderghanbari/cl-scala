@@ -2,9 +2,11 @@ package cl.abstraction
 
 import cl._
 
-/** Abstraction Bracket over variable x. Semantic building block of the abstraction DSL.
+/** Abstraction Bracket over one ore more variables.
   *
-  * Users can use the DSL without worrying about this class. See Abstraction for more details.
+  * Semantic building block of the abstraction DSL.
+  *
+  * Users can alternatively use the symbolic DSL.
   *
   * Usage:
   * {{{
@@ -16,10 +18,12 @@ import cl._
   *   bracketX.apply(M)                            // Apply the Bracket, i.e. do the actual Abstraction
   * }}}
   *
-  * @param x variable to abstract away.
+  * @param x  variable to abstract away.
+  * @param xs more variables.
   */
-case class Bracket(x: Var) extends AnyVal {
+case class Bracket(x: Var, xs: Var*) {
 
-  def apply(M: Term)(implicit abstraction: Abstraction): Term = abstraction(x, M)
+  def apply(M: Term)(implicit abstraction: Abstraction): Term =
+    (x +: xs).foldRight(M)(abstraction)
 
 }
