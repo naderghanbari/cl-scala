@@ -41,9 +41,9 @@ object Substitution {
       * @return Result of substitution, i.e. [U/x]Y .
       */
     def apply(Y: Term): Term = Y match {
-      case `x` => U
+      case `x`     => U
       case a: Atom => a
-      case v $ w => apply(v) $ apply(w)
+      case v $ w   => apply(v) $ apply(w)
     }
 
     /** Syntactic sugar for making simultaneous substitution rules.
@@ -83,8 +83,8 @@ object Substitution {
       */
     def apply(Y: Term): Term = Y match {
       case x: Var if rulesMap.contains(x) => rulesMap(x)
-      case a: Atom => a
-      case v $ w => apply(v) $ apply(w)
+      case a: Atom                        => a
+      case v $ w                          => apply(v) $ apply(w)
     }
 
     /** Syntactic sugar to keep adding substitution rules to this simultaneous substitution rule.

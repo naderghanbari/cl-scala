@@ -13,8 +13,8 @@ object WeakAbstraction extends Abstraction {
 
   override def apply(x: Var, M: Term): Term = M match {
     case _ if !M.FV.contains(x) => K $ M
-    case `x` => I
-    case _U $ _V => S $ apply(x, _U) $ apply(x, _V)
+    case `x`                    => I
+    case _U $ _V                => S $ apply(x, _U) $ apply(x, _V)
   }
 
 }

@@ -18,11 +18,11 @@ object CLLexer extends RegexParsers {
   private val term: Parser[List[CLToken]] =
     phrase {
       rep1 {
-        "I"       ^^ (_ => I          ) |
-        "K"       ^^ (_ => K          ) |
-        "S"       ^^ (_ => S          ) |
-        "("       ^^ (_ => `(`        ) |
-        ")"       ^^ (_ => `)`        ) |
+        "I"       ^^ (_ => I) |
+        "K"       ^^ (_ => K) |
+        "S"       ^^ (_ => S) |
+        "("       ^^ (_ => `(`) |
+        ")"       ^^ (_ => `)`) |
         "[a-z]".r ^^ (s => VAR(s.head))
       }
     }
@@ -35,7 +35,7 @@ object CLLexer extends RegexParsers {
   def apply(input: String): Either[CLLexerError, List[CLToken]] = {
     parse(term, input) match {
       case Success(result, _) => Right(result)
-      case NoSuccess(m, _) => Left(CLLexerError(input, m))
+      case NoSuccess(m, _)    => Left(CLLexerError(input, m))
     }
   }
 
@@ -45,6 +45,6 @@ object CLLexer extends RegexParsers {
     * @param message Lexer error message.
     */
   case class CLLexerError(input: String, message: String)
-    extends IllegalArgumentException(s"""CLLexer error for input "$input": $message""")
+      extends IllegalArgumentException(s"""CLLexer error for input "$input": $message""")
 
 }

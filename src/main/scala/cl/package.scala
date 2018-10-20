@@ -10,7 +10,7 @@ package object cl {
     * code much more concise and spotlight-focused!
     */
   sealed trait Term
-    extends Show
+      extends Show
       with Sizable
       with Scope
       with Occurrence
@@ -24,34 +24,12 @@ package object cl {
     */
   sealed trait Atom extends Term
 
-  object Atom {
-    def unapply(atom: Atom): Option[Char] = atom match {
-      case Var(name) => Some(name)
-      case AtomicConstant(name) => Some(name)
-    }
-  }
-
-  /** A variable, with a lower case letter by convention.
-    *
-    * @param name Variable name, should be a lower case letter.
-    */
-  case class Var(name: Char) extends Atom {
-    require(name.isLower)
-  }
-
-
   /** Atomic constants of the syntax.
     *
     * An atomic constant is either a basic combinator or a predefined constant (applied systems).
     * This system is pure, hence the only atomic constants are basic combinators.
     */
   sealed trait AtomicConstant extends Atom
-
-  object AtomicConstant {
-    def unapply(constant: AtomicConstant): Option[Char] = constant match {
-      case BasicCombinator(name) => Some(name)
-    }
-  }
 
   /** Hierarchy of basic combinators, aka the three and only atomic constants of the galaxy.
     *
@@ -62,16 +40,12 @@ package object cl {
     */
   sealed abstract class BasicCombinator extends AtomicConstant
 
-  case object I extends BasicCombinator
-  case object K extends BasicCombinator
-  case object S extends BasicCombinator
-
-  object BasicCombinator {
-    def unapply(basic: BasicCombinator): Option[Char] = basic match {
-      case I => Some('I')
-      case K => Some('K')
-      case S => Some('S')
-    }
+  /** A variable, with a lower case letter by convention.
+    *
+    * @param name Variable name, should be a lower case letter.
+    */
+  case class Var(name: Char) extends Atom {
+    require(name.isLower)
   }
 
   /** CL term denoting an application. Using $ as suggested by the literature (same as in Haskell as well).
@@ -90,6 +64,31 @@ package object cl {
     */
   case class Combinator(name: Char) {
     require(name.isUpper && name != 'I' && name != 'K' && name != 'S')
+  }
+
+  object Atom {
+    def unapply(atom: Atom): Option[Char] = atom match {
+      case Var(name)            => Some(name)
+      case AtomicConstant(name) => Some(name)
+    }
+  }
+
+  object AtomicConstant {
+    def unapply(constant: AtomicConstant): Option[Char] = constant match {
+      case BasicCombinator(name) => Some(name)
+    }
+  }
+
+  case object I extends BasicCombinator
+  case object K extends BasicCombinator
+  case object S extends BasicCombinator
+
+  object BasicCombinator {
+    def unapply(basic: BasicCombinator): Option[Char] = basic match {
+      case I => Some('I')
+      case K => Some('K')
+      case S => Some('S')
+    }
   }
 
 }
