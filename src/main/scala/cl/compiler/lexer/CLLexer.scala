@@ -1,4 +1,6 @@
-package cl.parser.lexer
+package cl.compiler.lexer
+
+import cl.compiler.CLLexerError
 
 import scala.util.parsing.combinator.RegexParsers
 
@@ -32,19 +34,10 @@ object CLLexer extends RegexParsers {
     * @param input Input to parse.
     * @return List of parsed tokens on the right, or error on the left.
     */
-  def apply(input: String): Either[CLLexerError, List[CLToken]] = {
+  def apply(input: String): Either[CLLexerError, List[CLToken]] =
     parse(term, input) match {
       case Success(result, _) => Right(result)
       case NoSuccess(m, _)    => Left(CLLexerError(input, m))
     }
-  }
-
-  /** Exception representing a failed attempt to parse an inout by the lexer.
-    *
-    * @param input Rejected input.
-    * @param message Lexer error message.
-    */
-  case class CLLexerError(input: String, message: String)
-      extends IllegalArgumentException(s"""CLLexer error for input "$input": $message""")
 
 }

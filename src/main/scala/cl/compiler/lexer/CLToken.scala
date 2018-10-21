@@ -1,4 +1,4 @@
-package cl.parser.lexer
+package cl.compiler.lexer
 
 sealed trait CLToken
 
