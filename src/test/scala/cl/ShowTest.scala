@@ -1,8 +1,8 @@
 package cl
 
 import cl.generators.CLGen.termGen
-import org.scalatest.{ Matchers, WordSpec }
-import org.scalatest.prop.GeneratorDrivenPropertyChecks.{ forAll => ∀, _ }
+import org.scalatest.prop.GeneratorDrivenPropertyChecks.{forAll => ∀, _}
+import org.scalatest.{Matchers, WordSpec}
 
 class ShowTest extends WordSpec with Matchers {
 
@@ -49,17 +49,16 @@ class ShowTest extends WordSpec with Matchers {
 
     "given arbitrary Terms" should {
 
-      "satisfy basic properties for the full and short representations" in
-        ∀(termGen, termGen) { (u, v) =>
-          u.full.length + v.full.length + 2 shouldEqual (u $ v).full.length
-          u.short.length + v.short.length + 2 should be >= (u $ v).short.length
-          (u $ v).full contains u.full shouldBe true
-          (u $ v).full contains v.full shouldBe true
-          (u $ v).short contains u.short shouldBe true
-          (u $ v).short contains v.short shouldBe true
-          u.short.length should be <= u.full.length
-          v.short.length should be <= v.full.length
-        }
+      "satisfy basic properties for the full and short representations" in ∀(termGen, termGen) { (u, v) =>
+        u.full.length + v.full.length + 2 shouldEqual (u $ v).full.length
+        u.short.length + v.short.length + 2 should be >= (u $ v).short.length
+        (u $ v).full contains u.full shouldBe true
+        (u $ v).full contains v.full shouldBe true
+        (u $ v).short contains u.short shouldBe true
+        (u $ v).short contains v.short shouldBe true
+        u.short.length should be <= u.full.length
+        v.short.length should be <= v.full.length
+      }
 
     }
   }

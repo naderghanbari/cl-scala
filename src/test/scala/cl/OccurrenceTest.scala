@@ -1,6 +1,6 @@
 package cl
 
-import org.scalatest.{ Matchers, WordSpec }
+import org.scalatest.{Matchers, WordSpec}
 
 class OccurrenceTest extends WordSpec with Matchers {
 

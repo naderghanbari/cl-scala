@@ -2,9 +2,10 @@ package cl.generators
 
 import cl._
 import org.scalacheck.Gen
-import org.scalacheck.Gen._
 
 object CLGen {
+
+  import Gen._
 
   def varGen: Gen[Var] = alphaLowerChar.map(Var)
   def basicCombinatorGen: Gen[BasicCombinator] = oneOf(I, K, S)
