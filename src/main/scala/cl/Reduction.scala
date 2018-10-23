@@ -16,29 +16,6 @@ trait Reduction { self: Term =>
     */
   lazy val isWeakNormalForm: Boolean = !(contractPartial isDefinedAt self)
 
-  /** Left to right (incomplete) Weak Contraction relation.
-    *
-    * TODO: Implement the Tree, or Positioning for Sub-Terms so that all possible Contractions are taken
-    * into account, not just the one with the leftmost Weak Redex being Contracted.
-    *
-    * Returns true if U ▹1w V where U is this Term (self).
-    *
-    * @param V Subject Term.
-    * @return True if this Term Weakly Contracts to the Subject Term.
-    */
-  def ▹|(V: Term): Boolean = contractLeftMost(self).contains(V)
-
-  /** "Weakly Reduces to" relation.
-    *
-    * TODO: Incomplete: just accepts the Weak Normal form and not the intermediate results of  ▹1w.
-    *
-    * Returns true if U ▹w V where U is this Term (self).
-    *
-    * @param V Subject Term.
-    * @return True if this Term Weakly Reduces to the Subject Term.
-    */
-  def ▹(V: Term): Boolean = reduceToWeakNormalForm(self) == V
-
 }
 
 object Reduction {

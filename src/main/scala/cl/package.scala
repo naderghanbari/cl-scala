@@ -17,6 +17,7 @@ package object cl {
       with Applicable
       with Substitution
       with Reduction
+      with WeakEquality
 
   /** Atoms of the syntax.
     *
