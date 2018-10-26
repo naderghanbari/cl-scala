@@ -1,4 +1,6 @@
 package cl.compiler
+
+import cl.compiler.ast.Term
 import cl.compiler.lexer.CLLexer
 import cl.compiler.parser.CLParser
 
@@ -8,6 +10,6 @@ import cl.compiler.parser.CLParser
   */
 object CLCompiler {
 
-  def apply(code: String): Either[CLCompileError, cl.Term] = CLLexer(code).flatMap(CLParser.apply)
+  def apply(code: String): Either[CLCompileError, Term] = CLLexer(code).flatMap(CLParser.apply)
 
 }

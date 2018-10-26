@@ -1,9 +1,13 @@
 package cl.compiler
 
-import cl._
+import cl.compiler.ast.{TermRef, Var}
 import org.scalatest.{EitherValues, Matchers, WordSpec}
 
 class CLCompilerTest extends WordSpec with Matchers with EitherValues {
+
+  val I = TermRef('I')
+  val K = TermRef('K')
+  val S = TermRef('S')
 
   "CLCompiler" should {
 

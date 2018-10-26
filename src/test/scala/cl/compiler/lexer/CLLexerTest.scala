@@ -8,6 +8,10 @@ class CLLexerTest extends WordSpec with Matchers with EitherValues {
 
   "CLLexer" should {
 
+    val I = REF('I')
+    val K = REF('K')
+    val S = REF('S')
+
     "parse valid CL Terms represented in short format" in {
       CLLexer("SKIx").right.get shouldEqual List(S, K, I, VAR('x'))
       CLLexer("S(KI)uv").right.get shouldEqual List(S, `(`, K, I, `)`, VAR('u'), VAR('v'))

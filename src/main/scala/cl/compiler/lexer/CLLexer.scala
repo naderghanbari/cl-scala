@@ -20,11 +20,9 @@ object CLLexer extends RegexParsers {
   private val term: Parser[List[CLToken]] =
     phrase {
       rep1 {
-        "I"       ^^ (_ => I) |
-        "K"       ^^ (_ => K) |
-        "S"       ^^ (_ => S) |
         "("       ^^ (_ => `(`) |
         ")"       ^^ (_ => `)`) |
+        "[A-Z]".r ^^ (s => REF(s.head)) |
         "[a-z]".r ^^ (s => VAR(s.head))
       }
     }

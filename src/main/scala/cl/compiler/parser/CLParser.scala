@@ -1,6 +1,7 @@
 package cl.compiler.parser
 
 import cl.compiler.CLParserError
+import cl.compiler.ast.{Application, Term, TermRef, Var}
 import cl.compiler.lexer._
 
 import scala.util.parsing.combinator.Parsers
@@ -21,26 +22,19 @@ object CLParser extends Parsers {
     override def rest: Reader[CLToken] = new CLTokenReader(tokens.tail)
   }
 
-  private def variable: Parser[cl.Var] =
-    accept("Variable", { case VAR(name) => cl.Var(name) })
+  private def variable: Parser[Var] =
+    accept("Variable", { case VAR(name) => Var(name) })
 
-  private def atomicConstant: Parser[cl.AtomicConstant] =
-    accept("Atomic Constant", {
-      case I => cl.I
-      case K => cl.K
-      case S => cl.S
-    })
+  private def reference: Parser[TermRef] =
+    accept("Reference", { case REF(name) => TermRef(name) })
 
-  private def atom: Parser[cl.Atom] =
-    variable | atomicConstant
+  private def application: Parser[Application] =
+    (`(` ~ term ~ term ~ `)`) ^^ { case _ ~ _X ~ _Y ~ _ => Application(_X, _Y) }
 
-  private def application: Parser[cl.$] =
-    (`(` ~ term ~ term ~ `)`) ^^ { case _ ~ _X ~ _Y ~ _ => cl.$(_X, _Y) }
+  private def term: Parser[Term] =
+    variable | reference | application
 
-  private def term: Parser[cl.Term] =
-    atom | application
-
-  def apply(tokens: Seq[CLToken]): Either[CLParserError, cl.Term] =
+  def apply(tokens: Seq[CLToken]): Either[CLParserError, Term] =
     term(new CLTokenReader(tokens)) match {
       case Success(result, _) => Right(result)
       case NoSuccess(msg, _)  => Left(CLParserError(msg))
