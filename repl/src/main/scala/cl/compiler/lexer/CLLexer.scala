@@ -17,13 +17,20 @@ object CLLexer extends RegexParsers {
   override val skipWhitespace = true
   override val whiteSpace = "[ \t\r\f]+".r
 
-  private val term: Parser[List[CLToken]] =
+  private def openRoundBracket = "("  ^^ (_ => `(`)
+  private def closeRoundBracket = ")" ^^ (_ => `)`)
+  private def variable = "[a-z]".r    ^^ (s => VAR(s.head))
+  private def termRef = "[A-Z]".r     ^^ (s => REF(s.head))
+  private def definition = "≡"        ^^ (_ => ≡)
+
+  private def tokens =
     phrase {
       rep1 {
-        "("       ^^ (_ => `(`) |
-        ")"       ^^ (_ => `)`) |
-        "[A-Z]".r ^^ (s => REF(s.head)) |
-        "[a-z]".r ^^ (s => VAR(s.head))
+        openRoundBracket |
+        closeRoundBracket |
+        variable |
+        termRef |
+        definition
       }
     }
 
@@ -33,7 +40,7 @@ object CLLexer extends RegexParsers {
     * @return List of parsed tokens on the right, or error on the left.
     */
   def apply(input: String): Either[CLLexerError, List[CLToken]] =
-    parse(term, input) match {
+    parse(tokens, input) match {
       case Success(result, _) => Right(result)
       case NoSuccess(m, _)    => Left(CLLexerError(input, m))
     }

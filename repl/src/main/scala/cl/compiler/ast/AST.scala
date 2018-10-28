@@ -13,3 +13,5 @@ case class TermRef(name: Char) extends Term {
   require(name.isUpper)
 }
 case class Application(operator: Term, argument: Term) extends Term
+
+case class Definition(ref: TermRef, rhs: Term) extends AST
