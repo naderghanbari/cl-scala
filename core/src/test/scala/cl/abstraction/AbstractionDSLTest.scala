@@ -11,7 +11,7 @@ class AbstractionDSLTest extends WordSpec with Matchers {
 
   "Theorem 2.21.B - η DSL: ([x].M)N ▹w [N/x]M             ∀ M, N, x" in ∀(varGen, termGen, termGen) { (x, M, N) =>
     import Abstraction.Implicits.eta
-    val left = |(x) | M $ N
+    val left  = |(x) | M $ N
     val right = (N / x)(M)
     reduceToWeakNormalForm(left) shouldEqual reduceToWeakNormalForm(right)
   }

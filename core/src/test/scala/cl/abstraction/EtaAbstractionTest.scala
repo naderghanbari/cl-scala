@@ -11,7 +11,7 @@ class EtaAbstractionTest extends WordSpec with Matchers {
 
   "Example 2.19    - η: [x].xy ≡ SI(Ky)        ∀ x, y" in ∀(varGen, varGen) { (x, y) =>
     whenever(x != y) {
-      val left = EtaAbstraction(x, x $ y)
+      val left  = EtaAbstraction(x, x $ y)
       val right = S $ I $ (K $ y)
       reduceToWeakNormalForm(left) shouldEqual reduceToWeakNormalForm(right)
     }
@@ -22,15 +22,15 @@ class EtaAbstractionTest extends WordSpec with Matchers {
   }
 
   "Theorem 2.21.B  - η: ([x].M)N ▹w [N/x]M     ∀ M, N, x" in ∀(varGen, termGen, termGen) { (x, M, N) =>
-    val left = EtaAbstraction(x, M) $ N
+    val left  = EtaAbstraction(x, M) $ N
     val right = (N / x)(M)
     reduceToWeakNormalForm(left) shouldEqual reduceToWeakNormalForm(right)
   }
 
   "Theorem 2.21.B  - η: ([x].M)N ▹w [N/x]M     ∀ M, N, x ∈ FV(M)" in ∀(termGen, termGen) { (M, N) =>
     whenever(M.FV.nonEmpty) {
-      val x = M.FV.head
-      val left = EtaAbstraction(x, M) $ N
+      val x     = M.FV.head
+      val left  = EtaAbstraction(x, M) $ N
       val right = (N / x)(M)
       reduceToWeakNormalForm(left) shouldEqual reduceToWeakNormalForm(right)
     }
@@ -43,7 +43,7 @@ class EtaAbstractionTest extends WordSpec with Matchers {
 
   "Theorem 2.21.C  - η: x ∉ FV([x].M)          ∀ M, x ∈ FV(M)" in ∀(termGen) { M =>
     whenever(M.FV.nonEmpty) {
-      val x = M.FV.head
+      val x          = M.FV.head
       val abstracted = EtaAbstraction(x, M)
       abstracted.FV should not contain x
     }

@@ -16,9 +16,9 @@ object CLParser extends Parsers {
   override type Elem = CLToken
 
   class CLTokenReader(tokens: Seq[CLToken]) extends Reader[CLToken] {
-    override def first: CLToken = tokens.head
-    override def atEnd: Boolean = tokens.isEmpty
-    override def pos: Position = NoPosition
+    override def first: CLToken        = tokens.head
+    override def atEnd: Boolean        = tokens.isEmpty
+    override def pos: Position         = NoPosition
     override def rest: Reader[CLToken] = new CLTokenReader(tokens.tail)
   }
 

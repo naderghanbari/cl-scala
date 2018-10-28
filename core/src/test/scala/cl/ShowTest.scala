@@ -12,11 +12,11 @@ class ShowTest extends WordSpec with Matchers {
 
       val (x, y, z) = (Var('x'), Var('y'), Var('z'))
 
-      val Kx = K $ x
-      val Kxy = Kx $ y
-      val K_xy = K $ (x $ y)
-      val SKxy = S $ K $ x $ y
-      val S_Kx_SKK = S $ (K $ x) $ (S $ K $ K)
+      val Kx                   = K $ x
+      val Kxy                  = Kx $ y
+      val K_xy                 = K $ (x $ y)
+      val SKxy                 = S $ K $ x $ y
+      val S_Kx_SKK             = S $ (K $ x) $ (S $ K $ K)
       val S__SI_K___Kx____S_KI = (S $ ((S $ I) $ K) $ (K $ x)) $ (S $ (K $ I))
 
       "show Terms in full format" in {

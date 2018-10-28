@@ -26,13 +26,13 @@ class ReductionTest extends WordSpec with Matchers {
   }
 
   "Bxyz is NOT in Weak Normal Form" in ∀(varGen, varGen, varGen) { (x, y, z) =>
-    val B = S $ (K $ S) $ K
+    val B    = S $ (K $ S) $ K
     val Bxyz = B $ x $ y $ z
     Bxyz.isWeakNormalForm shouldEqual false
   }
 
   "SKKX ▹1w KX(KX) " in ∀(termGen) { X =>
-    val SKKX = S $ K $ K $ X
+    val SKKX  = S $ K $ K $ X
     val KX$KX = K $ X $ (K $ X)
     contractLeftMost(SKKX) shouldEqual Some(KX$KX)
     contractLeftMost(KX$KX) shouldEqual Some(X)
@@ -40,7 +40,7 @@ class ReductionTest extends WordSpec with Matchers {
 
   "B ≡ S(KS)K ⇒ BXYZ ▹w X(YZ)        with Church–Rosser theorem implicitly used" in ∀(termGen, termGen, termGen) {
     (X, Y, Z) =>
-      val B = S $ (K $ S) $ K
+      val B    = S $ (K $ S) $ K
       val BXYZ = B $ X $ Y $ Z
       val X$YZ = X $ (Y $ Z)
       reduceToWeakNormalForm(BXYZ) shouldEqual reduceToWeakNormalForm(X$YZ)
@@ -48,15 +48,15 @@ class ReductionTest extends WordSpec with Matchers {
 
   "C ≡ S(BBS)(KK) ⇒ CXYZ ▹w XZY      with Church–Rosser theorem implicitly used" in ∀(termGen, termGen, termGen) {
     (X, Y, Z) =>
-      val B = S $ (K $ S) $ K
-      val C = S $ (B $ B $ S) $ (K $ K)
+      val B    = S $ (K $ S) $ K
+      val C    = S $ (B $ B $ S) $ (K $ K)
       val CXYZ = C $ X $ Y $ Z
-      val XZY = X $ Z $ Y
+      val XZY  = X $ Z $ Y
       reduceToWeakNormalForm(CXYZ) shouldEqual reduceToWeakNormalForm(XZY)
   }
 
   "W ≡ SS(KI) ⇒ WXY ▹w XYY           with Church–Rosser theorem implicitly used" in ∀(termGen, termGen) { (X, Y) =>
-    val W = S $ S $ (K $ I)
+    val W   = S $ S $ (K $ I)
     val WXY = W $ X $ Y
     val XYY = X $ Y $ Y
     reduceToWeakNormalForm(WXY) shouldEqual reduceToWeakNormalForm(XYY)
@@ -64,10 +64,10 @@ class ReductionTest extends WordSpec with Matchers {
 
   "B′ ≡ S(K(SB))K ⇒ B′XY Z ▹w Y(XZ)       with Church–Rosser theorem implicitly used" in ∀(termGen, termGen, termGen) {
     (X, Y, Z) =>
-      val B = S $ (K $ S) $ K
-      val Bp = S $ (K $ (S $ B)) $ K
+      val B     = S $ (K $ S) $ K
+      val Bp    = S $ (K $ (S $ B)) $ K
       val BpXYZ = Bp $ X $ Y $ Z
-      val Y$XZ = Y $ (X $ Z)
+      val Y$XZ  = Y $ (X $ Z)
       reduceToWeakNormalForm(BpXYZ) shouldEqual reduceToWeakNormalForm(Y$XZ)
   }
 

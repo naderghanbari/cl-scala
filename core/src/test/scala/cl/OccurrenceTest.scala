@@ -9,16 +9,16 @@ class OccurrenceTest extends WordSpec with Matchers {
     "given some Terms" should {
 
       val (x, y, z) = (Var('x'), Var('y'), Var('z'))
-      val Kx = K $ x
-      val Kxy = Kx $ y
-      val K_xy = K $ (x $ y)
+      val Kx        = K $ x
+      val Kxy       = Kx $ y
+      val K_xy      = K $ (x $ y)
 
       "define the 'Occurs in' partial order relation" in {
         x ⊆ Kxy shouldBe true
         z ⊆ Kxy shouldBe false
         Kx ⊆ Kxy shouldBe true
         Kx ⊆ K_xy shouldBe false
-        val subTerm = (S $ (K $ x)) $ (I $ K)
+        val subTerm   = (S $ (K $ x)) $ (I $ K)
         val superTerm = ((S $ ((S $ I) $ ((S $ (K $ x)) $ (I $ K)))) $ (K $ x)) $ (S $ (K $ I))
         subTerm ⊆ superTerm shouldBe true
       }
@@ -28,7 +28,7 @@ class OccurrenceTest extends WordSpec with Matchers {
         Kxy ⊇ z shouldBe false
         Kxy ⊇ Kx shouldBe true
         K_xy ⊇ Kx shouldBe false
-        val subTerm = (S $ (K $ x)) $ (I $ K)
+        val subTerm   = (S $ (K $ x)) $ (I $ K)
         val superTerm = ((S $ ((S $ I) $ ((S $ (K $ x)) $ (I $ K)))) $ (K $ x)) $ (S $ (K $ I))
         superTerm ⊇ subTerm shouldBe true
       }

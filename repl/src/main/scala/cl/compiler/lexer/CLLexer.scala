@@ -15,13 +15,13 @@ import scala.util.parsing.combinator.RegexParsers
 object CLLexer extends RegexParsers {
 
   override val skipWhitespace = true
-  override val whiteSpace = "[ \t\r\f]+".r
+  override val whiteSpace     = "[ \t\r\f]+".r
 
-  private def openRoundBracket = "("  ^^ (_ => `(`)
-  private def closeRoundBracket = ")" ^^ (_ => `)`)
-  private def variable = "[a-z]".r    ^^ (s => VAR(s.head))
-  private def termRef = "[A-Z]".r     ^^ (s => REF(s.head))
-  private def definition = "≡"        ^^ (_ => ≡)
+  private def openRoundBracket  = "("       ^^ (_ => `(`)
+  private def closeRoundBracket = ")"       ^^ (_ => `)`)
+  private def variable          = "[a-z]".r ^^ (s => VAR(s.head))
+  private def termRef           = "[A-Z]".r ^^ (s => REF(s.head))
+  private def definition        = "≡"       ^^ (_ => ≡)
 
   private def tokens =
     phrase {
