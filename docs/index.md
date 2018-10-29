@@ -24,3 +24,69 @@ val l            = Kxy.length
 
 val freeVars     = K_xy.FV
 ```
+
+### Structure
+  - `core`: The DSL is implemented in this sub-project.
+  - `repl`: A mini language (mini-CL) + a REPL.
+
+### Basics
+The DSL is implemented in the package object `cl`. So you will need
+the following import everywhere:
+
+```scala
+import cl._
+```
+
+#### Variables
+As the literature suggests, variables must have a lower case letter as
+their name.
+
+```scala
+import cl._
+
+val x = Var('x')
+val y = Var('y')
+```
+
+#### Basic Combinators
+The three musketeers, aka basic combinators `I`, `K`, and `S`, are
+predefined.
+
+```scala
+import cl._
+val x = Var('x')
+val y = Var('y')
+
+val N = I(x)           // Ix
+val M = K(x)(y)        // Kxy
+val U = S(K)(S)        // SKS
+```
+
+#### Application
+We are in the Untyped Combinatory Logic land so any `Term` is
+applicable to any `Term`.
+
+Our DSL is like Haskell and most of the literature in that you can use
+  - the `apply` function as in `K(S)`
+  - or the `$` operator as in `K $ S`
+
+```scala
+import cl._
+val x = Var('x')
+val y = Var('y')
+
+val M = S(K)(S)                // SKS
+val N = S $ K(S)               // S(KS)
+val U = K(I) $ S(S)            // KI(SS)
+```
+
+Scala's spec (similar to that of Haskell's in this case) gives higher
+precedence to the `$` operator. This means the `apply` function will
+be left associative just like the convention used in the CL literature.
+`$` can be used to break the left associativity. In most cases this
+will avoid the need to group things with lots of parenthesises.
+
+```scala
+val H = S(K)(I)(K(S(S)))
+val E = S(K)(I) $ (K $ S(S))       // Same thing, more reeadable
+```
