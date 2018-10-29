@@ -10,11 +10,11 @@ package object cl {
     * code much more concise and spotlight-focused!
     */
   sealed trait Term
-      extends Show
+      extends Applicable
+      with Show
       with Sizable
       with Scope
       with Occurrence
-      with Applicable
       with Substitution
       with Reduction
       with WeakEquality
@@ -39,15 +39,13 @@ package object cl {
     *  - `K` the constant combinator
     *  - `S` the Schönfinkel or strong composition combinator.
     */
-  sealed abstract class BasicCombinator extends AtomicConstant
+  sealed trait BasicCombinator extends AtomicConstant
 
   /** A variable, with a lower case letter by convention.
     *
     * @param name Variable name, should be a lower case letter.
     */
-  case class Var(name: Char) extends Atom {
-    require(name.isLower)
-  }
+  case class Var(name: Char) extends Atom { require(name.isLower) }
 
   /** CL term denoting an application. Using $ as suggested by the literature (same as in Haskell as well).
     *
@@ -58,14 +56,6 @@ package object cl {
     * @param v Applied term, ot the right term.
     */
   case class $(u: Term, v: Term) extends Term
-
-  /** A combinator. Needs implementation: should it inherit from Term or just compose over it?
-    *
-    * @param name Combinator name, should be an upper case letter mindful of its basic comrades!
-    */
-  case class Combinator(name: Char) {
-    require(name.isUpper && name != 'I' && name != 'K' && name != 'S')
-  }
 
   object Atom {
     def unapply(atom: Atom): Option[Char] = atom match {

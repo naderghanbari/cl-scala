@@ -33,9 +33,7 @@ object CLGen {
 
   def termGen: Gen[Term] = lzy(frequency((7, applicationGen), (2, atomGen)))
 
-  val basicCombinatorNames           = Set('I', 'K', 'S')
-  val validCombinatorNames           = ('A' to 'Z').toSet.diff(basicCombinatorNames).toSeq
-  def combinatorNameGen: Gen[Char]   = oneOf(validCombinatorNames)
-  def combinatorGen: Gen[Combinator] = combinatorNameGen.map(Combinator)
+  val basicCombinatorNames      = Seq('I', 'K', 'S')
+  def termRefNameGen: Gen[Char] = oneOf(('A' to 'Z').diff(basicCombinatorNames))
 
 }

@@ -1,21 +1,38 @@
 package cl
 
+/** Enrichment of CL Terms with an application operator and an
+  * infix alias of it, namely `$`.
+  */
 trait Applicable { self: Term =>
 
-  /** Syntactical sugar for syntactical Application (i.e. Application in the CL syntax)
-    * of this term to the provided term.
+  /** Left associative application.
     *
     * Usage:
     * {{{
-    *   val U = .... // Term
-    *   val V = .... // Term
-    *   U $ V        // (UV)
-    *   V $ U        // (VU)
+    *   val (U, V, M) = .... // Some CL Terms
+    *   U(V)                 // Equivalent to (UV) in the official syntax
+    *   V(U)(M)              // VUM
     * }}}
     *
-    * @param that Right hand side term, aka the Argument.
-    * @return Application of this to that.
+    * @param arg Argument.
+    * @return Application of this to arg.
     */
-  def $(that: Term) = cl.$(self, that)
+  def apply(arg: Term) = cl.$(self, arg)
+
+  /** Alias for application (a la Haskell and FP literature).
+    * Due to Scala's spec, has higher precedence than the normal `apply` method and
+    * can be used to break an otherwise left-associative chain of applications.
+    *
+    * Usage:
+    * {{{
+    *   val (U, V, M) = .... // Some CL Terms
+    *   U $ V                // Equivalent to (UV) in the official syntax
+    *   V $ U(M)             // V(UM)
+    * }}}
+    *
+    * @param arg Argument.
+    * @return Application of this to arg.
+    */
+  def $(arg: Term) = cl.$(self, arg)
 
 }

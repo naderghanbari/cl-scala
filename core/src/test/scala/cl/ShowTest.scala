@@ -12,12 +12,12 @@ class ShowTest extends WordSpec with Matchers {
 
       val (x, y, z) = (Var('x'), Var('y'), Var('z'))
 
-      val Kx                   = K $ x
-      val Kxy                  = Kx $ y
-      val K_xy                 = K $ (x $ y)
-      val SKxy                 = S $ K $ x $ y
-      val S_Kx_SKK             = S $ (K $ x) $ (S $ K $ K)
-      val S__SI_K___Kx____S_KI = (S $ ((S $ I) $ K) $ (K $ x)) $ (S $ (K $ I))
+      val Kx                   = K(x)
+      val Kxy                  = K(x)(y)
+      val K_xy                 = K $ x(y)
+      val SKxy                 = S(K)(x)(y)
+      val S_Kx_SKK             = S $ K(x) $ S(K)(K)
+      val S__SI_K___Kx____S_KI = (S $ (S(I) $ K) $ K(x)) $ (S $ K(I))
 
       "show Terms in full format" in {
         x.full                    shouldBe "x"
@@ -32,32 +32,32 @@ class ShowTest extends WordSpec with Matchers {
       }
 
       "show Term in short format" in {
-        x.short                                                       shouldBe "x"
-        y.short                                                       shouldBe "y"
-        z.short                                                       shouldBe "z"
-        Kx.short                                                      shouldBe "Kx"
-        Kxy.short                                                     shouldBe "Kxy"
-        K_xy.short                                                    shouldBe "K(xy)"
-        SKxy.short                                                    shouldBe "SKxy"
-        S_Kx_SKK.short                                                shouldBe "S(Kx)(SKK)"
-        S__SI_K___Kx____S_KI.short                                    shouldBe "S(SIK)(Kx)(S(KI))"
-        (S $ (S $ I $ K) $ (K $ x) $ (S $ (K $ I))).short             shouldBe "S(SIK)(Kx)(S(KI))"
-        (S $ (S $ (I $ (x $ y)) $ K) $ (K $ x) $ (S $ (K $ I))).short shouldBe "S(S(I(xy))K)(Kx)(S(KI))"
+        x.short                                              shouldBe "x"
+        y.short                                              shouldBe "y"
+        z.short                                              shouldBe "z"
+        Kx.short                                             shouldBe "Kx"
+        Kxy.short                                            shouldBe "Kxy"
+        K_xy.short                                           shouldBe "K(xy)"
+        SKxy.short                                           shouldBe "SKxy"
+        S_Kx_SKK.short                                       shouldBe "S(Kx)(SKK)"
+        S__SI_K___Kx____S_KI.short                           shouldBe "S(SIK)(Kx)(S(KI))"
+        (S $ S(I)(K) $ K(x) $ (S $ K(I))).short              shouldBe "S(SIK)(Kx)(S(KI))"
+        (S $ (S $ (I $ x(y)) $ K) $ K(x) $ (S $ K(I))).short shouldBe "S(S(I(xy))K)(Kx)(S(KI))"
       }
 
     }
 
     "given arbitrary Terms" should {
 
-      "satisfy basic properties for the full and short representations" in ∀(termGen, termGen) { (u, v) =>
-        u.full.length + v.full.length + 2   shouldEqual (u $ v).full.length
-        u.short.length + v.short.length + 2 should be >= (u $ v).short.length
-        (u $ v).full contains u.full        shouldBe true
-        (u $ v).full contains v.full        shouldBe true
-        (u $ v).short contains u.short      shouldBe true
-        (u $ v).short contains v.short      shouldBe true
-        u.short.length                      should be <= u.full.length
-        v.short.length                      should be <= v.full.length
+      "satisfy basic properties for the full and short representations" in ∀(termGen, termGen) { (U, V) =>
+        U.full.length + V.full.length + 2   shouldEqual U(V).full.length
+        U.short.length + V.short.length + 2 should be >= U(V).short.length
+        U(V).full contains U.full           shouldBe true
+        U(V).full contains V.full           shouldBe true
+        U(V).short contains U.short         shouldBe true
+        U(V).short contains V.short         shouldBe true
+        U.short.length                      should be <= U.full.length
+        V.short.length                      should be <= V.full.length
       }
 
     }

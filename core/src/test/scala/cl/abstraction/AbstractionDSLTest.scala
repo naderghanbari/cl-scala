@@ -16,17 +16,17 @@ class AbstractionDSLTest extends WordSpec with Matchers {
     reduceToWeakNormalForm(left) shouldEqual reduceToWeakNormalForm(right)
   }
 
-  "Exercise 2.22.b - w DSL: [x].x(Sy) ≡ SI(S(KS)(Ky))     ∀ x, y" in ∀(varGen, varGen) { (x, y) =>
+  "Exercise 2.22.b - w DSL: [x].x(Sy) ≡ SI(K(Sy))         ∀ x, y" in ∀(varGen, varGen) { (x, y) =>
     whenever(x != y) {
       import Abstraction.Implicits.weak
-      |(x) | (x $ (S $ y)) shouldEqual (S $ I $ (K $ (S $ y)))
+      |(x) | (x $ S(y)) shouldEqual (S(I) $ (K $ S(y)))
     }
   }
 
   "Exercise 2.22.c - p DSL: [x].uxxv ≡ S(S(S(Ku)I)I)(Kv)  ∀ u, v, x" in ∀(varGen, varGen, varGen) { (u, v, x) =>
     whenever(u != v && u != x && x != v) {
       import Abstraction.Implicits.primitive
-      |(x) | (u $ x $ x $ v) shouldEqual (S $ (S $ (S $ (K $ u) $ I) $ I) $ (K $ v))
+      |(x) | (u $ x $ x $ v) shouldEqual (S $ (S $ (S $ K(u) $ I) $ I) $ K(v))
     }
   }
 
@@ -40,7 +40,7 @@ class AbstractionDSLTest extends WordSpec with Matchers {
   "Exercise 2.25.b --η DSL: [x,y,z].xz(yz) ≡ S            ∀ x, y, z" in ∀(varGen, varGen, varGen) { (x, y, z) =>
     whenever(x != y && x != z && z != y) {
       import Abstraction.Implicits.eta
-      |(x, y, z) | (x $ z $ (y $ z)) shouldEqual S
+      |(x, y, z) | (x(z) $ y(z)) shouldEqual S
     }
   }
 

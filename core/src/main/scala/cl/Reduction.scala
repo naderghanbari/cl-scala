@@ -39,7 +39,7 @@ object Reduction {
   val associatedContractum: PartialFunction[Term, Term] = {
     case I $ _X           => _X
     case K $ _X $ _       => _X
-    case S $ _X $ _Y $ _Z => _X $ _Z $ (_Y $ _Z)
+    case S $ _X $ _Y $ _Z => _X(_Z) $ _Y(_Z)
   }
 
   /** Reduces a Term to its Weak Normal Form.
