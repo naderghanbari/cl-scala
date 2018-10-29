@@ -3,15 +3,11 @@ package cl.compiler.ast
 sealed trait AST
 
 sealed trait Term extends AST {
-  def $(that: Term) = Application(this, that)
+  def $(arg: Term)     = Application(this, arg)
+  def apply(arg: Term) = Application(this, arg)
 }
+case class Var(name: Char) extends Term { require(name.isLower) }
+case class Ref(name: Char) extends Term { require(name.isUpper) }
+case class Application(op: Term, arg: Term) extends Term
 
-case class Var(name: Char) extends Term {
-  require(name.isLower)
-}
-case class TermRef(name: Char) extends Term {
-  require(name.isUpper)
-}
-case class Application(operator: Term, argument: Term) extends Term
-
-case class Definition(ref: TermRef, rhs: Term) extends AST
+case class Defn(ref: Ref, rhs: Term) extends AST
