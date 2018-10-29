@@ -12,8 +12,8 @@ class SizableTest extends WordSpec with Matchers {
   }
 
   "length (lgh) is monotonically increasing and commutative wrt Application ($)" in ∀(termGen, termGen) { (u, v) =>
-    u.length should be < (v $ u).length
-    u.length should be < (v $ u).length
+    u.length       should be < (v $ u).length
+    u.length       should be < (v $ u).length
     (u $ v).length shouldEqual (v $ u).length
   }
 

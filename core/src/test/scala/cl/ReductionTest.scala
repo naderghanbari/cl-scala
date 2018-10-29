@@ -8,15 +8,15 @@ import org.scalatest.{Matchers, WordSpec}
 class ReductionTest extends WordSpec with Matchers {
 
   "Weak Redexes are known and respected" in ∀(weakRedexGen) { R =>
-    R.isWeakRedex shouldEqual true
+    R.isWeakRedex      shouldEqual true
     R.isWeakNormalForm shouldEqual false
   }
 
   "Non-Weak Redexes are known and frowned upon" in ∀(termGen, termGen, termGen) { (U, V, W) =>
-    I.isWeakRedex shouldEqual false
-    (K $ U).isWeakRedex shouldEqual false
-    (S $ U).isWeakRedex shouldEqual false
-    (S $ U $ V).isWeakRedex shouldEqual false
+    I.isWeakRedex               shouldEqual false
+    (K $ U).isWeakRedex         shouldEqual false
+    (S $ U).isWeakRedex         shouldEqual false
+    (S $ U $ V).isWeakRedex     shouldEqual false
     (K $ U $ V $ W).isWeakRedex shouldEqual false
   }
 
@@ -34,7 +34,7 @@ class ReductionTest extends WordSpec with Matchers {
   "SKKX ▹1w KX(KX) " in ∀(termGen) { X =>
     val SKKX  = S $ K $ K $ X
     val KX$KX = K $ X $ (K $ X)
-    contractLeftMost(SKKX) shouldEqual Some(KX$KX)
+    contractLeftMost(SKKX)  shouldEqual Some(KX$KX)
     contractLeftMost(KX$KX) shouldEqual Some(X)
   }
 

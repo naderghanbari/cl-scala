@@ -13,17 +13,17 @@ class ScopeTest extends WordSpec with Matchers {
   }
 
   "FV(A) = ∅                ∀ Atomic Constants A" in ∀(atomicConstantGen) { c =>
-    c.FV shouldBe empty
+    c.FV       shouldBe empty
     c.isClosed shouldBe true
   }
 
   "FV(C) = ∅                ∀ Closed Terms C" in ∀(closedTermGen) { U =>
-    U.FV shouldBe empty
+    U.FV       shouldBe empty
     U.isClosed shouldBe true
   }
 
   "FV(x) = {x}              ∀ x" in ∀(varGen) { x =>
-    x.FV shouldBe Set(x)
+    x.FV       shouldBe Set(x)
     x.isClosed shouldBe false
   }
 
