@@ -88,7 +88,7 @@ will avoid the need to group things with lots of parenthesises.
 
 ```scala
 val H = S(K)(I)(K(S(S)))
-val E = S(K)(I) $ (K $ S(S))       // Same thing, more reeadable
+val E = S(K)(I) $ (K $ S(S))       // Same thing, more readable
 ```
 
 ### Pattern Matching on Term ADT
