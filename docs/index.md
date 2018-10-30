@@ -29,9 +29,9 @@ val freeVars     = K_xy.FV
   - `core`: The DSL is implemented in this sub-project.
   - `repl`: A mini language (mini-CL) + a REPL.
 
-### Basics
-The DSL is implemented in the package object `cl`. So you will need
-the following import everywhere:
+### ADT Basics
+The `Term` ADT is implemented in the package object `cl`.
+So you will need the following import everywhere:
 
 ```scala
 import cl._
@@ -89,4 +89,44 @@ will avoid the need to group things with lots of parenthesises.
 ```scala
 val H = S(K)(I)(K(S(S)))
 val E = S(K)(I) $ (K $ S(S))       // Same thing, more reeadable
+```
+
+### Pattern Matching on Term ADT
+Pattern matching (aka induction on the structure of the CL Terms) is
+the essence of most Combinatory Logic theorems and algorithms.
+
+```scala
+   M match {
+     case Var(x) => ...                 // Variables
+     case _U $ _V => ...                // Application of term _U to _V
+     case BasicCombinator(name) =>  ... // one of I, K, S
+   }
+```
+
+One can also match on `I`, `K`, and `S` directly:
+
+```scala
+  M match {
+    case I => ...
+    case K => ...
+    case S => ...
+    case _ =>
+  }
+```
+
+Note: due to Scala's spec, the following pattern does not work:
+
+```scala
+  ...
+  case M $ N => ... // Wrong, value patterns can't begin with uppercase
+  ...
+```
+
+and it's not a good idea to use lower case names for CL Terms, hence the
+underscore workaround:
+
+```scala
+  ...
+  case _M $ _N => ... // Ok! Underscore is fine
+  ...
 ```
