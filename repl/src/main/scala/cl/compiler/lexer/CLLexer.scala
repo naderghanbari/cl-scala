@@ -34,9 +34,10 @@ object CLLexer extends RegexParsers {
     * @param input Input to parse.
     * @return List of parsed tokens on the right, or error on the left.
     */
-  def apply(input: String): Either[CLLexerError, List[CLToken]] = parse(tokens, input) match {
-    case Success(result, _) => Right(result)
-    case NoSuccess(m, _)    => Left(CLLexerError(input, m))
-  }
+  def apply(input: String): Either[CLLexerError, List[CLToken]] =
+    parse(tokens, input) match {
+      case Success(result, _) => Right(result)
+      case NoSuccess(m, _)    => Left(CLLexerError(input, m))
+    }
 
 }

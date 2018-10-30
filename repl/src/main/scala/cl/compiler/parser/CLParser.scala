@@ -10,18 +10,18 @@ import scala.util.parsing.input.{NoPosition, Reader}
 
 /** Parser for simple CL language.
   *
-  * Supports only full format (official non-ambiguous syntax, i.e. fully parenthesizes).
+  * Supports the left associativity of application.
   */
 object CLParser extends Parsers {
 
   override type Elem = CLToken
 
-  def `var`: Parser[Var]       = accept("Var", { case VAR(name) => Var(name) })
-  def ref: Parser[Ref]         = accept("Ref", { case REF(name) => Ref(name) })
-  def app: Parser[Application] = `(` ~ term ~ term ~ `)` ^^ { case _ ~ _X ~ _Y ~ _ => _X $ _Y }
-  def term: Parser[Term]       = `var` | ref | app
-  def defn: Parser[Defn]       = ref ~ := ~ term ^^ { case _M ~ _ ~ rhs => Defn(_M, rhs) }
-  def ast: Parser[AST]         = phrase(defn | term)
+  private def `var`: Parser[Var] = accept("Var", { case VAR(name) => Var(name) })
+  private def ref: Parser[Ref]   = accept("Ref", { case REF(name) => Ref(name) })
+  private def grp: Parser[Term]  = `(` ~ term ~ `)` ^^ { case _ ~ _X ~ _ => _X }
+  private def term: Parser[Term] = rep1(`var` | ref | grp) ^^ { _.reduceLeft(_ $ _) }
+  private def defn: Parser[Defn] = ref ~ := ~ term ^^ { case _M ~ _ ~ rhs => Defn(_M, rhs) }
+  private def ast: Parser[AST]   = phrase(defn | term)
 
   def apply(tokens: Seq[CLToken]): Either[CLParserError, AST] =
     ast(new CLTokenReader(tokens)) match {

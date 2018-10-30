@@ -1,13 +1,8 @@
 package object cl {
 
-  /** A CL-Term.
+  /** CL Term ADT.
     *
-    * Is either an Atom or an Application, denote by $ in this DSL.
-    *
-    * Mixed-in enrichment classes will be type-classes very soon (hopefully by the end of tomorrow!).
-    * The best way to appreciate type-classes is to not use them first and try to re-invent the wheel! Once
-    * you have more than a couple mix-ins, you realize why type-classes exists in Haskell and why they make the
-    * code much more concise and spotlight-focused!
+    * A Term is either an Atom or an Application, denote by $ in this DSL.
     */
   sealed trait Term
       extends Applicable

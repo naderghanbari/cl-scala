@@ -4,12 +4,21 @@ import cl.compiler.ast.AST
 import cl.compiler.lexer.CLLexer
 import cl.compiler.parser.CLParser
 
-/** Compiler for the simple CL language.
+/** Compiler for the simple CL language statements.
   *
-  * Supports only full format (official non-ambiguous syntax, i.e. fully parenthesizes).
+  * Usage:
+  * {{{
+  * import cl.compiler.CLCompiler
+  * CLCompiler("SKI")  // S(K)(I)
+  * }}}
   */
 object CLCompiler {
 
-  def apply(code: String): Either[CLCompileError, AST] = CLLexer(code).flatMap(CLParser.apply)
+  /** Compiles the given statement.
+    *
+    * @param statement Simple CL statement.
+    * @return AST if successful, compiler error otherwise.
+    */
+  def apply(statement: String): Either[CLCompileError, AST] = CLLexer(statement).flatMap(CLParser.apply)
 
 }
