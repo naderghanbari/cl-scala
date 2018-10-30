@@ -72,12 +72,12 @@ class ReductionTest extends WordSpec with Matchers {
 
   "Substitution lemma for ▹w" should {
 
-    "X ▹w Y =⇒ FV(X) ⊇ FV(Y)" in ∀(termGen) { X =>
+    "X ▹w Y ⇒ FV(X) ⊇ FV(Y)" in ∀(termGen) { X =>
       val Y = reduceToWeakNormalForm(X)
       X.FV should contain allElementsOf Y.FV
     }
 
-    "X ▹w Y =⇒ [X/v]Z ▹w [Y/v]Z        with Church–Rosser theorem implicitly used" in ∀(termGen, termGen, varGen) {
+    "X ▹w Y ⇒ [X/v]Z ▹w [Y/v]Z        with Church–Rosser theorem implicitly used" in ∀(termGen, termGen, varGen) {
       (X, Z, v) =>
         val Y = reduceToWeakNormalForm(X)
         reduceToWeakNormalForm((X / v).apply(Z)) shouldEqual reduceToWeakNormalForm((Y / v).apply(Z))

@@ -17,7 +17,7 @@ trait Applicable { self: Term =>
     * @param arg Argument.
     * @return Application of this to arg.
     */
-  def apply(arg: Term) = cl.$(self, arg)
+  def apply(arg: Term) = Application(self, arg)
 
   /** Alias for application (a la Haskell and FP literature).
     * Due to Scala's spec, has higher precedence than the normal `apply` method and
@@ -33,6 +33,6 @@ trait Applicable { self: Term =>
     * @param arg Argument.
     * @return Application of this to arg.
     */
-  def $(arg: Term) = cl.$(self, arg)
+  def $(arg: Term) = Application(self, arg)
 
 }

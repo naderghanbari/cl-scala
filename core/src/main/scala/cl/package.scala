@@ -42,15 +42,21 @@ package object cl {
     */
   case class Var(name: Char) extends Atom { require(name.isLower) }
 
-  /** CL term denoting an application. Using $ as suggested by the literature (same as in Haskell as well).
+  /** Application (UV).
     *
-    * Note that this is not the same as the function application operator, which is also defined as $ (a la
-    * cons operator, ::, in Scala's standard library).
+    * An alias of this, $ can be used, especially for infix pattern matching:
+    * {{{
+    *   M match {
+    *     case _U $ _V => ...
+    *   }
+    * }}}
     *
-    * @param u Applying term, or the left term.
-    * @param v Applied term, ot the right term.
+    * @param U Left Term, aka operator.
+    * @param V Right Term, aka argument.
     */
-  case class $(u: Term, v: Term) extends Term
+  case class Application(U: Term, V: Term) extends Term
+
+  val $ = Application
 
   object Atom {
     def unapply(atom: Atom): Option[Char] = atom match {

@@ -27,9 +27,9 @@ object CLGen {
 
   def closedTermGen: Gen[Term] = lzy(frequency((7, closedApplicationGen), (2, basicCombinatorGen)))
 
-  private def leftGen        = lzy(frequency((7, termGen), (2, atomGen)))
-  private def rightGen       = lzy(frequency((1, atomGen), (2, termGen), (6, atomGen)))
-  def applicationGen: Gen[$] = leftGen.flatMap(U => rightGen.map(V => U $ V))
+  private def leftGen                  = lzy(frequency((7, termGen), (2, atomGen)))
+  private def rightGen                 = lzy(frequency((1, atomGen), (2, termGen), (6, atomGen)))
+  def applicationGen: Gen[Application] = leftGen.flatMap(U => rightGen.map(V => U $ V))
 
   def termGen: Gen[Term] = lzy(frequency((7, applicationGen), (2, atomGen)))
 
