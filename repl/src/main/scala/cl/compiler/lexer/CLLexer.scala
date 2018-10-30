@@ -15,12 +15,12 @@ object CLLexer extends RegexParsers {
   override val skipWhitespace = true
   override val whiteSpace     = "[ \t\r\f]+".r
 
-  private def parOpen  = "("  ^^ (_ => `(`)
-  private def parClose = ")"  ^^ (_ => `)`)
-  private def defn     = ":=" ^^ (_ => :=)
+  private def parOpen  = "("  ^^ (_ ⇒ `(`)
+  private def parClose = ")"  ^^ (_ ⇒ `)`)
+  private def defn     = ":=" ^^ (_ ⇒ :=)
 
-  private def `var` = "[a-z]".r ^^ (s => VAR(s.head))
-  private def ref   = "[A-Z]".r ^^ (s => REF(s.head))
+  private def `var` = "[a-z]".r ^^ (s ⇒ VAR(s.head))
+  private def ref   = "[A-Z]".r ^^ (s ⇒ REF(s.head))
 
   private def tokens =
     phrase {
@@ -36,8 +36,8 @@ object CLLexer extends RegexParsers {
     */
   def apply(input: String): Either[CLLexerError, List[CLToken]] =
     parse(tokens, input) match {
-      case Success(result, _) => Right(result)
-      case NoSuccess(m, _)    => Left(CLLexerError(input, m))
+      case Success(result, _) ⇒ Right(result)
+      case NoSuccess(m, _)    ⇒ Left(CLLexerError(input, m))
     }
 
 }

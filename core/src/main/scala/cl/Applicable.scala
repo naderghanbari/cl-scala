@@ -3,7 +3,7 @@ package cl
 /** Enrichment of CL Terms with an application operator and an
   * infix alias of it, namely `$`.
   */
-trait Applicable { self: Term =>
+trait Applicable { self: Term ⇒
 
   /** Left associative application.
     *

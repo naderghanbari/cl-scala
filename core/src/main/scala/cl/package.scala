@@ -47,7 +47,7 @@ package object cl {
     * An alias of this, $ can be used, especially for infix pattern matching:
     * {{{
     *   M match {
-    *     case _U $ _V => ...
+    *     case _U $ _V ⇒ ...
     *   }
     * }}}
     *
@@ -60,14 +60,14 @@ package object cl {
 
   object Atom {
     def unapply(atom: Atom): Option[Char] = atom match {
-      case Var(name)            => Some(name)
-      case AtomicConstant(name) => Some(name)
+      case Var(name)            ⇒ Some(name)
+      case AtomicConstant(name) ⇒ Some(name)
     }
   }
 
   object AtomicConstant {
     def unapply(constant: AtomicConstant): Option[Char] = constant match {
-      case BasicCombinator(name) => Some(name)
+      case BasicCombinator(name) ⇒ Some(name)
     }
   }
 
@@ -77,9 +77,9 @@ package object cl {
 
   object BasicCombinator {
     def unapply(basic: BasicCombinator): Option[Char] = basic match {
-      case I => Some('I')
-      case K => Some('K')
-      case S => Some('S')
+      case I ⇒ Some('I')
+      case K ⇒ Some('K')
+      case S ⇒ Some('S')
     }
   }
 

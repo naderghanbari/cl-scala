@@ -97,9 +97,9 @@ the essence of most Combinatory Logic theorems and algorithms.
 
 ```scala
    M match {
-     case Var(x) => ...                 // Variables
-     case _U $ _V => ...                // Application of term _U to _V
-     case BasicCombinator(name) =>  ... // one of I, K, S
+     case Var(x) ⇒ ...                 // Variables
+     case _U $ _V ⇒ ...                // Application of term _U to _V
+     case BasicCombinator(name) ⇒  ... // one of I, K, S
    }
 ```
 
@@ -107,10 +107,10 @@ One can also match on `I`, `K`, and `S` directly:
 
 ```scala
   M match {
-    case I => ...
-    case K => ...
-    case S => ...
-    case _ =>
+    case I ⇒ ...
+    case K ⇒ ...
+    case S ⇒ ...
+    case _ ⇒
   }
 ```
 
@@ -118,7 +118,7 @@ Note: due to Scala's spec, the following pattern does not work:
 
 ```scala
   ...
-  case M $ N => ... // Wrong, value patterns can't begin with uppercase
+  case M $ N ⇒ ... // Wrong, value patterns can't begin with uppercase
   ...
 ```
 
@@ -127,6 +127,6 @@ underscore workaround:
 
 ```scala
   ...
-  case _M $ _N => ... // Ok! Underscore is fine
+  case _M $ _N ⇒ ... // Ok! Underscore is fine
   ...
 ```

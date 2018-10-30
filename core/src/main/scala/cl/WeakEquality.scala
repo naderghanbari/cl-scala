@@ -2,7 +2,7 @@ package cl
 
 import cl.Reduction._
 
-trait WeakEquality { self: Term =>
+trait WeakEquality { self: Term ⇒
 
   /** "Is Weakly Equal to" or "Is Weakly Convertible to" relation.
     *

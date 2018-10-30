@@ -1,6 +1,6 @@
 package cl
 
-trait Occurrence { self: Term =>
+trait Occurrence { self: Term ⇒
 
   /** "Occurs in" or "Sub-Term" relation.
     *
@@ -12,10 +12,10 @@ trait Occurrence { self: Term =>
       false
     else
       that match {
-        case `self`            => true
-        case u $ _ if self ⊆ u => true
-        case _ $ v if self ⊆ v => true
-        case _                 => false
+        case `self`            ⇒ true
+        case u $ _ if self ⊆ u ⇒ true
+        case _ $ v if self ⊆ v ⇒ true
+        case _                 ⇒ false
       }
 
   /** "Has Occurrence of" or "Super-Term" relation.

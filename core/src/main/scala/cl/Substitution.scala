@@ -1,6 +1,6 @@
 package cl
 
-trait Substitution { self: Term =>
+trait Substitution { self: Term ⇒
 
   /** Syntactic sugar to define/do a substitution.
     *
@@ -41,9 +41,9 @@ object Substitution {
       * @return Result of substitution, i.e. [U/x]Y .
       */
     def apply(Y: Term): Term = Y match {
-      case `x`     => U
-      case a: Atom => a
-      case v $ w   => apply(v) $ apply(w)
+      case `x`     ⇒ U
+      case a: Atom ⇒ a
+      case v $ w   ⇒ apply(v) $ apply(w)
     }
 
     /** Syntactic sugar for making simultaneous substitution rules.
@@ -82,9 +82,9 @@ object Substitution {
       * @return Result of substitutions, i.e. [U1/x1,...,Un/xn]Y .
       */
     def apply(Y: Term): Term = Y match {
-      case x: Var if rulesMap.contains(x) => rulesMap(x)
-      case a: Atom                        => a
-      case v $ w                          => apply(v) $ apply(w)
+      case x: Var if rulesMap.contains(x) ⇒ rulesMap(x)
+      case a: Atom                        ⇒ a
+      case v $ w                          ⇒ apply(v) $ apply(w)
     }
 
     /** Syntactic sugar to keep adding substitution rules to this simultaneous substitution rule.

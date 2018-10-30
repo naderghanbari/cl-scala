@@ -6,7 +6,7 @@ import cl._
   *
   * Given a variable x and a term M, returns [x].M
   */
-trait Abstraction extends ((Var, Term) => Term) {
+trait Abstraction extends ((Var, Term) ⇒ Term) {
 
   /** Applies the abstraction.
     *
