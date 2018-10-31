@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/naderghanbari/cl-scala.svg?branch=master)](https://travis-ci.com/naderghanbari/cl-scala)
+
 ## Simple Combinatory Logic in Scala
 
 This is a humble attempt to learn Combinatory Logic by implementing a
@@ -26,8 +28,9 @@ val freeVars     = K_xy.FV
 ```
 
 ### Structure
-  - `core`: The DSL is implemented in this sub-project.
-  - `repl`: A mini language (mini-CL) + a REPL.
+  - `core`: ADT and a mini DSL are implemented in this sub-project.
+  - `lang`: A mini language (mini-CL) with a parser and AST.
+  - `repl`: REPL for the mini language.
 
 ### ADT Basics
 The `Term` ADT is implemented in the package object `cl`.

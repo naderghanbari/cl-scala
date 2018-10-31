@@ -4,4 +4,9 @@ ThisBuild / scalaVersion := Versions.Scala
 
 val core = project
 
-val repl = project.dependsOn(core % "compile;test->test")
+val lang = project
+  .dependsOn(core % "test->test")
+
+val repl = project
+  .dependsOn(core, lang)
+  .dependsOn(lang % "test->test")
