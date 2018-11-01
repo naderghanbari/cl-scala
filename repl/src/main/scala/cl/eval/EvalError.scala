@@ -1,0 +1,9 @@
+package cl.eval
+
+import cl.compiler.ast.Ref
+
+sealed abstract class EvalError(message: String)
+
+case class UnboundRefError(ref: Ref) extends EvalError(s"Unbound ref ${ref.name}!")
+
+case class RefRebindError(ref: Ref) extends EvalError(s"Ref ${ref.name} is already bound!")
