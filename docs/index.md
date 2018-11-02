@@ -133,3 +133,15 @@ underscore workaround:
   case _M $ _N ⇒ ... // Ok! Underscore is fine
   ...
 ```
+
+### Compiler Basics
+The mini CL language is implemented in the `lang` sub-project.
+Here's how to parse a mini CL statement to AST:
+
+```scala
+import cl.compiler.{CLCompileError, Compiler}
+import cl.compiler.ast.AST
+
+val statement = "SKI"
+val result: Either[CLCompileError , AST] = CLCompiler(statement)
+```
