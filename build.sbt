@@ -2,6 +2,9 @@ name := "cl-scala"
 
 ThisBuild / scalaVersion := Versions.Scala
 
+Global / fork := true
+Global / cancelable := true
+
 val core = project
 
 val lang = project
