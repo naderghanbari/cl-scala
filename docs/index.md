@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/naderghanbari/cl-scala.svg?branch=master)](https://travis-ci.com/naderghanbari/cl-scala)
 
-## Simple Combinatory Logic in Scala
+# Simple Combinatory Logic in Scala
 
 This is a humble attempt to learn Combinatory Logic by implementing a
 very simple DSL for CL-terms and Term reduction in Scala.
@@ -9,6 +9,47 @@ The terminology, theorems and lemmas are taken from
 `Lambda-Calculus and Combinators, an Introduction` by `J. Roger Hindley`
  and `Jonathan P. Seldin`, `Cambridge University Press 2008`,
  specifically from the second chapter.
+
+## REPL
+You can run the REPL using `sbt run`.
+
+```
+> sbt run
+```
+```
+Welcome to Simple CL. A weakly eager pure IKS Combinatory Logic interpreter.
+Type in expressions for evaluation. I, K, and S are predefined.
+Try :q to quit and :r to refresh all variables.
+
+CL > I
+I
+CL > Ix
+x
+CL > Kxy
+x
+CL > J := SKS
+OK!
+CL > Jx
+x
+CL > :q
+
+```
+
+## Project Structure
+  - `core`: ADT and a mini DSL are implemented in this sub-project.
+  - `lang`: A mini language (mini-CL) with a parser and AST.
+  - `eval`: An evaluator (interpreter) for the mini CL lang.
+  - `repl`: REPL for the mini language.
+
+## Term ADT
+
+### ADT Basics
+The `Term` ADT is implemented in the package object `cl`.
+So you will need the following import everywhere:
+
+```scala
+import cl._
+```
 
 ### First Sample
 
@@ -27,21 +68,7 @@ val l            = Kxy.length
 val freeVars     = K_xy.FV
 ```
 
-### Structure
-  - `core`: ADT and a mini DSL are implemented in this sub-project.
-  - `lang`: A mini language (mini-CL) with a parser and AST.
-  - `eval`: An evaluator (interpreter) for the mini CL lang.
-  - `repl`: REPL for the mini language.
-
-### ADT Basics
-The `Term` ADT is implemented in the package object `cl`.
-So you will need the following import everywhere:
-
-```scala
-import cl._
-```
-
-#### Variables
+### Variables
 As the literature suggests, variables must have a lower case letter as
 their name.
 
@@ -52,7 +79,7 @@ val x = Var('x')
 val y = Var('y')
 ```
 
-#### Basic Combinators
+### Basic Combinators
 The three musketeers, aka basic combinators `I`, `K`, and `S`, are
 predefined.
 
@@ -66,7 +93,7 @@ val M = K(x)(y)        // Kxy
 val U = S(K)(S)        // SKS
 ```
 
-#### Application
+### Application
 We are in the Untyped Combinatory Logic land so any `Term` is
 applicable to any `Term`.
 
@@ -95,7 +122,7 @@ val H = S(K)(I)(K(S(S)))
 val E = S(K)(I) $ (K $ S(S))       // Same thing, more readable
 ```
 
-### Pattern Matching on Term ADT
+#### Pattern Matching on Term ADT
 Pattern matching (aka induction on the structure of the CL Terms) is
 the essence of most Combinatory Logic theorems and algorithms.
 
@@ -135,7 +162,7 @@ underscore workaround:
   ...
 ```
 
-### Compiler Basics
+## Compiler
 The mini CL language is implemented in the `lang` sub-project.
 Here's how to parse a mini CL statement to AST:
 
