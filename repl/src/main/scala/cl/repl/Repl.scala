@@ -5,7 +5,7 @@ import cl.compiler.{CLCompileError, CLCompiler}
 import cl.eval.Eval.Out
 import cl.eval.{Env, Eval, EvalError}
 
-import scala.io.StdIn
+import scala.io.StdIn.readLine
 
 object Repl extends App {
 
@@ -19,11 +19,16 @@ object Repl extends App {
 
   val CommandsMap              = Map(":q" -> Quit, ":r" -> Refresh, "" -> Blank)
   def asCommand(input: String) = CommandsMap.getOrElse(input, Statement(input))
-  def readCommand()            = asCommand(StdIn.readLine(prompt))
+  def readCommand()            = asCommand(readLine(prompt))
 
   case class State(lastResult: Option[Term], ρ: Env)
 
   val initialState = State(None, Env.pure)
+
+  println("Welcome to Simple CL. A weakly eager pure IKS Combinatory Logic interpreter.")
+  println("Type in expressions for evaluation. I, K, and S are predefined.")
+  println("Try :q to quit and :r to refresh all variables.")
+  println()
 
   Iterator
     .continually(readCommand())
