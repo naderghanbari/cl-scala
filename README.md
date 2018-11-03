@@ -30,6 +30,7 @@ val freeVars     = K_xy.FV
 ### Structure
   - `core`: ADT and a mini DSL are implemented in this sub-project.
   - `lang`: A mini language (mini-CL) with a parser and AST.
+  - `eval`: An evaluator (interpreter) for the mini CL lang.
   - `repl`: REPL for the mini language.
 
 ### ADT Basics
