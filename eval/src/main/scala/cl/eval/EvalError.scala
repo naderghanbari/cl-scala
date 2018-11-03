@@ -2,7 +2,7 @@ package cl.eval
 
 import cl.compiler.ast.Ref
 
-sealed abstract class EvalError(message: String)
+sealed abstract class EvalError(val message: String)
 
 case class UnboundRefError(ref: Ref) extends EvalError(s"Unbound ref ${ref.name}!")
 

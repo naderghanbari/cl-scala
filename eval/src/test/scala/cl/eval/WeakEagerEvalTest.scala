@@ -2,6 +2,7 @@ package cl.eval
 
 import cl.compiler.CLCompiler
 import cl.compiler.ast.Ref
+import cl.eval.Eval.Out
 import org.scalatest.{EitherValues, Matchers, OptionValues, WordSpec}
 
 class WeakEagerEvalTest extends WordSpec with Matchers with EitherValues with OptionValues {
@@ -21,8 +22,8 @@ class WeakEagerEvalTest extends WordSpec with Matchers with EitherValues with Op
     val second = CLCompiler("Bxyz")
     first  should be('right)
     second should be('right)
-    val (_, newEnv) = Eval.weakEagerEval(first.right.get)(Env.pure).right.get
-    val (result, _) = Eval.weakEagerEval(second.right.get)(newEnv).right.get
+    val Out(_, newEnv) = Eval.weakEagerEval(first.right.get)(Env.pure).right.get
+    val Out(result, _) = Eval.weakEagerEval(second.right.get)(newEnv).right.get
 
     result       should be('defined)
     result.value shouldEqual (x $ y(z))

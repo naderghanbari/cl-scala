@@ -2,9 +2,6 @@ name := "cl-scala"
 
 ThisBuild / scalaVersion := Versions.Scala
 
-Global / fork := true
-Global / cancelable := true
-
 val core = project
 
 val lang = project
@@ -15,5 +12,12 @@ val eval = project
   .dependsOn(core % "test->test", lang % "test->test")
 
 val repl = project
-  .dependsOn(core, lang)
-  .dependsOn(lang % "test->test")
+  .dependsOn(eval)
+  .dependsOn(eval % "test->test")
+
+Global / fork                         := true
+Global / cancelable                   := true
+repl / Compile / run / connectInput   := true
+repl / Compile / run / outputStrategy := Some(StdoutOutput)
+repl / Compile / run / mainClass      := Some("cl.repl.Repl")
+run in Compile                        := (repl / Compile / run).evaluated
