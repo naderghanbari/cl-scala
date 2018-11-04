@@ -4,12 +4,16 @@ import cl.Term
 import cl.compiler.{CLCompileError, CLCompiler}
 import cl.eval.Eval.Out
 import cl.eval.{Env, Eval, EvalError}
-
-import scala.io.StdIn.readLine
+import org.jline.reader.LineReaderBuilder
+import org.jline.terminal.TerminalBuilder
+import scala.io.AnsiColor.{MAGENTA, RESET}
 
 object Repl extends App {
 
-  val prompt = "CL > "
+  val terminal           = TerminalBuilder.terminal()
+  val lineReader         = LineReaderBuilder.builder().terminal(terminal).build()
+  def encolor(s: String) = s"$MAGENTA$s$RESET"
+  lazy val prompt        = encolor("CL > ")
 
   sealed trait Command
   case object Quit extends Command
@@ -19,7 +23,7 @@ object Repl extends App {
 
   val CommandsMap              = Map(":q" -> Quit, ":r" -> Refresh, "" -> Blank)
   def asCommand(input: String) = CommandsMap.getOrElse(input, Statement(input))
-  def readCommand()            = asCommand(readLine(prompt))
+  def readCommand()            = asCommand(lineReader.readLine(prompt))
 
   case class State(lastResult: Option[Term], ρ: Env)
 

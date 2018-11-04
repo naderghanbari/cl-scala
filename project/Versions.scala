@@ -8,4 +8,6 @@ object Versions {
 
   val ParserCombinators = "1.1.1"
 
+  val JLine3 = "3.9.0"
+
 }
