@@ -16,8 +16,8 @@ You can run the REPL using `sbt run`.
 ```
 > sbt run
 ```
-```
-Welcome to Simple CL. A weakly eager pure IKS Combinatory Logic interpreter.
+Welcome to Simple CL.
+A weakly eager pure IKS Combinatory Logic interpreter.
 Type in expressions for evaluation. I, K, and S are predefined.
 Try :q to quit and :r to refresh all variables.
 
@@ -27,8 +27,10 @@ CL > Ix
 x
 CL > Kxy
 x
+CL > K := SKS
+Evaluation error: Ref K is already bound!
 CL > J := SKS
-OK!
+Ok!
 CL > Jx
 x
 CL > :q
