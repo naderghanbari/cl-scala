@@ -16,6 +16,6 @@ object Commands {
     ""   -> Blank,
   )
 
-  def classify(s: String) = Catalog.getOrElse(s, Statement(s))
+  def classify(s: String): Command = Catalog.getOrElse(s, Statement(s))
 
 }
