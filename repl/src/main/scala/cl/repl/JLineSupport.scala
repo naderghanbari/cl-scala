@@ -1,8 +1,8 @@
 package cl.repl
+
 import org.jline.reader.{LineReader, LineReaderBuilder}
 import org.jline.terminal.{Terminal, TerminalBuilder}
-
-import scala.io.AnsiColor.{CYAN, RESET}
+import scala.io.AnsiColor._
 
 trait JLineSupport {
 
@@ -13,5 +13,7 @@ trait JLineSupport {
   def readCommand(): String    = reader.readLine(prompt)
   def put(s: String): Unit     = terminal.writer().print(s)
   def putLine(s: String): Unit = terminal.writer().println(s)
+
+  def `<u>`(s: String) = s"$UNDERLINED$s$RESET"
 
 }

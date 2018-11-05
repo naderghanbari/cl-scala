@@ -17,7 +17,7 @@ You can run the REPL using `sbt run`.
 Welcome to Simple CL.
 A weakly eager pure IKS Combinatory Logic interpreter.
 Type in expressions for evaluation. I, K, and S are predefined.
-Try :q to quit and :r to refresh all variables.
+Try :q or <Ctrl-D> to quit and :r to refresh all variables.
 
 CL > I
 I

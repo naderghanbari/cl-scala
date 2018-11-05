@@ -3,7 +3,10 @@ package cl.repl
 import cl.compiler.{CLCompileError, CLCompiler}
 import cl.eval.Eval.Out
 import cl.eval.{Env, Eval, EvalError}
+import org.jline.reader.EndOfFileException
+
 import scala.io.AnsiColor._
+import scala.util.control.Exception
 
 object Repl extends App with JLineSupport with ReplStateMachine {
 
@@ -11,9 +14,9 @@ object Repl extends App with JLineSupport with ReplStateMachine {
 
   def welcome(): Unit = {
     putLine(s"Welcome to Simple CL.")
-    putLine(s"A weakly eager pure ${UNDERLINED}IKS$RESET Combinatory Logic interpreter.")
+    putLine(s"A weakly eager pure ${`<u>`("IKS")} Combinatory Logic interpreter.")
     putLine("Type in expressions for evaluation. I, K, and S are predefined.")
-    putLine(s"Try $UNDERLINED:q$RESET to quit and $UNDERLINED:r$RESET to refresh all variables.")
+    putLine(s"Try ${`<u>`(":q")} or ${`<u>`("<Ctrl-D>")} to quit and ${`<u>`(":r")} to refresh all variables.")
     putLine("")
   }
 
@@ -41,11 +44,13 @@ object Repl extends App with JLineSupport with ReplStateMachine {
   }
 
   def ignite(): Unit =
-    Iterator
-      .continually(readCommand())
-      .map(Commands.classify)
-      .takeWhile(_ != Commands.Quit)
-      .foldLeft(initialState)(transitionFunction)
+    Exception.failAsValue(classOf[EndOfFileException])(Unit) {
+      Iterator
+        .continually(readCommand())
+        .map(Commands.classify)
+        .takeWhile(_ != Commands.Quit)
+        .foldLeft(initialState)(transitionFunction)
+    }
 
   welcome()
   ignite()
