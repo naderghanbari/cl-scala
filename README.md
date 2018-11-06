@@ -16,6 +16,8 @@ You can run the REPL using `sbt run`.
 ```
 > sbt run
 ```
+
+```
 Welcome to Simple CL.
 A weakly eager pure IKS Combinatory Logic interpreter.
 Type in expressions for evaluation. I, K, and S are predefined.
@@ -38,10 +40,10 @@ CL > :q
 ```
 
 ## Project Structure
-  - `core`: ADT and a mini DSL are implemented in this sub-project.
-  - `lang`: A mini language (mini-CL) with a parser and AST.
-  - `eval`: An evaluator (interpreter) for the mini CL lang.
-  - `repl`: REPL for the mini language.
+  - `cl-core`: CL ADT and DSL are implemented in this sub-project.
+  - `cl-lang`: A Mini CL Language with a parser and AST.
+  - `cl-eval`: An evaluator (interpreter) for the Mini CL language.
+  - `cl-repl`: REPL for the Mini CL language.
 
 ## Term ADT
 
