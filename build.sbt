@@ -15,6 +15,8 @@ val `cl-repl` = project
   .dependsOn(`cl-eval`)
   .dependsOn(`cl-eval` % "test->test")
 
+val `lambda-core` = project
+
 Global / fork                              := true
 Global / cancelable                        := true
 `cl-repl` / Compile / run / connectInput   := true
