@@ -5,7 +5,7 @@ package object lambda {
     * - an Application,
     * - or an Abstraction.
     */
-  sealed trait Term
+  sealed trait Term extends Comparable
 
   /** Atoms, either
     *   - a Variable,

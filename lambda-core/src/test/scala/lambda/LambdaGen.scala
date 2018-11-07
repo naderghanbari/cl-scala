@@ -1,6 +1,4 @@
-package lambda.generators
-
-import lambda._
+package lambda
 import org.scalacheck.Gen
 
 object LambdaGen {
