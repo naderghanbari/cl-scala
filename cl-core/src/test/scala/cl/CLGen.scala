@@ -1,6 +1,4 @@
-package cl.generators
-
-import cl._
+package cl
 import org.scalacheck.Gen
 
 object CLGen {

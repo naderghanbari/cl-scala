@@ -1,7 +1,7 @@
 package cl
 
 import cl.Reduction.{contractLeftMost, reduceToWeakNormalForm}
-import cl.generators.CLGen.{termGen, varGen, weakRedexGen}
+import CLGen.{termGen, varGen, weakRedexGen}
 import org.scalatest.prop.GeneratorDrivenPropertyChecks.{forAll ⇒ ∀, _}
 import org.scalatest.{Matchers, WordSpec}
 

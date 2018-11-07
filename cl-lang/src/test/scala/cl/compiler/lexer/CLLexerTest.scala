@@ -1,6 +1,6 @@
 package cl.compiler.lexer
 
-import cl.generators.CLGen.termGen
+import cl.CLGen.termGen
 import org.scalatest.prop.GeneratorDrivenPropertyChecks.{forAll ⇒ ∀, _}
 import org.scalatest.{EitherValues, Matchers, WordSpec}
 

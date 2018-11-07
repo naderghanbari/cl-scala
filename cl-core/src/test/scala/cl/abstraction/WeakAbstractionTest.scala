@@ -1,7 +1,7 @@
 package cl.abstraction
 
 import cl._
-import cl.generators.CLGen.{termGen, varGen}
+import CLGen.{termGen, varGen}
 import org.scalatest.prop.GeneratorDrivenPropertyChecks.{forAll ⇒ ∀, _}
 import org.scalatest.{Matchers, WordSpec}
 

@@ -1,6 +1,6 @@
 package cl
 
-import cl.generators.CLGen.varGen
+import CLGen.varGen
 import org.scalatest.prop.GeneratorDrivenPropertyChecks.{forAll ⇒ ∀, _}
 import org.scalatest.{Matchers, WordSpec}
 
