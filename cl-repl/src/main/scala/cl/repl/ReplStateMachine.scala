@@ -9,7 +9,7 @@ trait ReplStateMachine {
   case class State(lastResult: Option[Term], ρ: Env)
 
   case class Transition(newState: State) {
-    def and(f: => Unit): State = { f; newState }
+    def and(f: ⇒ Unit): State = { f; newState }
   }
 
   def goto(newState: State): Transition = Transition(newState)

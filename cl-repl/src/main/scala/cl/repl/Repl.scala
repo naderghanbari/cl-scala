@@ -21,24 +21,24 @@ object Repl extends App with JLineSupport with ReplStateMachine {
   }
 
   def evalError(state: State): PartialFunction[Either[Any, _], State] = {
-    case Left(err: CLCompileError) => goto(state) and putLine(s"Compile error: $MAGENTA${err.message}$RESET")
-    case Left(err: EvalError)      => goto(state) and putLine(s"Evaluation error: $RED${err.message}$RESET")
-    case Left(err)                 => goto(state) and putLine(s"${MAGENTA_B}Unknown error: $err$RESET")
+    case Left(err: CLCompileError) ⇒ goto(state) and putLine(s"Compile error: $MAGENTA${err.message}$RESET")
+    case Left(err: EvalError)      ⇒ goto(state) and putLine(s"Evaluation error: $RED${err.message}$RESET")
+    case Left(err)                 ⇒ goto(state) and putLine(s"${MAGENTA_B}Unknown error: $err$RESET")
   }
 
   def evalSuccess(state: State): PartialFunction[Either[_, Eval.Out], State] = {
-    case Right(Out(None, updated)) =>
+    case Right(Out(None, updated)) ⇒
       goto(state.copy(lastResult = None, ρ = updated)) and putLine(s"${BLUE}Ok!$RESET")
-    case Right(Out(Some(last), updated)) =>
+    case Right(Out(Some(last), updated)) ⇒
       goto(state.copy(lastResult = None, ρ = updated)) and putLine(s"$GREEN${last.short}$RESET")
   }
 
-  def transitionFunction: (State, Commands.Command) => State = {
-    case (s, Commands.Quit | Commands.Blank) =>
+  def transitionFunction: (State, Commands.Command) ⇒ State = {
+    case (s, Commands.Quit | Commands.Blank) ⇒
       s
-    case (State(last, _), Commands.Refresh) =>
+    case (State(last, _), Commands.Refresh) ⇒
       goto(initialState.copy(lastResult = last)) and putLine(s"${BLUE}Ok! Here's your Fresh Environment.$RESET")
-    case (s, Commands.Statement(input)) =>
+    case (s, Commands.Statement(input)) ⇒
       val result = CLCompiler(input).flatMap(Eval.weakEagerEval(_)(s.ρ))
       evalSuccess(s) orElse evalError(s) apply result
   }
