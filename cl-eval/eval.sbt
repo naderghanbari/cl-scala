@@ -1,1 +1,0 @@
-name := "cl-scala-eval"
