@@ -44,17 +44,17 @@ CL > :q
   - `cl-repl`: REPL for the Mini CL language.
   - `lambda-core`: Lambda Calculus ADT and DSL.
 
-## Term ADT
+## CL Term ADT
 
-### ADT Basics
-The `Term` ADT is implemented in the package object `cl`.
+### CL ADT Basics
+The CL `Term` ADT is implemented in the package object `cl`.
 So you will need the following import everywhere:
 
 ```scala
 import cl._
 ```
 
-### First Sample
+### CL First Sample
 
 ```scala
 
