@@ -5,7 +5,7 @@ package object lambda {
     * - an Application,
     * - or an Abstraction.
     */
-  sealed trait Term extends Comparable
+  sealed trait Term extends Comparable with Sizable
 
   /** Atoms, either
     *   - a Variable,
@@ -49,6 +49,7 @@ package object lambda {
     * {{{
     *   λ(x) { M }
     *   λ(x)(M)
+    *   λ(x, M)
     * }}}
     *
     * @param x Binding variable.
@@ -56,7 +57,7 @@ package object lambda {
     */
   case class Abstraction(x: Var, M: Term) extends Term
 
-  val λ = Abstraction.curried
+  val λ = Abstraction
 
   object Atom {
     def unapply(atom: Atom): Option[Char] = atom match {
@@ -67,6 +68,11 @@ package object lambda {
 
   object AtomicConstant {
     def unapply(constant: AtomicConstant): Option[Char] = Some(constant.name)
+  }
+
+  object Abstraction {
+    case class Header(x: Var) { def apply(body: Term) = Abstraction(x, body) }
+    def apply(x: Var) = Abstraction.Header(x)
   }
 
 }
