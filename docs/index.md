@@ -15,27 +15,7 @@ You can run the REPL using `sbt run`.
 > sbt run
 ```
 
-```
-Welcome to Simple CL.
-A weakly eager pure IKS Combinatory Logic interpreter.
-Type in expressions for evaluation. I, K, and S are predefined.
-Try :q or <Ctrl-D> to quit and :r to refresh all variables.
-
-CL > I
-I
-CL > Ix
-x
-CL > Kxy
-x
-CL > K := SKS
-Evaluation error: Ref K is already bound!
-CL > J := SKS
-Ok!
-CL > Jx
-x
-CL > :q
-
-```
+<img src="repl.png" alt="Mini CL REPL" width="75%">
 
 ## Project Structure
   - `cl-core`: CL ADT and DSL are implemented in this sub-project.
