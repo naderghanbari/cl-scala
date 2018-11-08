@@ -1,20 +1,29 @@
-package cl
+package lambda
 
 import org.scalatest.{Matchers, WordSpec}
 
 class OccurrenceTest extends WordSpec with Matchers {
 
-  "Occurrence trait" when {
+  "Lambda Occurrence trait" when {
 
     "given some Terms" should {
 
       val (x, y, z) = (Var('x'), Var('y'), Var('z'))
 
-      val Kx   = K(x)
-      val Kxy  = Kx(y)
-      val K_xy = K $ x(y)
+      val I     = λ(x) { x }
+      val K     = λ(x)(λ(y) { x })
+      val SBody = x(z) $ y(z)
+      val S     = λ(x)(λ(y)(λ(z) { SBody }))
+      val Kx    = K(x)
+      val Kxy   = Kx(y)
+      val K_xy  = K $ x(y)
 
       "define the 'Occurs in' partial order relation" in {
+        x ⊆ I     shouldBe true
+        x ⊆ K     shouldBe true
+        y ⊆ K     shouldBe true
+        SBody ⊆ S shouldBe true
+
         x ⊆ Kxy   shouldBe true
         z ⊆ Kxy   shouldBe false
         Kx ⊆ Kxy  shouldBe true
@@ -34,14 +43,6 @@ class OccurrenceTest extends WordSpec with Matchers {
         val subTerm   = (S $ K(x)) $ I(K)
         val superTerm = ((S $ (S(I) $ ((S $ K(x)) $ I(K)))) $ K(x)) $ (S $ K(I))
         superTerm ⊇ subTerm shouldBe true
-      }
-
-      "return their FV set and define the isClosed attribute" in {
-        x.FV          shouldBe Set(x)
-        y.FV          shouldBe Set(y)
-        Kxy.FV        shouldBe Set(x, y)
-        K_xy.FV       shouldBe Set(x, y)
-        K_xy.isClosed shouldBe false
       }
 
     }
