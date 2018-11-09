@@ -15,8 +15,10 @@ class CLLexerTest extends WordSpec with Matchers with EitherValues {
 
     "parse valid CL Terms represented in short format" in {
       CLLexer("SKIx").right.get       shouldEqual List(S, K, I, VAR('x'))
-      CLLexer("S(KI)uv").right.get    shouldEqual List(S, `(`, K, I, `)`, VAR('u'), VAR('v'))
-      CLLexer("M := S(KI)").right.get shouldEqual List(M, :=, S, `(`, K, I, `)`)
+      CLLexer("S(KI)uv").right.get    shouldEqual List(S, PAROPEN, K, I, PARCLOSE, VAR('u'), VAR('v'))
+      CLLexer("M := S(KI)").right.get shouldEqual List(M, DEFN, S, PAROPEN, K, I, PARCLOSE)
+      CLLexer("[x]x").right.get       shouldEqual List(BRACKETOPEN, VAR('x'), BRACKETCLOSE, VAR('x'))
+      CLLexer("[x,y]x").right.get     shouldEqual List(BRACKETOPEN, VAR('x'), COMMA, VAR('y'), BRACKETCLOSE, VAR('x'))
     }
 
     "parse random CL Terms represented in full format" in ∀(termGen) { M ⇒

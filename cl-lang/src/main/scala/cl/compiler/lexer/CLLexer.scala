@@ -15,9 +15,13 @@ object CLLexer extends RegexParsers {
   override val skipWhitespace = true
   override val whiteSpace     = "[ \t\r\f]+".r
 
-  private def parOpen  = "("  ^^ (_ ⇒ `(`)
-  private def parClose = ")"  ^^ (_ ⇒ `)`)
-  private def defn     = ":=" ^^ (_ ⇒ :=)
+  private def parOpen  = "("  ^^ (_ ⇒ PAROPEN)
+  private def parClose = ")"  ^^ (_ ⇒ PARCLOSE)
+  private def defn     = ":=" ^^ (_ ⇒ DEFN)
+
+  private def bracketOpen  = "[" ^^ (_ ⇒ BRACKETOPEN)
+  private def bracketClose = "]" ^^ (_ ⇒ BRACKETCLOSE)
+  private def comma        = "," ^^ (_ ⇒ COMMA)
 
   private def `var` = "[a-z]".r ^^ (s ⇒ VAR(s.head))
   private def ref   = "[A-Z]".r ^^ (s ⇒ REF(s.head))
@@ -25,7 +29,7 @@ object CLLexer extends RegexParsers {
   private def tokens =
     phrase {
       rep1 {
-        parOpen | parClose | `var` | ref | defn
+        parOpen | parClose | bracketOpen | bracketClose | comma | `var` | ref | defn
       }
     }
 

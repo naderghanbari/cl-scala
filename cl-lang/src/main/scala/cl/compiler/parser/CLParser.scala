@@ -18,9 +18,9 @@ object CLParser extends Parsers {
 
   private def `var`: Parser[Var] = accept("Var", { case VAR(name) ⇒ Var(name) })
   private def ref: Parser[Ref]   = accept("Ref", { case REF(name) ⇒ Ref(name) })
-  private def grp: Parser[Term]  = `(` ~ term ~ `)` ^^ { case _ ~ _X ~ _ ⇒ _X }
+  private def grp: Parser[Term]  = PAROPEN ~ term ~ PARCLOSE ^^ { case _ ~ _X ~ _ ⇒ _X }
   private def term: Parser[Term] = rep1(`var` | ref | grp) ^^ { _.reduceLeft(_ $ _) }
-  private def defn: Parser[Defn] = ref ~ := ~ term ^^ { case _M ~ _ ~ rhs ⇒ Defn(_M, rhs) }
+  private def defn: Parser[Defn] = ref ~ DEFN ~ term ^^ { case _M ~ _ ~ rhs ⇒ Defn(_M, rhs) }
   private def ast: Parser[AST]   = phrase(defn | term)
 
   def apply(tokens: Seq[CLToken]): Either[CLParserError, AST] =
