@@ -6,7 +6,6 @@ import cl.compiler.lexer._
 
 import scala.collection.immutable.Seq
 import scala.util.parsing.combinator.Parsers
-import scala.util.parsing.input.{NoPosition, Reader}
 
 /** Parser for simple CL language.
   *
@@ -16,20 +15,17 @@ object CLParser extends Parsers {
 
   override type Elem = CLToken
 
-  private def `var`: Parser[Var] = accept("Var", { case VAR(name) ⇒ Var(name) })
-  private def ref: Parser[Ref]   = accept("Ref", { case REF(name) ⇒ Ref(name) })
-  private def grp: Parser[Term]  = PAROPEN ~ term ~ PARCLOSE ^^ { case _ ~ _X ~ _ ⇒ _X }
-  private def term: Parser[Term] = rep1(`var` | ref | grp) ^^ { _.reduceLeft(_ $ _) }
+  def pair[T, U](p: Parser[T ~ U]): Parser[(T, U)] = p ^^ { case x ~ y => x -> y }
 
-  private def abst: Parser[Abstraction] = BRAOPEN ~ rep1sep(`var`, COMMA) ~ BRACLOSE ~ term ^^ {
-    case _ ~ l ~ _ ~ _M ⇒ Abstraction(l, _M)
-  }
-
-  private def expr: Parser[Expr] = abst | term
-
-  private def defn: Parser[Defn] = ref ~ DEFN ~ expr ^^ { case _M ~ _ ~ rhs ⇒ Defn(_M, rhs) }
-
-  private def ast: Parser[AST] = phrase(defn | expr)
+  private def `var`: Parser[Var]               = accept("Var", { case VAR(name) ⇒ Var(name) })
+  private def ref: Parser[Ref]                 = accept("Ref", { case REF(name) ⇒ Ref(name) })
+  private def group: Parser[Term]              = PAROPEN ~> term <~ PARCLOSE
+  private def term: Parser[Term]               = rep1(`var` | ref | group) ^^ { _.reduceLeft(_ $ _) }
+  private def bracket: Parser[List[Var]]       = BRAOPEN ~> rep1sep(`var`, COMMA) <~ BRACLOSE
+  private def abstraction: Parser[Abstraction] = pair { bracket ~ term } ^^ Abstraction.tupled
+  private def expr: Parser[Expr]               = abstraction | term
+  private def defn: Parser[Defn]               = pair { (ref <~ DEFN) ~ expr } ^^ Defn.tupled
+  private def ast: Parser[AST]                 = phrase(defn | expr)
 
   def apply(tokens: Seq[CLToken]): Either[CLParserError, AST] =
     ast(new CLTokenReader(tokens)) match {
@@ -37,11 +33,4 @@ object CLParser extends Parsers {
       case NoSuccess(msg, _)  ⇒ Left(CLParserError(msg))
     }
 
-}
-
-class CLTokenReader(tokens: Seq[CLToken]) extends Reader[CLToken] {
-  def first = tokens.head
-  def atEnd = tokens.isEmpty
-  def pos   = NoPosition
-  def rest  = new CLTokenReader(tokens.tail)
 }
