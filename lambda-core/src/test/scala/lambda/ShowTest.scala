@@ -1,7 +1,7 @@
 package lambda
 
 import LambdaGen.termGen
-import org.scalatest.prop.GeneratorDrivenPropertyChecks.{forAll => ∀}
+import org.scalatest.prop.GeneratorDrivenPropertyChecks.{forAll ⇒ ∀}
 import org.scalatest.{Matchers, WordSpec}
 
 class ShowTest extends WordSpec with Matchers {

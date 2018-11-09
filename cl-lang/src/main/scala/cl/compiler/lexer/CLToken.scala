@@ -5,8 +5,8 @@ sealed trait CLToken
 case object PAROPEN extends CLToken
 case object PARCLOSE extends CLToken
 
-case object BRACKETOPEN extends CLToken
-case object BRACKETCLOSE extends CLToken
+case object BRAOPEN extends CLToken
+case object BRACLOSE extends CLToken
 case object COMMA extends CLToken
 
 case object DEFN extends CLToken

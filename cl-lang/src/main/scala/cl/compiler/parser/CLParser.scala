@@ -20,8 +20,16 @@ object CLParser extends Parsers {
   private def ref: Parser[Ref]   = accept("Ref", { case REF(name) ⇒ Ref(name) })
   private def grp: Parser[Term]  = PAROPEN ~ term ~ PARCLOSE ^^ { case _ ~ _X ~ _ ⇒ _X }
   private def term: Parser[Term] = rep1(`var` | ref | grp) ^^ { _.reduceLeft(_ $ _) }
-  private def defn: Parser[Defn] = ref ~ DEFN ~ term ^^ { case _M ~ _ ~ rhs ⇒ Defn(_M, rhs) }
-  private def ast: Parser[AST]   = phrase(defn | term)
+
+  private def abst: Parser[Abstraction] = BRAOPEN ~ rep1sep(`var`, COMMA) ~ BRACLOSE ~ term ^^ {
+    case _ ~ l ~ _ ~ _M ⇒ Abstraction(l, _M)
+  }
+
+  private def expr: Parser[Expr] = abst | term
+
+  private def defn: Parser[Defn] = ref ~ DEFN ~ expr ^^ { case _M ~ _ ~ rhs ⇒ Defn(_M, rhs) }
+
+  private def ast: Parser[AST] = phrase(defn | expr)
 
   def apply(tokens: Seq[CLToken]): Either[CLParserError, AST] =
     ast(new CLTokenReader(tokens)) match {

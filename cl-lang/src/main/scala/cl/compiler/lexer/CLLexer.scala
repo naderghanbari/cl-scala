@@ -19,9 +19,9 @@ object CLLexer extends RegexParsers {
   private def parClose = ")"  ^^ (_ ⇒ PARCLOSE)
   private def defn     = ":=" ^^ (_ ⇒ DEFN)
 
-  private def bracketOpen  = "[" ^^ (_ ⇒ BRACKETOPEN)
-  private def bracketClose = "]" ^^ (_ ⇒ BRACKETCLOSE)
-  private def comma        = "," ^^ (_ ⇒ COMMA)
+  private def braOpen  = "[" ^^ (_ ⇒ BRAOPEN)
+  private def braClose = "]" ^^ (_ ⇒ BRACLOSE)
+  private def comma    = "," ^^ (_ ⇒ COMMA)
 
   private def `var` = "[a-z]".r ^^ (s ⇒ VAR(s.head))
   private def ref   = "[A-Z]".r ^^ (s ⇒ REF(s.head))
@@ -29,7 +29,7 @@ object CLLexer extends RegexParsers {
   private def tokens =
     phrase {
       rep1 {
-        parOpen | parClose | bracketOpen | bracketClose | comma | `var` | ref | defn
+        parOpen | parClose | braOpen | braClose | comma | `var` | ref | defn
       }
     }
 
