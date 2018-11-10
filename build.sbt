@@ -1,6 +1,7 @@
 name := "cl-scala"
 
 ThisBuild / scalaVersion := Versions.Scala
+ThisBuild / scalacOptions += "-Xfatal-warnings"
 
 val `cl-core` = project
 
