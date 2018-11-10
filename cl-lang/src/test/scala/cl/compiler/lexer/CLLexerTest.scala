@@ -13,12 +13,14 @@ class CLLexerTest extends WordSpec with Matchers with EitherValues {
     val S = REF('S')
     val M = REF('M')
 
-    "parse valid CL Terms represented in short format" in {
-      CLLexer("SKIx").right.get       shouldEqual List(S, K, I, VAR('x'))
-      CLLexer("S(KI)uv").right.get    shouldEqual List(S, PAROPEN, K, I, PARCLOSE, VAR('u'), VAR('v'))
+    "parse valid CL Expressions with Terms represented in short format" in {
+      val (x, u, v, y) = (VAR('x'), VAR('u'), VAR('v'), VAR('y'))
+      CLLexer("SKIx").right.get       shouldEqual List(S, K, I, x)
+      CLLexer("S(KI)uv").right.get    shouldEqual List(S, PAROPEN, K, I, PARCLOSE, u, v)
       CLLexer("M := S(KI)").right.get shouldEqual List(M, DEFN, S, PAROPEN, K, I, PARCLOSE)
-      CLLexer("[x]x").right.get       shouldEqual List(BRAOPEN, VAR('x'), BRACLOSE, VAR('x'))
-      CLLexer("[x,y]x").right.get     shouldEqual List(BRAOPEN, VAR('x'), COMMA, VAR('y'), BRACLOSE, VAR('x'))
+      CLLexer("[x]x").right.get       shouldEqual List(BRAOPEN, x, BRACLOSE, x)
+      CLLexer("[x,y]x").right.get     shouldEqual List(BRAOPEN, x, COMMA, y, BRACLOSE, x)
+      CLLexer("[Sx/y]Ky").right.get   shouldEqual List(BRAOPEN, S, x, SLASH, y, BRACLOSE, K, y)
     }
 
     "parse random CL Terms represented in full format" in ∀(termGen) { M ⇒

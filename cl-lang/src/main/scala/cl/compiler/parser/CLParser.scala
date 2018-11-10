@@ -17,15 +17,18 @@ object CLParser extends Parsers {
 
   def pair[T, U](p: Parser[T ~ U]): Parser[(T, U)] = p ^^ { case x ~ y => x -> y }
 
-  private def `var`: Parser[Var]               = accept("Var", { case VAR(name) ⇒ Var(name) })
-  private def ref: Parser[Ref]                 = accept("Ref", { case REF(name) ⇒ Ref(name) })
-  private def group: Parser[Term]              = PAROPEN ~> term <~ PARCLOSE
-  private def term: Parser[Term]               = rep1(`var` | ref | group) ^^ { _.reduceLeft(_ $ _) }
-  private def bracket: Parser[List[Var]]       = BRAOPEN ~> rep1sep(`var`, COMMA) <~ BRACLOSE
-  private def abstraction: Parser[Abstraction] = pair { bracket ~ term } ^^ Abstraction.tupled
-  private def expr: Parser[Expr]               = abstraction | term
-  private def defn: Parser[Defn]               = pair { (ref <~ DEFN) ~ expr } ^^ Defn.tupled
-  private def ast: Parser[AST]                 = phrase(defn | expr)
+  private def `var`: Parser[Var]          = accept("Var", { case VAR(name) ⇒ Var(name) })
+  private def ref: Parser[Ref]            = accept("Ref", { case REF(name) ⇒ Ref(name) })
+  private def termGrp: Parser[Term]       = PAROPEN ~> term <~ PARCLOSE
+  private def term: Parser[Term]          = rep1(`var` | ref | termGrp) ^^ { _.reduceLeft(_ $ _) }
+  private def abstBra: Parser[List[Var]]  = BRAOPEN ~> rep1sep(`var`, COMMA) <~ BRACLOSE
+  private def abst: Parser[Abstraction]   = pair { abstBra ~ term } ^^ Abstraction.tupled
+  private def subBra: Parser[(Term, Var)] = pair { BRAOPEN ~> term ~ (SLASH ~> `var`) <~ BRACLOSE }
+  private def sub: Parser[Substitution]   = pair { subBra ~ phrase(expr) } ^^ Substitution.tupled
+  private def exprGrp: Parser[Expr]       = PAROPEN ~> expr <~ PARCLOSE
+  private def expr: Parser[Expr]          = exprGrp | sub | abst | term
+  private def defn: Parser[Defn]          = pair { (ref <~ DEFN) ~ phrase(expr) } ^^ Defn.tupled
+  private def ast: Parser[AST]            = phrase(defn | expr)
 
   def apply(tokens: Seq[CLToken]): Either[CLParserError, AST] =
     ast(new CLTokenReader(tokens)) match {
