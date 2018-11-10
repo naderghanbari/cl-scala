@@ -1,12 +1,12 @@
-# Simple Combinatory Logic in Scala
+# Simple Combinatory Logic and Lambda Calculus in Scala
 
-This is a humble attempt to learn Combinatory Logic by implementing a
-very simple DSL for CL-terms and Term reduction in Scala.
+This is a humble attempt to learn Combinatory Logic and Lambda Calculus
+by implementing a simple ADT + DSL for CL Terms and Term reduction in
+Scala as well as an AST, an interpreter, and a REPL.
 
 The terminology, theorems and lemmas are taken from
 `Lambda-Calculus and Combinators, an Introduction` by `J. Roger Hindley`
- and `Jonathan P. Seldin`, `Cambridge University Press 2008`,
- specifically from the second chapter.
+ and `Jonathan P. Seldin`, `Cambridge University Press 2008`.
 
 ## REPL
 You can run the REPL using `sbt run`.
@@ -16,6 +16,83 @@ You can run the REPL using `sbt run`.
 ```
 
 <img src="repl.png" alt="Mini CL REPL" width="75%">
+
+For now, variables must have a single lower case, and
+terms a single upper case letter, as their name.
+
+Here are some of the basic things you can do in the REPL:
+
+- In order to define a new CL Term use the `:=` notation:
+
+```
+CL > M := SII
+```
+
+- You can't rebind/re-assign an existing term but you can clear
+all defined terms with the `:r` REPL command.
+
+- Once a term is defined you can use it in later expressions:
+
+```
+CL > Mx
+xx
+```
+
+The second line in the above example is the result of evaluating the
+expression. An eager weak reduction strategy is used for evaluation.
+
+- For abstraction use the bracket syntax:
+
+```
+CL > [x,y]y
+KI
+```
+
+Abstractions are valid expressions so you can assign them to new
+terms but as abstraction is not part of the CL syntax you can't
+use it within a term itself. For instance the following won't work:
+
+```
+CL > ([x,y]y)uv
+Compile error ...
+```
+
+You can first assign the abstraction to a new term to force the
+evaluation and then use it in future expressions.
+
+```
+CL > Q := [x,y]y
+Ok!
+CL > Quv
+v
+```
+
+- For substitution use the bracket syntax.
+
+```
+CL > [y/x]x
+y
+```
+
+For now only single substitution is supported at the language,
+ although the ADT DSL supports simultaneous substitution. Nested or
+ sequential substitution is supported though:
+
+```
+CL > [SS/x][xx/y]yz
+Sz(SSz)
+```
+
+Just like abstraction, you can't use the substitution bracket syntax
+in a term. You can assign the result of a substitution to a new term
+though.
+
+```
+CL > N := [SS/x][xx/y]yz
+Ok!
+CL > Na
+za(Sa(za))
+```
 
 ## Project Structure
   - `cl-core`: CL ADT and DSL are implemented in this sub-project.
