@@ -27,12 +27,12 @@ object CLLexer extends RegexParsers {
   private def `var` = "[a-z]".r ^^ (s ⇒ VAR(s.head))
   private def ref   = "[A-Z]".r ^^ (s ⇒ REF(s.head))
 
-  private def tokens =
-    phrase {
-      rep1 {
-        parOpen | parClose | braOpen | braClose | slash | comma | `var` | ref | defn
-      }
-    }
+  private def comment = "#.*".r
+  private def passive = opt(comment)
+
+  private def active = rep1 { parOpen | parClose | braOpen | braClose | slash | comma | `var` | ref | defn }
+
+  private def tokens = phrase { active <~ passive }
 
   /** Applies the lexer to the provided input.
     *
