@@ -1,6 +1,6 @@
 package cl.repl
 
-import cl.compiler.{CLCompileError, CLCompiler}
+import cl.lang.{CLCompileError, CLCompiler}
 import cl.eval.Eval.Out
 import cl.eval.{Env, Eval, EvalError}
 import org.jline.reader.EndOfFileException

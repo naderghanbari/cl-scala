@@ -1,4 +1,4 @@
-package cl.compiler.lexer
+package cl.lang.lexer
 
 import cl.CLGen.termGen
 import org.scalatest.prop.GeneratorDrivenPropertyChecks.{forAll ⇒ ∀, _}

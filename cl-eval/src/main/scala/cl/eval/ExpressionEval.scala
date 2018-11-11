@@ -1,7 +1,7 @@
 package cl.eval
 
 import cl.abstraction.{Bracket => ADTBracket, Abstraction => AbstractionStrategy}
-import cl.compiler.ast._
+import cl.lang.ast._
 
 trait ExpressionEval {
 

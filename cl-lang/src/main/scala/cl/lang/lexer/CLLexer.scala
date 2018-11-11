@@ -1,6 +1,6 @@
-package cl.compiler.lexer
+package cl.lang.lexer
 
-import cl.compiler.CLLexerError
+import cl.lang.CLLexerError
 
 import scala.util.parsing.combinator.RegexParsers
 

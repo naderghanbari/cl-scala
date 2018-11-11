@@ -1,5 +1,6 @@
-package cl.compiler.parser
-import cl.compiler.lexer.CLToken
+package cl.lang.parser
+
+import cl.lang.lexer.CLToken
 
 import scala.util.parsing.input.{NoPosition, Reader}
 

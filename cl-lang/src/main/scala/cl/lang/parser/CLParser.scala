@@ -1,8 +1,8 @@
-package cl.compiler.parser
+package cl.lang.parser
 
-import cl.compiler.CLParserError
-import cl.compiler.ast._
-import cl.compiler.lexer._
+import cl.lang.CLParserError
+import cl.lang.ast._
+import cl.lang.lexer._
 
 import scala.collection.immutable.Seq
 import scala.util.parsing.combinator.Parsers

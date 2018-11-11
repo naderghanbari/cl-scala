@@ -1,4 +1,4 @@
-package cl.compiler.ast
+package cl.lang.ast
 
 sealed trait AST
 

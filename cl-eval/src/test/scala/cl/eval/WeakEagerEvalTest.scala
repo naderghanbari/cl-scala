@@ -1,6 +1,6 @@
 package cl.eval
 
-import cl.compiler.CLCompiler
+import cl.lang.CLCompiler
 import cl.eval.Eval.Out
 import org.scalatest.{EitherValues, Matchers, OptionValues, WordSpec}
 

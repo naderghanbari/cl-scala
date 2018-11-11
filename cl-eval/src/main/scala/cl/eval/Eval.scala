@@ -1,7 +1,7 @@
 package cl.eval
 
 import cl.abstraction.Abstraction.Implicits.eta
-import cl.compiler.ast._
+import cl.lang.ast._
 
 object Eval extends ExpressionEval {
 

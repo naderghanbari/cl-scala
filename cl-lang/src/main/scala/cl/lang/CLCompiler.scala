@@ -1,8 +1,8 @@
-package cl.compiler
+package cl.lang
 
-import cl.compiler.ast.AST
-import cl.compiler.lexer.CLLexer
-import cl.compiler.parser.CLParser
+import cl.lang.ast.AST
+import cl.lang.lexer.CLLexer
+import cl.lang.parser.CLParser
 
 /** Compiler for the simple CL language statements.
   *

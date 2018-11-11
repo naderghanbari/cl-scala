@@ -1,6 +1,6 @@
-package cl.compiler
+package cl.lang
 
-import cl.compiler.ast.{Abstraction ⇒ `[]`, Defn ⇒ `=:`, Ref, Var}
+import cl.lang.ast.{Abstraction ⇒ `[]`, Defn ⇒ `=:`, Ref, Var}
 import org.scalatest.{EitherValues, Matchers, WordSpec}
 
 class CLCompilerTest extends WordSpec with Matchers with EitherValues {

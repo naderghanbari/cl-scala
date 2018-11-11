@@ -1,4 +1,4 @@
-package cl.compiler
+package cl.lang
 
 sealed trait CLCompileError {
   def message: String
