@@ -96,6 +96,17 @@ CL > Na
 za(Sa(za))
 ```
 
+- You can add a comment after an expression. Start the comment with a
+hash sign:
+
+```
+CL > Q := KI   # Kite combinator
+Ok!
+```
+
+Note: Comments can't span multiple lines and whole line comments are not
+supported.
+
 ## Project Structure
   - `cl-core`: CL ADT and DSL are implemented in this sub-project.
   - `cl-lang`: A Mini CL Language with a parser and AST.
