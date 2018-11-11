@@ -1,12 +1,12 @@
 package cl.repl
+
 import cl.Term
+import cl.abstraction.{Abstraction => AbstractionStrategy}
 import cl.eval.Env
 
-trait ReplStateMachine {
+object ReplStateMachine {
 
-  def initialState: State
-
-  case class State(lastResult: Option[Term], ρ: Env)
+  case class State(lastResult: Option[Term], ρ: Env, abs: AbstractionStrategy)
 
   case class Transition(newState: State) {
     def and(f: ⇒ Unit): State = { f; newState }

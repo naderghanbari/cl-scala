@@ -12,6 +12,8 @@ import cl._
   */
 object PrimitiveAbstraction extends Abstraction {
 
+  override val name = "Primitive Abstraction"
+
   override def apply(x: Var, M: Term): Term = M match {
     case a @ Atom(_) if a != x ⇒ K $ a
     case `x`                   ⇒ I

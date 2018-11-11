@@ -11,6 +11,8 @@ import cl._
   */
 object WeakAbstraction extends Abstraction {
 
+  override val name = "Weak Abstraction"
+
   override def apply(x: Var, M: Term): Term = M match {
     case _ if !M.FV.contains(x) ⇒ K $ M
     case `x`                    ⇒ I

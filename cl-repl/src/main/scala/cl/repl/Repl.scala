@@ -8,9 +8,9 @@ import org.jline.reader.EndOfFileException
 import scala.io.AnsiColor._
 import scala.util.control.Exception
 
-object Repl extends App with JLineSupport with ReplStateMachine {
+object Repl extends App with JLineSupport {
 
-  override val initialState = State(None, Env.pure)
+  import ReplStateMachine._
 
   def welcome(): Unit = {
     putLine(s"Welcome to Simple CL.")
@@ -36,12 +36,17 @@ object Repl extends App with JLineSupport with ReplStateMachine {
   def transitionFunction: (State, Commands.Command) ⇒ State = {
     case (s, Commands.Quit | Commands.Blank) ⇒
       s
-    case (State(last, _), Commands.Refresh) ⇒
-      goto(initialState.copy(lastResult = last)) and putLine(s"${BLUE}Ok! Here's your Fresh Environment.$RESET")
+    case (s, Commands.AbsDirective(abs)) ⇒
+      goto(s.copy(abs = abs)) and putLine(s"${BLUE}Ok! Abstraction strategy changed to ${abs.name}.$RESET")
+    case (s, Commands.Refresh) ⇒
+      goto(s.copy(ρ = Env.pure)) and putLine(s"${BLUE}Ok! Here's your Fresh Environment.$RESET")
     case (s, Commands.Statement(input)) ⇒
-      val result = CLCompiler(input).flatMap(Eval.weakEagerEval(_)(s.ρ))
+      val result = CLCompiler(input).flatMap(Eval.weakEagerEval(_)(s.ρ, s.abs))
       evalSuccess(s) orElse evalError(s) apply result
   }
+
+  import cl.abstraction.Abstraction.Implicits.{eta => etaAbas}
+  val initialState = State(None, Env.pure, etaAbas)
 
   def ignite(): Unit =
     Exception.failAsValue(classOf[EndOfFileException])(Unit) {

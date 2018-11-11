@@ -8,6 +8,8 @@ import cl._
   */
 trait Abstraction extends ((Var, Term) ⇒ Term) {
 
+  def name: String
+
   /** Applies the abstraction.
     *
     * @param x Variable to abstract away.
