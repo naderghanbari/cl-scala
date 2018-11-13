@@ -23,6 +23,7 @@ object CLLexer extends RegexParsers {
   private def braClose = "]" ^^ (_ ⇒ BRACLOSE)
   private def comma    = "," ^^ (_ ⇒ COMMA)
   private def slash    = "/" ^^ (_ ⇒ SLASH)
+  private def dot      = "." ^^ (_ ⇒ DOT)
 
   private def `var` = "[a-z]".r ^^ (s ⇒ VAR(s.head))
   private def ref   = "[A-Z]".r ^^ (s ⇒ REF(s.head))
@@ -30,7 +31,7 @@ object CLLexer extends RegexParsers {
   private def comment = "#.*".r
   private def passive = opt(comment)
 
-  private def active = rep1 { parOpen | parClose | braOpen | braClose | slash | comma | `var` | ref | defn }
+  private def active = rep1 { parOpen | parClose | braOpen | braClose | slash | comma | dot | `var` | ref | defn }
 
   private def tokens = phrase { active <~ passive }
 

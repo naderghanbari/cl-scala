@@ -9,6 +9,7 @@ case object BRAOPEN extends CLToken
 case object BRACLOSE extends CLToken
 case object COMMA extends CLToken
 case object SLASH extends CLToken
+case object DOT extends CLToken
 
 case object DEFN extends CLToken
 

@@ -18,8 +18,8 @@ class CLLexerTest extends WordSpec with Matchers with EitherValues {
       CLLexer("SKIx").right.get       shouldEqual List(S, K, I, x)
       CLLexer("S(KI)uv").right.get    shouldEqual List(S, PAROPEN, K, I, PARCLOSE, u, v)
       CLLexer("M := S(KI)").right.get shouldEqual List(M, DEFN, S, PAROPEN, K, I, PARCLOSE)
-      CLLexer("[x]x").right.get       shouldEqual List(BRAOPEN, x, BRACLOSE, x)
-      CLLexer("[x,y]x").right.get     shouldEqual List(BRAOPEN, x, COMMA, y, BRACLOSE, x)
+      CLLexer("[x].x").right.get      shouldEqual List(BRAOPEN, x, BRACLOSE, DOT, x)
+      CLLexer("[x,y].x").right.get    shouldEqual List(BRAOPEN, x, COMMA, y, BRACLOSE, DOT, x)
       CLLexer("[Sx/y]Ky").right.get   shouldEqual List(BRAOPEN, S, x, SLASH, y, BRACLOSE, K, y)
     }
 
@@ -36,7 +36,7 @@ class CLLexerTest extends WordSpec with Matchers with EitherValues {
     }
 
     "refuse to parse an invalid CL Term" in {
-      val result = CLLexer("x.Xy")
+      val result = CLLexer("x@(*&@(*&Xy")
       result should be('left)
     }
 
