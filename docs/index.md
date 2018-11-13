@@ -41,10 +41,11 @@ xx
 The second line in the above example is the result of evaluating the
 expression. An eager weak reduction strategy is used for evaluation.
 
-- For abstraction use the bracket syntax:
+- For abstraction use the bracket syntax (don't forget the dot after
+the bracket):
 
 ```
-CL > [x,y]y
+CL > [x,y].y
 KI
 ```
 
@@ -53,7 +54,7 @@ terms but as abstraction is not part of the CL syntax you can't
 use it within a term itself. For instance the following won't work:
 
 ```
-CL > ([x,y]y)uv
+CL > ([x,y].y)uv
 Compile error ...
 ```
 
@@ -61,7 +62,7 @@ You can first assign the abstraction to a new term to force the
 evaluation and then use it in future expressions.
 
 ```
-CL > Q := [x,y]y
+CL > Q := [x,y].y
 Ok!
 CL > Quv
 v
@@ -76,7 +77,7 @@ y
 
 For now only single substitution is supported at the language,
  although the ADT DSL supports simultaneous substitution. Nested or
- sequential substitution is supported though:
+ sequential substitution is supported though (and associates to right)
 
 ```
 CL > [SS/x][xx/y]yz
