@@ -14,6 +14,6 @@ case class Application(op: Term, arg: Term) extends Term
 
 case class Defn(ref: Ref, rhs: Expr) extends AST
 
-case class Abstraction(bracket: List[Var], body: Term) extends Expr { require(bracket.nonEmpty) }
+case class Abstraction(bracket: List[Var], body: Expr) extends Expr { require(bracket.nonEmpty) }
 
 case class Substitution(bracket: (Term, Var), body: Expr) extends Expr
