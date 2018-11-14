@@ -44,11 +44,14 @@ The second line in the above example is the result of evaluating the
 expression. An eager weak reduction strategy is used for evaluation.
 
 - For abstraction use the bracket syntax (don't forget the dot after
-the bracket):
+the bracket). Abstracting over multiple variables, or nesting
+multiple abstractions (right-associative) is also supported:
 
 ```
-CL > [x,y].y
-KI
+CL > [x,y,z].xz(yz)
+S
+CL > [x].[y].[z].xz(yz)
+S
 ```
 
 Abstractions are valid expressions so you can assign them to new
