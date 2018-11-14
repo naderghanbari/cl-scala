@@ -111,6 +111,32 @@ Ok!
 Note: Comments can't span multiple lines and whole line comments are not
 supported.
 
+### REPL Directives
+REPL directives start with a dash `-`. Here is a list of supported
+directives:
+
+  - `-abs:primitive`: changes the abstraction strategy to primitive, aka
+  Curry's algorithm fab).
+  - `-abs:weak`: changes the abstraction strategy to weak, aka
+  Curry's algorithm abf).
+  - `-abs:eta`: changes the abstraction strategy to eta, aka Curry's
+  algorithm abcf. This is the default strategy.
+
+Here's an example of directives in action:
+
+```
+CL > [x,y,z].xz(yz)
+S
+CL > -abs:weak
+Ok! Abstraction strategy changed to Weak Abstraction.
+CL > [x,y,z].xz(yz)
+S(S(KS)(S(KK)(S(KS)(S(S(KS)(S(KK)I))(KI)))))(K(S(S(KS)(S(KK)I))(KI)))
+CL > -abs:primitive
+Ok! Abstraction strategy changed to Primitive Abstraction.
+CL > [x,y,z].xz(yz)
+S(S(KS)(S ... A very long term ... K)(KI)))
+```
+
 ## Project Structure
   - `cl-core`: CL ADT and DSL are implemented in this sub-project.
   - `cl-lang`: A Mini CL Language with a parser and AST.
