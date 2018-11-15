@@ -19,8 +19,11 @@ You can run the REPL using `sbt run`.
 
 <img src="docs/repl.png" alt="Mini CL REPL" width="65%">
 
-For now, variables must have a single lower case, and
-terms a single upper case letter, as their name.
+Variables must have a single lower case letter as their name.
+`x`, `y`, `z` are valid variable names.
+
+Terms names must be a single upper case letter followed by any number of
+single quotes. `M`, `M'`, `S''` are all valid names for Terms.
 
 Here are some of the basic things you can do in the REPL:
 
@@ -67,9 +70,9 @@ You can first assign the abstraction to a new term to force the
 evaluation and then use it in future expressions.
 
 ```
-CL > Q := [x,y].y
+CL > K' := [x,y].y
 Ok!
-CL > Quv
+CL > K'uv
 v
 ```
 
