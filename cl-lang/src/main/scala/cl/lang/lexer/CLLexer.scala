@@ -20,15 +20,13 @@ object CLLexer extends RegexParsers {
   private def parOpen  = "("  ^^ (_ ⇒ PAROPEN)
   private def parClose = ")"  ^^ (_ ⇒ PARCLOSE)
   private def defn     = ":=" ^^ (_ ⇒ DEFN)
+  private def braOpen  = "["  ^^ (_ ⇒ BRAOPEN)
+  private def braClose = "]"  ^^ (_ ⇒ BRACLOSE)
+  private def comma    = ","  ^^ (_ ⇒ COMMA)
+  private def slash    = "/"  ^^ (_ ⇒ SLASH)
+  private def dot      = "."  ^^ (_ ⇒ DOT)
 
-  private def braOpen  = "[" ^^ (_ ⇒ BRAOPEN)
-  private def braClose = "]" ^^ (_ ⇒ BRACLOSE)
-  private def comma    = "," ^^ (_ ⇒ COMMA)
-  private def slash    = "/" ^^ (_ ⇒ SLASH)
-  private def dot      = "." ^^ (_ ⇒ DOT)
-
-  private def `var` = "[a-z]".r ^^ (s ⇒ VAR(s.head))
-
+  private def `var`           = "[a-z]".r ^^ (s ⇒ VAR(s.head))
   private def singleLetterRef = "[A-Z]".r ^^ REF
   private def singlePrimeRef  = "[A-Z]'+".r ^^ REF
   private def ref             = singlePrimeRef | singleLetterRef
