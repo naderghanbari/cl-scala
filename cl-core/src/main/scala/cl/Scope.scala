@@ -8,7 +8,7 @@ trait Scope { self: Term ⇒
     */
   lazy val FV: Set[Var] = self match {
     case x: Var ⇒ Set(x)
-    case u $ v  ⇒ u.FV union v.FV
+    case u ^ v  ⇒ u.FV union v.FV
     case _      ⇒ Set.empty
   }
 

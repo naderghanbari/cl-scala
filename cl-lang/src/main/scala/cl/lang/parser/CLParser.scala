@@ -20,7 +20,7 @@ object CLParser extends Parsers {
   private def `var`: Parser[Var]          = accept("Var", { case VAR(name) ⇒ Var(name) })
   private def ref: Parser[Ref]            = accept("Ref", { case REF(name) ⇒ Ref(name) })
   private def termGrp: Parser[Term]       = PAROPEN ~> term <~ PARCLOSE
-  private def term: Parser[Term]          = rep1(termGrp | `var` | ref) ^^ { _.reduceLeft(_ $ _) }
+  private def term: Parser[Term]          = rep1(termGrp | `var` | ref) ^^ { _.reduceLeft(_ ^ _) }
   private def abstBra: Parser[List[Var]]  = BRAOPEN ~> rep1sep(`var`, COMMA) <~ BRACLOSE
   private def abst: Parser[Abstraction]   = pair { (abstBra <~ DOT) ~ expr } ^^ Abstraction.tupled
   private def subBra: Parser[(Term, Var)] = pair { BRAOPEN ~> term ~ (SLASH ~> `var`) <~ BRACLOSE }

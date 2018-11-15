@@ -18,7 +18,7 @@ trait Occurrence { P: Term ⇒
   final def ⊆(Q: Term): Boolean = Q match {
     case P       ⇒ true
     case x λ _M  ⇒ (P ≡ x) || (P ⊆ _M)
-    case _M $ _N ⇒ (P ⊆ _M) || (P ⊆ _N)
+    case _M ^ _N ⇒ (P ⊆ _M) || (P ⊆ _N)
     case _       ⇒ false
   }
 

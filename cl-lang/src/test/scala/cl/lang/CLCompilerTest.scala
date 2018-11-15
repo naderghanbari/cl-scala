@@ -14,10 +14,10 @@ class CLCompilerTest extends WordSpec with Matchers with EitherValues {
 
     "compile valid CL Terms" in {
       CLCompiler("SKI").right.get                 shouldEqual S(K)(I)
-      CLCompiler("S(KI)").right.get               shouldEqual (S $ K(I))
-      CLCompiler("S(KI)K").right.get              shouldEqual (S $ K(I) $ K)
+      CLCompiler("S(KI)").right.get               shouldEqual (S ^ K(I))
+      CLCompiler("S(KI)K").right.get              shouldEqual (S ^ K(I) ^ K)
       CLCompiler("(((SK)I)x)").right.get          shouldEqual S(K)(I)(x)
-      CLCompiler("(((SK)K)((KS)(Sx)))").right.get shouldEqual (S(K)(K) $ (K(S) $ S(x)))
+      CLCompiler("(((SK)K)((KS)(Sx)))").right.get shouldEqual (S(K)(K) ^ (K(S) ^ S(x)))
     }
 
     "compile valid CL Abstractions" in {
@@ -25,12 +25,12 @@ class CLCompilerTest extends WordSpec with Matchers with EitherValues {
       CLCompiler("[x,y].x").right.get        shouldEqual `[]`(List(x, y), x)
       CLCompiler("[x].(xx)").right.get       shouldEqual `[]`(List(x), x(x))
       CLCompiler("[x,y,z].xz").right.get     shouldEqual `[]`(List(x, y, z), x(z))
-      CLCompiler("[x,y,z].xz(yz)").right.get shouldEqual `[]`(List(x, y, z), x(z) $ y(z))
+      CLCompiler("[x,y,z].xz(yz)").right.get shouldEqual `[]`(List(x, y, z), x(z) ^ y(z))
     }
 
     "compile valid CL Term Definitions" in {
       CLCompiler("M := (((SK)I)x)").right.get          shouldEqual `=:`(Ref("M"), S(K)(I)(x))
-      CLCompiler("N := (((SK)K)((KS)(Sx)))").right.get shouldEqual `=:`(Ref("N"), S(K)(K) $ (K(S) $ S(x)))
+      CLCompiler("N := (((SK)K)((KS)(Sx)))").right.get shouldEqual `=:`(Ref("N"), S(K)(K) ^ (K(S) ^ S(x)))
     }
 
   }

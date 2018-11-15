@@ -11,10 +11,10 @@ class SizableTest extends WordSpec with Matchers {
     length should be > 0
   }
 
-  "Lambda Term length (lgh) is increasing and commutative wrt Application ($)" in ∀(termGen, termGen) { (U, V) ⇒
-    U.length       should be < $(U, V).length
-    U.length       should be < $(V, U).length
-    $(U, V).length shouldEqual $(V, U).length
+  "Lambda Term length (lgh) is increasing and commutative wrt Application (^)" in ∀(termGen, termGen) { (U, V) ⇒
+    U.length       should be < ^(U, V).length
+    U.length       should be < ^(V, U).length
+    ^(U, V).length shouldEqual ^(V, U).length
   }
 
 }

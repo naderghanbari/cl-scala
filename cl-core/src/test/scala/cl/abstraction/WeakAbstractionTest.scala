@@ -12,7 +12,7 @@ class WeakAbstractionTest extends WordSpec with Matchers {
   "Example 2.19    - w: [x].xy ≡ SI(Ky)               ∀ x, y" in ∀(varGen, varGen) { (x, y) ⇒
     whenever(x != y) {
       val left  = WeakAbstraction(x, x(y))
-      val right = S(I) $ K(y)
+      val right = S(I) ^ K(y)
       reduceToWeakNormalForm(left) shouldEqual reduceToWeakNormalForm(right)
     }
   }
@@ -22,7 +22,7 @@ class WeakAbstractionTest extends WordSpec with Matchers {
   }
 
   "Theorem 2.21.B  - w: ([x].M)N ▹w [N/x]M            ∀ M, N, x" in ∀(varGen, termGen, termGen) { (x, M, N) ⇒
-    val left  = WeakAbstraction(x, M) $ N
+    val left  = WeakAbstraction(x, M) ^ N
     val right = (N / x)(M)
     reduceToWeakNormalForm(left) shouldEqual reduceToWeakNormalForm(right)
   }
@@ -30,7 +30,7 @@ class WeakAbstractionTest extends WordSpec with Matchers {
   "Theorem 2.21.B  - w: ([x].M)N ▹w [N/x]M            ∀ M, N, x ∈ FV(M)" in ∀(termGen, termGen) { (M, N) ⇒
     whenever(M.FV.nonEmpty) {
       val x     = M.FV.head
-      val left  = WeakAbstraction(x, M) $ N
+      val left  = WeakAbstraction(x, M) ^ N
       val right = (N / x)(M)
       reduceToWeakNormalForm(left) shouldEqual reduceToWeakNormalForm(right)
     }
@@ -51,16 +51,16 @@ class WeakAbstractionTest extends WordSpec with Matchers {
 
   "Exercise 2.22.a - w: [x].u(vx) ≡ S(Ku)(S(Kv)I)     ∀ u, v, x" in ∀(varGen, varGen, varGen) { (u, v, x) ⇒
     whenever(u != v && u != x && x != v) {
-      val left  = WeakAbstraction(x, u $ v(x))
-      val right = S $ K(u) $ (S $ K(v) $ I)
+      val left  = WeakAbstraction(x, u ^ v(x))
+      val right = S ^ K(u) ^ (S ^ K(v) ^ I)
       left shouldEqual right
     }
   }
 
   "Exercise 2.22.b - w: [x].x(Sy) ≡ SI(K(Sy))         ∀ x, y" in ∀(varGen, varGen) { (x, y) ⇒
     whenever(x != y) {
-      val left  = WeakAbstraction(x, x $ S(y))
-      val right = S(I) $ (K $ S(y))
+      val left  = WeakAbstraction(x, x ^ S(y))
+      val right = S(I) ^ (K ^ S(y))
       left shouldEqual right
     }
   }
@@ -68,7 +68,7 @@ class WeakAbstractionTest extends WordSpec with Matchers {
   "Exercise 2.22.c - w: [x].uxxv ≡ S(S(S(Ku)I)I)(Kv)  ∀ u, v, x" in ∀(varGen, varGen, varGen) { (u, v, x) ⇒
     whenever(u != v && u != x && x != v) {
       val left  = WeakAbstraction(x, u(x)(x)(v))
-      val right = S $ (S $ (S $ K(u) $ I) $ I) $ K(v)
+      val right = S ^ (S ^ (S ^ K(u) ^ I) ^ I) ^ K(v)
       left shouldEqual right
     }
   }

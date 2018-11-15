@@ -7,7 +7,7 @@ import org.scalatest.{Matchers, WordSpec}
 class ScopeTest extends WordSpec with Matchers {
 
   "FV(UV) = F(U) ∪ FV(V)    ∀ U,V" in ∀(termGen, termGen) { (u, v) ⇒
-    val left  = (u $ v).FV
+    val left  = (u ^ v).FV
     val right = u.FV union v.FV
     left shouldEqual right
   }

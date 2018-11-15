@@ -15,7 +15,7 @@ trait Occurrence { X: Term ⇒
     */
   final def ⊆(Y: Term): Boolean = Y match {
     case X       ⇒ true
-    case _U $ _V ⇒ (X ⊆ _U) || (X ⊆ _V)
+    case _U ^ _V ⇒ (X ⊆ _U) || (X ⊆ _V)
     case _       ⇒ false
   }
 

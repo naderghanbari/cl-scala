@@ -11,7 +11,7 @@ trait Sizable { self: Term ⇒
     */
   lazy val length: Int = self match {
     case _: Atom ⇒ 1
-    case _M $ _N ⇒ _M.length + _N.length
+    case _M ^ _N ⇒ _M.length + _N.length
     case _ λ _M  ⇒ 1 + _M.length
   }
 

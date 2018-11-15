@@ -14,10 +14,10 @@ class ShowTest extends WordSpec with Matchers {
 
       val Kx                   = K(x)
       val Kxy                  = K(x)(y)
-      val K_xy                 = K $ x(y)
+      val K_xy                 = K ^ x(y)
       val SKxy                 = S(K)(x)(y)
-      val S_Kx_SKK             = S $ K(x) $ S(K)(K)
-      val S__SI_K___Kx____S_KI = (S $ (S(I) $ K) $ K(x)) $ (S $ K(I))
+      val S_Kx_SKK             = S ^ K(x) ^ S(K)(K)
+      val S__SI_K___Kx____S_KI = (S ^ (S(I) ^ K) ^ K(x)) ^ (S ^ K(I))
 
       "show Terms in full format" in {
         x.full                    shouldBe "x"
@@ -41,8 +41,8 @@ class ShowTest extends WordSpec with Matchers {
         SKxy.short                                           shouldBe "SKxy"
         S_Kx_SKK.short                                       shouldBe "S(Kx)(SKK)"
         S__SI_K___Kx____S_KI.short                           shouldBe "S(SIK)(Kx)(S(KI))"
-        (S $ S(I)(K) $ K(x) $ (S $ K(I))).short              shouldBe "S(SIK)(Kx)(S(KI))"
-        (S $ (S $ (I $ x(y)) $ K) $ K(x) $ (S $ K(I))).short shouldBe "S(S(I(xy))K)(Kx)(S(KI))"
+        (S ^ S(I)(K) ^ K(x) ^ (S ^ K(I))).short              shouldBe "S(SIK)(Kx)(S(KI))"
+        (S ^ (S ^ (I ^ x(y)) ^ K) ^ K(x) ^ (S ^ K(I))).short shouldBe "S(S(I(xy))K)(Kx)(S(KI))"
       }
 
     }

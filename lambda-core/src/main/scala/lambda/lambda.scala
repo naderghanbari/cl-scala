@@ -29,10 +29,10 @@ package object lambda {
 
   /** Application (MN).
     *
-    * An alias of this, $ can be used, especially for infix pattern matching:
+    * An alias of this, `^` can be used, especially for infix pattern matching:
     * {{{
     *   term match {
-    *     case _M $ _N ⇒ ...
+    *     case _M ^ _N ⇒ ...
     *   }
     * }}}
     *
@@ -41,7 +41,7 @@ package object lambda {
     */
   case class Application(M: Term, N: Term) extends Term
 
-  val $ = Application
+  val ^ = Application
 
   /** Abstraction (λx.M).
     *

@@ -13,7 +13,7 @@ trait ExpressionEval {
   def evalApplication(a: Application)(implicit ρ: Env, abs: AbstractionStrategy): E[cl.Application] = for {
     op  <- eval(a.op)
     arg <- eval(a.arg)
-  } yield op $ arg
+  } yield op ^ arg
 
   def evalSubstitution(s: Substitution)(implicit ρ: Env, abs: AbstractionStrategy): E[cl.Term] = for {
     replacingTerm <- eval(s.bracket._1)

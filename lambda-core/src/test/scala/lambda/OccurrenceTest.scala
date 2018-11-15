@@ -12,11 +12,11 @@ class OccurrenceTest extends WordSpec with Matchers {
 
       val I     = λ(x) { x }
       val K     = λ(x)(λ(y) { x })
-      val SBody = x(z) $ y(z)
+      val SBody = x(z) ^ y(z)
       val S     = λ(x)(λ(y)(λ(z) { SBody }))
       val Kx    = K(x)
       val Kxy   = Kx(y)
-      val K_xy  = K $ x(y)
+      val K_xy  = K ^ x(y)
 
       "define the 'Occurs in' partial order relation" in {
         x ⊆ I     shouldBe true
@@ -29,8 +29,8 @@ class OccurrenceTest extends WordSpec with Matchers {
         Kx ⊆ Kxy  shouldBe true
         Kx ⊆ K_xy shouldBe false
 
-        val subTerm   = (S $ K(x)) $ I(K)
-        val superTerm = ((S $ (S(I) $ ((S $ K(x)) $ I(K)))) $ K(x)) $ (S $ K(I))
+        val subTerm   = (S ^ K(x)) ^ I(K)
+        val superTerm = ((S ^ (S(I) ^ ((S ^ K(x)) ^ I(K)))) ^ K(x)) ^ (S ^ K(I))
         subTerm ⊆ superTerm shouldBe true
       }
 
@@ -40,8 +40,8 @@ class OccurrenceTest extends WordSpec with Matchers {
         Kxy ⊇ Kx  shouldBe true
         K_xy ⊇ Kx shouldBe false
 
-        val subTerm   = (S $ K(x)) $ I(K)
-        val superTerm = ((S $ (S(I) $ ((S $ K(x)) $ I(K)))) $ K(x)) $ (S $ K(I))
+        val subTerm   = (S ^ K(x)) ^ I(K)
+        val superTerm = ((S ^ (S(I) ^ ((S ^ K(x)) ^ I(K)))) ^ K(x)) ^ (S ^ K(I))
         superTerm ⊇ subTerm shouldBe true
       }
 

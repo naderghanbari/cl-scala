@@ -15,9 +15,9 @@ object PrimitiveAbstraction extends Abstraction {
   override val name = "Primitive Abstraction"
 
   override def apply(x: Var, M: Term): Term = M match {
-    case a @ Atom(_) if a != x ⇒ K $ a
+    case a @ Atom(_) if a != x ⇒ K ^ a
     case `x`                   ⇒ I
-    case _U $ _V               ⇒ S $ apply(x, _U) $ apply(x, _V)
+    case _U ^ _V               ⇒ S ^ apply(x, _U) ^ apply(x, _V)
   }
 
 }

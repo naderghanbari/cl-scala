@@ -19,10 +19,10 @@ object EtaAbstraction extends Abstraction {
   override val name = "Eta Abstraction"
 
   override def apply(x: Var, M: Term): Term = M match {
-    case _ if !M.FV.contains(x)         ⇒ K $ M
+    case _ if !M.FV.contains(x)         ⇒ K ^ M
     case `x`                            ⇒ I
-    case _U $ `x` if !_U.FV.contains(x) ⇒ _U
-    case _U $ _V                        ⇒ S $ apply(x, _U) $ apply(x, _V)
+    case _U ^ `x` if !_U.FV.contains(x) ⇒ _U
+    case _U ^ _V                        ⇒ S ^ apply(x, _U) ^ apply(x, _V)
   }
 
 }

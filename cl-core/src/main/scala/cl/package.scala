@@ -2,7 +2,7 @@ package object cl {
 
   /** CL Term ADT.
     *
-    * A Term is either an Atom or an Application, denote by $ in this DSL.
+    * A Term is either an Atom or an Application, denoted by `^` in this DSL.
     */
   sealed trait Term
       extends Applicable
@@ -44,10 +44,10 @@ package object cl {
 
   /** Application (UV).
     *
-    * An alias of this, $ can be used, especially for infix pattern matching:
+    * An alias of this, `^` can be used, especially for infix pattern matching:
     * {{{
     *   M match {
-    *     case _U $ _V ⇒ ...
+    *     case _U `^` _V ⇒ ...
     *   }
     * }}}
     *
@@ -56,7 +56,7 @@ package object cl {
     */
   case class Application(U: Term, V: Term) extends Term
 
-  val $ = Application
+  val ^ = Application
 
   object Atom {
     def unapply(atom: Atom): Option[Char] = atom match {

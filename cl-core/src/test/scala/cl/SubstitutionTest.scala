@@ -19,19 +19,19 @@ class SubstitutionTest extends WordSpec with Matchers {
   }
 
   "[U/x](VW) ≡ ([U/x]V [U/x]W)    ∀ U,V" in ∀(termGen, varGen, applicationGen) {
-    case (u, x, v $ w) ⇒
-      (u / x)(v $ w) shouldEqual ((u / x)(v) $ (u / x)(w))
+    case (u, x, v ^ w) ⇒
+      (u / x)(v ^ w) shouldEqual ((u / x)(v) ^ (u / x)(w))
   }
 
   "[(SK)/x,(KI)/y](yxx) ≡ KI(SK)(SK)" in ∀(varGen, varGen) { (x, y) ⇒
     whenever(x != y) {
-      ((SK / x) ~ (KI / y)) apply y(x)(x) shouldEqual (KI $ SK $ SK)
+      ((SK / x) ~ (KI / y)) apply y(x)(x) shouldEqual (KI ^ SK ^ SK)
     }
   }
 
   "[(SK)/x,(KI)/y, (Kx)/z](Kz(yx)x) ≡ K(Kx)(SK(KI))(KI)" in ∀(varGen, varGen, varGen) { (x, y, z) ⇒
     whenever(x != y && x != z && y != z) {
-      ((KI / x) ~ (SK / y) ~ (K(x) / z)) apply (K $ z $ y(x) $ x) shouldEqual (K $ K(x) $ SK(KI) $ KI)
+      ((KI / x) ~ (SK / y) ~ (K(x) / z)) apply (K ^ z ^ y(x) ^ x) shouldEqual (K ^ K(x) ^ SK(KI) ^ KI)
     }
   }
 

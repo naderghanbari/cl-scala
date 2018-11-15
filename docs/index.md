@@ -164,7 +164,7 @@ import cl._
 val (x, y, z) = (Var('x'), Var('y'), Var('z'))
 val Kx        = K(x)
 val Kxy       = Kx(y)
-val K_xy      = K $ x(y)
+val K_xy      = K ^ x(y)
 
 val shouldBeTrue = x ⊆ Kxy
 val l            = Kxy.length
@@ -201,9 +201,9 @@ val U = S(K)(S)        // SKS
 We are in the Untyped Combinatory Logic land so any `Term` is
 applicable to any `Term`.
 
-Our DSL is like Haskell and most of the literature in that you can use
+You can use the DSL:
   - the `apply` function as in `K(S)`
-  - or the `$` operator as in `K $ S`
+  - or the left-associative `^` operator as in `K ^ S`
 
 ```scala
 import cl._
@@ -211,19 +211,18 @@ val x = Var('x')
 val y = Var('y')
 
 val M = S(K)(S)                // SKS
-val N = S $ K(S)               // S(KS)
-val U = K(I) $ S(S)            // KI(SS)
+val N = S ^ K(S)               // S(KS)
+val U = K(I) ^ S(S)            // KI(SS)
 ```
 
 Scala's spec (similar to that of Haskell's in this case) gives higher
-precedence to the `$` operator. This means the `apply` function will
-be left associative just like the convention used in the CL literature.
-`$` can be used to break the left associativity. In most cases this
-will avoid the need to group things with lots of parenthesises.
+precedence to the `^` operator. The `apply` and the `^` will both
+be left associative, just like the convention used in the CL literature.
+`^` can be used to avoid parenthesises in some cases.
 
 ```scala
 val H = S(K)(I)(K(S(S)))
-val E = S(K)(I) $ (K $ S(S))       // Same thing, more readable
+val E = S(K)(I) ^ (K ^ S(S))       // Same thing, more readable
 ```
 
 #### Pattern Matching on Term ADT
@@ -233,7 +232,7 @@ the essence of most Combinatory Logic theorems and algorithms.
 ```scala
    M match {
      case Var(x) ⇒ ...                 // Variables
-     case _U $ _V ⇒ ...                // Application of term _U to _V
+     case _U ^ _V ⇒ ...                // Application of term _U to _V
      case BasicCombinator(name) ⇒  ... // one of I, K, S
    }
 ```
@@ -253,7 +252,7 @@ Note: due to Scala's spec, the following pattern does not work:
 
 ```scala
   ...
-  case M $ N ⇒ ... // Wrong, value patterns can't begin with uppercase
+  case M ^ N ⇒ ... // Wrong, value patterns can't begin with uppercase
   ...
 ```
 
@@ -262,7 +261,7 @@ underscore workaround:
 
 ```scala
   ...
-  case _M $ _N ⇒ ... // Ok! Underscore is fine
+  case _M ^ _N ⇒ ... // Ok! Underscore is fine
   ...
 ```
 

@@ -8,7 +8,7 @@ trait Show { this: Term ⇒
     */
   lazy val full: String = this match {
     case Atom(name)  ⇒ name.toString
-    case _U $ _V     ⇒ s"(${_U.full}${_V.full})"
+    case _U ^ _V     ⇒ s"(${_U.full}${_V.full})"
     case Var(x) λ _M ⇒ s"(λ${x.toString}.${_M.full})"
   }
 
@@ -24,10 +24,10 @@ trait Show { this: Term ⇒
     case Atom(name)                  ⇒ name.toString
     case x λ (_M: Abstraction)       ⇒ s"λ${x.name}${_M.short.substring(1)}"
     case x λ _M                      ⇒ s"λ${x.name}.${_M.short}"
-    case (_M: Abstraction) $ Atom(y) ⇒ s"(${_M.short})${y.toString}"
-    case (_M: Abstraction) $ _N      ⇒ s"(${_M.short})(${_N.short})"
-    case _M $ Atom(y)                ⇒ s"${_M.short}$y"
-    case _U $ _V                     ⇒ s"${_U.short}(${_V.short})"
+    case (_M: Abstraction) ^ Atom(y) ⇒ s"(${_M.short})${y.toString}"
+    case (_M: Abstraction) ^ _N      ⇒ s"(${_M.short})(${_N.short})"
+    case _M ^ Atom(y)                ⇒ s"${_M.short}$y"
+    case _U ^ _V                     ⇒ s"${_U.short}(${_V.short})"
   }
 
 }

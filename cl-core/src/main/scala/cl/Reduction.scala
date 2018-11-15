@@ -23,8 +23,8 @@ object Reduction {
   private[Reduction] lazy val contractPartial: PartialFunction[Term, Term] =
     associatedContractum
       .orElse {
-        case _W $ _X if !_W.isWeakNormalForm ⇒ contractPartial(_W) $ _X
-        case _W $ _X if !_X.isWeakNormalForm ⇒ _W $ contractPartial(_X)
+        case _W ^ _X if !_W.isWeakNormalForm ⇒ contractPartial(_W) ^ _X
+        case _W ^ _X if !_X.isWeakNormalForm ⇒ _W ^ contractPartial(_X)
       }
 
   /** Given a Weak Redex, returns its Associated Contractum (in a pure system).
@@ -37,9 +37,9 @@ object Reduction {
     * @return Associated Contractum of the provided Term.
     */
   val associatedContractum: PartialFunction[Term, Term] = {
-    case I $ _X           ⇒ _X
-    case K $ _X $ _       ⇒ _X
-    case S $ _X $ _Y $ _Z ⇒ _X(_Z) $ _Y(_Z)
+    case I ^ _X           ⇒ _X
+    case K ^ _X ^ _       ⇒ _X
+    case S ^ _X ^ _Y ^ _Z ⇒ _X(_Z) ^ _Y(_Z)
   }
 
   /** Reduces a Term to its Weak Normal Form.

@@ -40,7 +40,7 @@ class WeakEagerEvalTest extends WordSpec with Matchers with EitherValues with Op
     val Out(result, _) = Eval.weakEagerEval(second.right.get)(newEnv, eta).right.get
 
     result       should be('defined)
-    result.value shouldEqual (x $ y(z))
+    result.value shouldEqual (x ^ y(z))
   }
 
 }
