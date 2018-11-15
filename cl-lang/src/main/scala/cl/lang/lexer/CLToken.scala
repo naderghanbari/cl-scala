@@ -14,4 +14,4 @@ case object DOT extends CLToken
 case object DEFN extends CLToken
 
 case class VAR(name: Char) extends CLToken { require(name.isLower) }
-case class REF(name: Char) extends CLToken { require(name.isUpper) }
+case class REF(name: String) extends CLToken

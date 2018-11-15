@@ -9,7 +9,7 @@ sealed trait Term extends Expr {
   def apply(arg: Term) = Application(this, arg)
 }
 case class Var(name: Char) extends Term { require(name.isLower) }
-case class Ref(name: Char) extends Term { require(name.isUpper) }
+case class Ref(name: String) extends Term
 case class Application(op: Term, arg: Term) extends Term
 
 case class Defn(ref: Ref, rhs: Expr) extends AST

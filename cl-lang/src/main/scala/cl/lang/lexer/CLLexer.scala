@@ -26,7 +26,7 @@ object CLLexer extends RegexParsers {
   private def dot      = "." ^^ (_ ⇒ DOT)
 
   private def `var` = "[a-z]".r ^^ (s ⇒ VAR(s.head))
-  private def ref   = "[A-Z]".r ^^ (s ⇒ REF(s.head))
+  private def ref   = "[A-Z]".r ^^ (s ⇒ REF(s))
 
   private def comment = "#.*".r
   private def passive = opt(comment)

@@ -7,9 +7,9 @@ class CLCompilerTest extends WordSpec with Matchers with EitherValues {
 
   "CLCompiler" should {
 
-    val I         = Ref('I')
-    val K         = Ref('K')
-    val S         = Ref('S')
+    val I         = Ref("I")
+    val K         = Ref("K")
+    val S         = Ref("S")
     val (x, y, z) = (Var('x'), Var('y'), Var('z'))
 
     "compile valid CL Terms" in {
@@ -29,8 +29,8 @@ class CLCompilerTest extends WordSpec with Matchers with EitherValues {
     }
 
     "compile valid CL Term Definitions" in {
-      CLCompiler("M := (((SK)I)x)").right.get          shouldEqual `=:`(Ref('M'), S(K)(I)(x))
-      CLCompiler("N := (((SK)K)((KS)(Sx)))").right.get shouldEqual `=:`(Ref('N'), S(K)(K) $ (K(S) $ S(x)))
+      CLCompiler("M := (((SK)I)x)").right.get          shouldEqual `=:`(Ref("M"), S(K)(I)(x))
+      CLCompiler("N := (((SK)K)((KS)(Sx)))").right.get shouldEqual `=:`(Ref("N"), S(K)(K) $ (K(S) $ S(x)))
     }
 
   }

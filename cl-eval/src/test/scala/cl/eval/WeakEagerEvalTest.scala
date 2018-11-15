@@ -14,7 +14,7 @@ class WeakEagerEvalTest extends WordSpec with Matchers with EitherValues with Op
     ast should be('right)
     val result = Eval.weakEagerEval(ast.right.get)(Env.pure, eta)
     result            should be('left)
-    result.left.value shouldEqual UnboundRefError('N')
+    result.left.value shouldEqual UnboundRefError("N")
   }
 
   "B:=x; B:=Sy ~~> Ref B is already bound!)" in {
@@ -27,7 +27,7 @@ class WeakEagerEvalTest extends WordSpec with Matchers with EitherValues with Op
     val result         = Eval.weakEagerEval(second.right.get)(newEnv, eta)
 
     result            should be('left)
-    result.left.value shouldEqual RefRebindError('B')
+    result.left.value shouldEqual RefRebindError("B")
   }
 
   "B:=S(KS)K; Bxyz ~~> x(yz)" in {
