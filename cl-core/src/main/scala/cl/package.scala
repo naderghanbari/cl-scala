@@ -56,7 +56,8 @@ package object cl {
     */
   case class Application(U: Term, V: Term) extends Term
 
-  val ^ = Application
+  val ^  = Application
+  val ^: = Application
 
   object Atom {
     def unapply(atom: Atom): Option[Char] = atom match {

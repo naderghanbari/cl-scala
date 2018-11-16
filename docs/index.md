@@ -201,9 +201,11 @@ val U = S(K)(S)        // SKS
 We are in the Untyped Combinatory Logic land so any `Term` is
 applicable to any `Term`.
 
-You can use the DSL:
+You can use the DSL in one of the following ways:
   - the `apply` function as in `K(S)`
-  - or the left-associative `^` operator as in `K ^ S`
+  - the left-associative `^` operator as in `K ^ S`
+  - the right-associative `^:` operator as in `K ^: S ^: M`. This is
+  exactly like the `$` operator in Haskell.
 
 ```scala
 import cl._
@@ -212,13 +214,14 @@ val y = Var('y')
 
 val M = S(K)(S)                // SKS
 val N = S ^ K(S)               // S(KS)
-val U = K(I) ^ S(S)            // KI(SS)
+val P = S ^: K ^: S(K)         // S(K(SK))
+val U = K(I) ^: S(S)           // KI(SS)
 ```
 
-Scala's spec (similar to that of Haskell's in this case) gives higher
-precedence to the `^` operator. The `apply` and the `^` will both
-be left associative, just like the convention used in the CL literature.
-`^` can be used to avoid parenthesises in some cases.
+Scala's spec gives higher precedence to the `^` and `^:` operators.
+The `apply` and the `^` will both be left associative, just like the
+ convention used in the CL literature.
+`^` and `^:` can be used to avoid parenthesises in some cases.
 
 ```scala
 val H = S(K)(I)(K(S(S)))

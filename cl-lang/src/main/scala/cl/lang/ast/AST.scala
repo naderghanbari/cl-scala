@@ -10,6 +10,7 @@ case class Substitution(bracket: (Term, Var), body: Expr) extends Expr
 
 sealed trait Term extends Expr {
   def ^(arg: Term)     = Application(this, arg)
+  def ^:(arg: Term)    = Application(this, arg)
   def apply(arg: Term) = Application(this, arg)
 }
 
