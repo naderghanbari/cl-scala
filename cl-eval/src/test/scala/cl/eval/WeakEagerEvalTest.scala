@@ -6,13 +6,15 @@ import org.scalatest.{EitherValues, Matchers, OptionValues, WordSpec}
 
 class WeakEagerEvalTest extends WordSpec with Matchers with EitherValues with OptionValues {
 
+  import cl.systems.CLSystem.Implicits.SKI
+
   val (x, y, z) = (cl.Var('x'), cl.Var('y'), cl.Var('z'))
 
   "x(NM) ~~> Unbound Ref N!" in {
     import cl.abstraction.Abstraction.Implicits.eta
     val ast = CLCompiler("x(NM)")
     ast should be('right)
-    val result = Eval.weakEagerEval(ast.right.get)(Env.pure, eta)
+    val result = Eval.weakEagerEval(ast.right.get)(Env.pureSKI, eta, SKI)
     result            should be('left)
     result.left.value shouldEqual UnboundRefError("N")
   }
@@ -23,8 +25,8 @@ class WeakEagerEvalTest extends WordSpec with Matchers with EitherValues with Op
     val second = CLCompiler("B := y")
     first  should be('right)
     second should be('right)
-    val Out(_, newEnv) = Eval.weakEagerEval(first.right.get)(Env.pure, eta).right.get
-    val result         = Eval.weakEagerEval(second.right.get)(newEnv, eta)
+    val Out(_, newEnv) = Eval.weakEagerEval(first.right.get)(Env.pureSKI, eta, SKI).right.get
+    val result         = Eval.weakEagerEval(second.right.get)(newEnv, eta, SKI)
 
     result            should be('left)
     result.left.value shouldEqual RefRebindError("B")
@@ -36,8 +38,8 @@ class WeakEagerEvalTest extends WordSpec with Matchers with EitherValues with Op
     val second = CLCompiler("Bxyz")
     first  should be('right)
     second should be('right)
-    val Out(_, newEnv) = Eval.weakEagerEval(first.right.get)(Env.pure, eta).right.get
-    val Out(result, _) = Eval.weakEagerEval(second.right.get)(newEnv, eta).right.get
+    val Out(_, newEnv) = Eval.weakEagerEval(first.right.get)(Env.pureSKI, eta, SKI).right.get
+    val Out(result, _) = Eval.weakEagerEval(second.right.get)(newEnv, eta, SKI).right.get
 
     result       should be('defined)
     result.value shouldEqual (x ^ y(z))

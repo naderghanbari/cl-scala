@@ -8,6 +8,8 @@ import org.scalatest.{Matchers, WordSpec}
 class AbstractionDSLTest extends WordSpec with Matchers {
 
   import Reduction.reduceToWeakNormalForm
+  import cl.systems.CLSystem.Implicits.SKI
+  import cl.systems.SKISystem.{I, K, S}
 
   "Theorem 2.21.B - η DSL: ([x].M)N ▹w [N/x]M             ∀ M, N, x" in ∀(varGen, termGen, termGen) { (x, M, N) ⇒
     import Abstraction.Implicits.eta

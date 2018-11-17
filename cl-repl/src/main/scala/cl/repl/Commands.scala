@@ -9,9 +9,9 @@ object Commands {
 
   sealed trait Command
 
-  case object Quit extends Command
+  case object Quit    extends Command
   case object Refresh extends Command
-  case object Blank extends Command
+  case object Blank   extends Command
 
   case class AbsDirective(abs: AbstractionStrategy) extends Command
 

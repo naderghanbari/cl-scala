@@ -1,6 +1,7 @@
 package cl
 
 import cl.Reduction._
+import cl.systems.CLSystem
 
 trait Reduction { self: Term ⇒
 
@@ -8,39 +9,24 @@ trait Reduction { self: Term ⇒
     *
     * Does memoize this attribute: much better time complexity for the price of a bit more space (a Boolean and a flag).
     */
-  lazy val isWeakRedex: Boolean = associatedContractum isDefinedAt self
+  def isWeakRedex(implicit system: CLSystem): Boolean = system.associatedContractum isDefinedAt self
 
   /** Determines if this Term is a Weak Normal Form or not.
     *
     * Does memoize this attribute so that the Weak Reduction can rely on it for faster performance.
     */
-  lazy val isWeakNormalForm: Boolean = !(contractPartial isDefinedAt self)
+  def isWeakNormalForm(implicit system: CLSystem): Boolean = !(contractPartial isDefinedAt self)
 
 }
 
 object Reduction {
 
-  private[Reduction] lazy val contractPartial: PartialFunction[Term, Term] =
-    associatedContractum
+  private[Reduction] def contractPartial(implicit system: CLSystem): PartialFunction[Term, Term] =
+    system.associatedContractum
       .orElse {
-        case _W ^ _X if !_W.isWeakNormalForm ⇒ contractPartial(_W) ^ _X
-        case _W ^ _X if !_X.isWeakNormalForm ⇒ _W ^ contractPartial(_X)
+        case _W ^ _X if !_W.isWeakNormalForm ⇒ contractPartial(system)(_W) ^ _X
+        case _W ^ _X if !_X.isWeakNormalForm ⇒ _W ^ contractPartial(system)(_X)
       }
-
-  /** Given a Weak Redex, returns its Associated Contractum (in a pure system).
-    * This is a partial function, so it is undefined for Terms that are not weak Redexes.
-    *
-    * * (I) IX ▹1w X,
-    * * (K) KXY ▹1w X,
-    * * (S) SXYZ ▹1w XZ(YZ).
-    *
-    * @return Associated Contractum of the provided Term.
-    */
-  val associatedContractum: PartialFunction[Term, Term] = {
-    case I ^ _X           ⇒ _X
-    case K ^ _X ^ _       ⇒ _X
-    case S ^ _X ^ _Y ^ _Z ⇒ _X(_Z) ^ _Y(_Z)
-  }
 
   /** Reduces a Term to its Weak Normal Form.
     *
@@ -51,7 +37,7 @@ object Reduction {
     * @param U Term to reduce to Weak Normal Form.
     * @return Weak Normal form of the input Term, or "who knows what" if that Term has none!
     */
-  def reduceToWeakNormalForm(U: Term): Term = {
+  def reduceToWeakNormalForm(U: Term)(implicit system: CLSystem): Term = {
     def recurse(T: Term): Option[Term] = contractLeftMost(T).flatMap(recurse).orElse(Some(T))
     recurse(U).getOrElse(U)
   }
@@ -66,6 +52,6 @@ object Reduction {
     * @param U Term to Weakly Contract.
     * @return Changed Term, i.e. Term with a replacement rule having been applied, None otherwise.
     */
-  def contractLeftMost(U: Term): Option[Term] = contractPartial.lift(U)
+  def contractLeftMost(U: Term)(implicit system: CLSystem): Option[Term] = contractPartial.lift(U)
 
 }

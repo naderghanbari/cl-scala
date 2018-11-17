@@ -1,11 +1,14 @@
 package cl.eval
 
-case class Env(refs: Map[String, cl.Term]) extends AnyVal {
+import cl.systems.{SKISystem, SKSystem}
+
+case class Env(refs: Map[String, cl.Term]) {
   def :+(entry: (String, cl.Term)) = copy(refs = refs + entry)
 }
 
 object Env {
 
-  val pure: Env = Env(Map("I" -> cl.I, "K" -> cl.K, "S" -> cl.S))
+  val pureSK: Env  = Env(Map("K" -> SKSystem.K, "S"  -> SKSystem.S))
+  val pureSKI: Env = Env(Map("I" -> SKISystem.I, "K" -> SKISystem.K, "S" -> SKISystem.S))
 
 }

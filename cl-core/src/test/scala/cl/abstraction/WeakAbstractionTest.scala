@@ -8,6 +8,8 @@ import org.scalatest.{Matchers, WordSpec}
 class WeakAbstractionTest extends WordSpec with Matchers {
 
   import Reduction.reduceToWeakNormalForm
+  import cl.systems.CLSystem.Implicits.SKI
+  import cl.systems.SKISystem.{I, K, S}
 
   "Example 2.19    - w: [x].xy ≡ SI(Ky)               ∀ x, y" in ∀(varGen, varGen) { (x, y) ⇒
     whenever(x != y) {

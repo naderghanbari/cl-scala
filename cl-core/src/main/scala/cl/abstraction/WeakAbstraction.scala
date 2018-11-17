@@ -2,7 +2,7 @@ package cl.abstraction
 
 import cl._
 
-/** Weak Abstraction, aka  Curry's algorithm (abf).
+/** Weak Abstraction, aka  Curry's algorithm (abf) in an SKI System.
   *
   * Induction on the structure of the Term M:
   * - Clause a -        [x].M ≡ KM                 if x ̸∈ FV(M)
@@ -12,6 +12,8 @@ import cl._
 object WeakAbstraction extends Abstraction {
 
   override val name = "Weak Abstraction"
+
+  import systems.SKISystem._
 
   override def apply(x: Var, M: Term): Term = M match {
     case _ if !M.FV.contains(x) ⇒ K ^ M

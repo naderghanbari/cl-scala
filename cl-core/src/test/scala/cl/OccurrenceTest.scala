@@ -8,6 +8,8 @@ class OccurrenceTest extends WordSpec with Matchers {
 
     "given some Terms" should {
 
+      import cl.systems.SKISystem.{I, K, S}
+
       val (x, y, z) = (Var('x'), Var('y'), Var('z'))
 
       val Kx   = K(x)

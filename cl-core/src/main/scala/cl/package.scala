@@ -25,16 +25,15 @@ package object cl {
     * An atomic constant is either a basic combinator or a predefined constant (applied systems).
     * This system is pure, hence the only atomic constants are basic combinators.
     */
-  sealed trait AtomicConstant extends Atom
+  sealed trait AtomicConstant extends Atom {
+    def name: Char
+  }
 
-  /** Hierarchy of basic combinators, aka the three and only atomic constants of the galaxy.
+  /** A BasicCombinator.
     *
-    * In order of appearance:
-    *  - `I` the Identity combinator, might be kicked off soon, as others figured they can survive without I!
-    *  - `K` the constant combinator
-    *  - `S` the Schönfinkel or strong composition combinator.
+    * @param name This basic combinator's name.
     */
-  sealed trait BasicCombinator extends AtomicConstant
+  case class BasicCombinator(name: Char) extends AtomicConstant { require(name.isUpper) }
 
   /** A variable, with a lower case letter by convention.
     *
@@ -67,21 +66,7 @@ package object cl {
   }
 
   object AtomicConstant {
-    def unapply(constant: AtomicConstant): Option[Char] = constant match {
-      case BasicCombinator(name) ⇒ Some(name)
-    }
-  }
-
-  case object I extends BasicCombinator
-  case object K extends BasicCombinator
-  case object S extends BasicCombinator
-
-  object BasicCombinator {
-    def unapply(basic: BasicCombinator): Option[Char] = basic match {
-      case I ⇒ Some('I')
-      case K ⇒ Some('K')
-      case S ⇒ Some('S')
-    }
+    def unapply(constant: AtomicConstant): Option[Char] = Some(constant.name)
   }
 
 }
