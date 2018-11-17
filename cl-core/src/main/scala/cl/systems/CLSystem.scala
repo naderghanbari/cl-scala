@@ -8,6 +8,8 @@ import cl.{BasicCombinator, Term}
   */
 trait CLSystem {
 
+  def name: String
+
   def basicCombinators: List[BasicCombinator]
 
   /** Given a Weak Redex of this system, returns its Associated Contractum.

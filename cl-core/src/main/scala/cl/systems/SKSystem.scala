@@ -4,6 +4,8 @@ import cl._
 
 object SKSystem extends CLSystem {
 
+  val name = "SK"
+
   val K = BasicCombinator('K')
   val S = BasicCombinator('S')
 

@@ -3,7 +3,7 @@ package cl.repl
 import cl.lang.{CLCompileError, CLCompiler}
 import cl.eval.Eval.Out
 import cl.eval.{Env, Eval, EvalError}
-import cl.systems.SKISystem
+import cl.systems.{SKISystem, SKSystem}
 import org.jline.reader.EndOfFileException
 
 import scala.io.AnsiColor._
@@ -37,10 +37,18 @@ object Repl extends App with JLineSupport {
   def transitionFunction: (State, Commands.Command) ⇒ State = {
     case (s, Commands.Quit | Commands.Blank) ⇒
       s
+    case (s, Commands.SystemDirective(SKISystem)) ⇒
+      goto(s.copy(ρ = Env.pureSKI, system = SKISystem)) and
+      putLine(s"${BLUE}System is now ${SKISystem.name} (Environment refreshed).$RESET")
+    case (s, Commands.SystemDirective(SKSystem)) ⇒
+      goto(s.copy(ρ = Env.pureSK, system = SKSystem)) and
+      putLine(s"${BLUE}System is now ${SKSystem.name} (Environment refreshed).$RESET")
+    case (_, Commands.SystemDirective(unknown)) ⇒
+      throw new IllegalArgumentException(s"Unknown state: $unknown")
     case (s, Commands.AbsDirective(abs)) ⇒
       goto(s.copy(abs = abs)) and putLine(s"${BLUE}Ok! Abstraction strategy changed to ${abs.name}.$RESET")
     case (s, Commands.Refresh) ⇒
-      goto(s.copy(ρ = Env.pureSKI)) and putLine(s"${BLUE}Ok! Here's your Fresh Environment.$RESET")
+      goto(s.copy(ρ = Env.pureSKI)) and putLine(s"${BLUE}Ok! Here's your Fresh ${s.system.name} Environment.$RESET")
     case (s, Commands.Statement(input)) ⇒
       val result = CLCompiler(input).flatMap(Eval.weakEagerEval(_)(s.ρ, s.abs, s.system))
       evalSuccess(s) orElse evalError(s) apply result
