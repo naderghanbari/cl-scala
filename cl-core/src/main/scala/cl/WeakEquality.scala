@@ -1,6 +1,7 @@
 package cl
 
 import cl.Reduction._
+import cl.systems.CLSystem
 
 trait WeakEquality { self: Term ⇒
 
@@ -14,6 +15,7 @@ trait WeakEquality { self: Term ⇒
     * @param V Subject Term.
     * @return True if this Term Weakly Equals to the Subject Term.
     */
-  def weakEquals(V: Term): Boolean = reduceToWeakNormalForm(self) == reduceToWeakNormalForm(V)
+  def weakEquals(V: Term)(implicit system: CLSystem): Boolean =
+    reduceToWeakNormalForm(self) == reduceToWeakNormalForm(V)
 
 }

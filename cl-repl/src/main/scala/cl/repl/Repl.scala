@@ -3,6 +3,7 @@ package cl.repl
 import cl.lang.{CLCompileError, CLCompiler}
 import cl.eval.Eval.Out
 import cl.eval.{Env, Eval, EvalError}
+import cl.systems.SKISystem
 import org.jline.reader.EndOfFileException
 
 import scala.io.AnsiColor._
@@ -39,14 +40,14 @@ object Repl extends App with JLineSupport {
     case (s, Commands.AbsDirective(abs)) ⇒
       goto(s.copy(abs = abs)) and putLine(s"${BLUE}Ok! Abstraction strategy changed to ${abs.name}.$RESET")
     case (s, Commands.Refresh) ⇒
-      goto(s.copy(ρ = Env.pure)) and putLine(s"${BLUE}Ok! Here's your Fresh Environment.$RESET")
+      goto(s.copy(ρ = Env.pureSKI)) and putLine(s"${BLUE}Ok! Here's your Fresh Environment.$RESET")
     case (s, Commands.Statement(input)) ⇒
-      val result = CLCompiler(input).flatMap(Eval.weakEagerEval(_)(s.ρ, s.abs))
+      val result = CLCompiler(input).flatMap(Eval.weakEagerEval(_)(s.ρ, s.abs, s.system))
       evalSuccess(s) orElse evalError(s) apply result
   }
 
   import cl.abstraction.Abstraction.Implicits.{eta => etaAbas}
-  val initialState = State(None, Env.pure, etaAbas)
+  val initialState = State(None, Env.pureSKI, etaAbas, SKISystem)
 
   def ignite(): Unit =
     Exception.failAsValue(classOf[EndOfFileException])(Unit) {

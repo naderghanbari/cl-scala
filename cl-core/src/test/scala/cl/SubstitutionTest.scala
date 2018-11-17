@@ -6,6 +6,8 @@ import org.scalatest.{Matchers, WordSpec}
 
 class SubstitutionTest extends WordSpec with Matchers {
 
+  import cl.systems.SKISystem.{I, K, S}
+
   val SK = S(K)
   val KI = K(I)
 

@@ -2,7 +2,7 @@ package cl.abstraction
 
 import cl._
 
-/** Primitive Abstraction, Aka Curry's algorithm (fab).
+/** Primitive Abstraction, Aka Curry's algorithm (fab) in an SKI System.
   *
   * Induction on the structure of the Term M:
   *
@@ -13,6 +13,8 @@ import cl._
 object PrimitiveAbstraction extends Abstraction {
 
   override val name = "Primitive Abstraction"
+
+  import systems.SKISystem._
 
   override def apply(x: Var, M: Term): Term = M match {
     case a @ Atom(_) if a != x ⇒ K ^ a

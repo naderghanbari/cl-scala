@@ -2,7 +2,7 @@ package cl.abstraction
 
 import cl._
 
-/** η Abstraction (Eta), aka Curry;s algorithm (abcf).
+/** η Abstraction (Eta), aka Curry;s algorithm (abcf) in an SKI System.
   *
   * Induction on the structure of the Term M (as in Definition 2.18 in Hindley):
   *
@@ -17,6 +17,8 @@ import cl._
 object EtaAbstraction extends Abstraction {
 
   override val name = "Eta Abstraction"
+
+  import systems.SKISystem._
 
   override def apply(x: Var, M: Term): Term = M match {
     case _ if !M.FV.contains(x)         ⇒ K ^ M

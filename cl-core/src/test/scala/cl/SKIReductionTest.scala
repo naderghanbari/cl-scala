@@ -5,7 +5,10 @@ import CLGen.{termGen, varGen, weakRedexGen}
 import org.scalatest.prop.GeneratorDrivenPropertyChecks.{forAll ⇒ ∀, _}
 import org.scalatest.{Matchers, WordSpec}
 
-class ReductionTest extends WordSpec with Matchers {
+class SKIReductionTest extends WordSpec with Matchers {
+
+  import cl.systems.CLSystem.Implicits.SKI
+  import cl.systems.SKISystem.{I, K, S}
 
   "Weak Redexes are known and respected" in ∀(weakRedexGen) { R ⇒
     R.isWeakRedex      shouldEqual true

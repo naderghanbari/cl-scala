@@ -6,6 +6,9 @@ import org.scalatest.{Matchers, WordSpec}
 
 class WeakEqualityTest extends WordSpec with Matchers {
 
+  import cl.systems.CLSystem.Implicits.SKI
+  import cl.systems.SKISystem.{I, K, S}
+
   "Exercise 2.30: BWBIx =w SIIx" in ∀(varGen) { x ⇒
     val W     = S(S) ^ K(I)
     val B     = S ^ K(S) ^ K
