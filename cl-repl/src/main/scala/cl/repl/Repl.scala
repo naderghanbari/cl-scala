@@ -1,8 +1,8 @@
 package cl.repl
 
-import cl.lang.{ CLCompileError, CLCompiler }
+import cl.lang.{CLCompileError, CLCompiler}
 import cl.eval.Eval.Out
-import cl.eval.{ Env, Eval, EvalError }
+import cl.eval.{Env, Eval, EvalError}
 import cl.systems.sk.SK
 import cl.systems.ski.SKI
 import org.jline.reader.EndOfFileException
@@ -41,14 +41,14 @@ object Repl extends App with JLineSupport {
       s
     case (s, Commands.SystemDirective(SKI)) ⇒
       goto(s.copy(ρ = Env.pureSKI, system = SKI)) and
-      putLine(s"${BLUE}System is now ${ SKI.name} (Environment refreshed).$RESET")
+      putLine(s"${BLUE}System is now ${SKI.name} (Environment refreshed).$RESET")
     case (s, Commands.SystemDirective(SK)) ⇒
       goto(s.copy(ρ = Env.pureSK, system = SK)) and
-      putLine(s"${BLUE}System is now ${ SK.name} (Environment refreshed).$RESET")
+      putLine(s"${BLUE}System is now ${SK.name} (Environment refreshed).$RESET")
     case (_, Commands.SystemDirective(unknown)) ⇒
       throw new IllegalArgumentException(s"Unknown state: $unknown")
     case (s, Commands.AbsDirective(abs)) ⇒
-      goto(s.copy(abs = abs)) and putLine(s"${BLUE}Ok! Abstraction strategy changed to ${abs.name}.$RESET")
+      goto(s.copy(abs = abs)) and putLine(s"${BLUE}Ok! Abstraction strategy changed to $abs.$RESET")
     case (s, Commands.Refresh) ⇒
       goto(s.copy(ρ = Env.pureSKI)) and putLine(s"${BLUE}Ok! Here's your Fresh ${s.system.name} Environment.$RESET")
     case (s, Commands.Statement(input)) ⇒
