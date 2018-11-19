@@ -7,7 +7,7 @@ import org.scalatest.{Matchers, WordSpec}
 class WeakEqualityTest extends WordSpec with Matchers {
 
   import cl.systems.CLSystem.Implicits.SKI
-  import cl.systems.SKISystem.{I, K, S}
+  import cl.systems.ski.SKI.{I, K, S}
 
   "Exercise 2.30: BWBIx =w SIIx" in ∀(varGen) { x ⇒
     val W     = S(S) ^ K(I)
@@ -19,8 +19,8 @@ class WeakEqualityTest extends WordSpec with Matchers {
 
   "D ≡ [x,y,z].zxy and D1 ≡ [u].u([x, y]x)" should {
 
-    import cl.abstraction.{|, Abstraction}
-    import Abstraction.Implicits.eta
+    import cl.abstraction.|
+    import cl.systems.ski.SKI.Implicits.Abstraction.eta
 
     val (x1, x2, z) = (Var('x'), Var('y'), Var('z'))
     val D           = |(x1, x2, z) | (z ^ x1 ^ x2)

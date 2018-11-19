@@ -5,7 +5,7 @@ object CLGen {
 
   import Gen._
 
-  import cl.systems.SKISystem._
+  import cl.systems.ski.SKI._
 
   def varGen: Gen[Var]                         = alphaLowerChar.map(Var)
   def basicCombinatorGen: Gen[BasicCombinator] = oneOf(I, K, S)

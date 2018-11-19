@@ -1,6 +1,6 @@
 package cl.eval
-
-import cl.systems.{SKISystem, SKSystem}
+import cl.systems.sk.SK
+import cl.systems.ski.SKI
 
 case class Env(refs: Map[String, cl.Term]) {
   def :+(entry: (String, cl.Term)) = copy(refs = refs + entry)
@@ -8,7 +8,7 @@ case class Env(refs: Map[String, cl.Term]) {
 
 object Env {
 
-  val pureSK: Env  = Env(Map("K" -> SKSystem.K, "S"  -> SKSystem.S))
-  val pureSKI: Env = Env(Map("I" -> SKISystem.I, "K" -> SKISystem.K, "S" -> SKISystem.S))
+  val pureSK: Env  = Env(Map("K" -> SK.K, "S"  -> SK.S))
+  val pureSKI: Env = Env(Map("I" -> SKI.I, "K" -> SKI.K, "S" -> SKI.S))
 
 }

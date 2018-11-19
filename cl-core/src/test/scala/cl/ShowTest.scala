@@ -6,7 +6,7 @@ import org.scalatest.{Matchers, WordSpec}
 
 class ShowTest extends WordSpec with Matchers {
 
-  import cl.systems.SKISystem.{I, K, S}
+  import cl.systems.ski.SKI.{I, K, S}
 
   "Show class" when {
 

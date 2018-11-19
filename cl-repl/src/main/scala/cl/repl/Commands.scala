@@ -1,10 +1,12 @@
 package cl.repl
 
 import cl.abstraction.{Abstraction => AbstractionStrategy}
-import AbstractionStrategy.Implicits.{primitive => primitiveAbs}
-import AbstractionStrategy.Implicits.{weak => weakAbs}
-import AbstractionStrategy.Implicits.{eta => etaAbs}
-import cl.systems.{CLSystem, SKISystem, SKSystem}
+import cl.systems.ski.SKI
+import cl.systems.sk.SK
+import cl.systems.ski.abstraction.{Eta => SKIEtaAbs}
+import cl.systems.ski.abstraction.{Primitive => SKIPrimitiveAbs}
+import cl.systems.ski.abstraction.{Weak => SKIWeakAbs}
+import cl.systems.CLSystem
 
 object Commands {
 
@@ -23,11 +25,11 @@ object Commands {
     ":q"             -> Quit,
     ":r"             -> Refresh,
     ""               -> Blank,
-    "-sys:SKI"       -> SystemDirective(SKISystem),
-    "-sys:SK"        -> SystemDirective(SKSystem),
-    "-abs:primitive" -> AbsDirective(primitiveAbs),
-    "-abs:weak"      -> AbsDirective(weakAbs),
-    "-abs:eta"       -> AbsDirective(etaAbs),
+    "-sys:SKI"       -> SystemDirective(SKI),
+    "-sys:SK"        -> SystemDirective(SK),
+    "-abs:primitive" -> AbsDirective(SKIPrimitiveAbs),
+    "-abs:weak"      -> AbsDirective(SKIWeakAbs),
+    "-abs:eta"       -> AbsDirective(SKIEtaAbs),
   )
 
   def classify(s: String): Command = Catalog.getOrElse(s, Statement(s))

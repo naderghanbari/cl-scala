@@ -1,13 +1,15 @@
 package cl.repl
 
-import cl.lang.{CLCompileError, CLCompiler}
+import cl.lang.{ CLCompileError, CLCompiler }
 import cl.eval.Eval.Out
-import cl.eval.{Env, Eval, EvalError}
-import cl.systems.{SKISystem, SKSystem}
+import cl.eval.{ Env, Eval, EvalError }
+import cl.systems.sk.SK
+import cl.systems.ski.SKI
 import org.jline.reader.EndOfFileException
 
 import scala.io.AnsiColor._
 import scala.util.control.Exception
+import cl.systems.ski.abstraction.{Eta => SKIEtaAbs}
 
 object Repl extends App with JLineSupport {
 
@@ -37,12 +39,12 @@ object Repl extends App with JLineSupport {
   def transitionFunction: (State, Commands.Command) ⇒ State = {
     case (s, Commands.Quit | Commands.Blank) ⇒
       s
-    case (s, Commands.SystemDirective(SKISystem)) ⇒
-      goto(s.copy(ρ = Env.pureSKI, system = SKISystem)) and
-      putLine(s"${BLUE}System is now ${SKISystem.name} (Environment refreshed).$RESET")
-    case (s, Commands.SystemDirective(SKSystem)) ⇒
-      goto(s.copy(ρ = Env.pureSK, system = SKSystem)) and
-      putLine(s"${BLUE}System is now ${SKSystem.name} (Environment refreshed).$RESET")
+    case (s, Commands.SystemDirective(SKI)) ⇒
+      goto(s.copy(ρ = Env.pureSKI, system = SKI)) and
+      putLine(s"${BLUE}System is now ${ SKI.name} (Environment refreshed).$RESET")
+    case (s, Commands.SystemDirective(SK)) ⇒
+      goto(s.copy(ρ = Env.pureSK, system = SK)) and
+      putLine(s"${BLUE}System is now ${ SK.name} (Environment refreshed).$RESET")
     case (_, Commands.SystemDirective(unknown)) ⇒
       throw new IllegalArgumentException(s"Unknown state: $unknown")
     case (s, Commands.AbsDirective(abs)) ⇒
@@ -54,8 +56,7 @@ object Repl extends App with JLineSupport {
       evalSuccess(s) orElse evalError(s) apply result
   }
 
-  import cl.abstraction.Abstraction.Implicits.{eta => etaAbas}
-  val initialState = State(None, Env.pureSKI, etaAbas, SKISystem)
+  val initialState = State(None, Env.pureSKI, SKIEtaAbs, SKI)
 
   def ignite(): Unit =
     Exception.failAsValue(classOf[EndOfFileException])(Unit) {

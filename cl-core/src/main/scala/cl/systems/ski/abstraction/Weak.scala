@@ -1,6 +1,7 @@
-package cl.abstraction
-
-import cl._
+package cl.systems.ski.abstraction
+import cl.abstraction.Abstraction
+import cl.systems.ski.SKI
+import cl.{ Term, Var, ^ }
 
 /** Weak Abstraction, aka  Curry's algorithm (abf) in an SKI System.
   *
@@ -9,16 +10,15 @@ import cl._
   * - Clause b -        [x].x ≡ I
   * - Clause f -        [x].UV ≡ S([x].U)([x].V )  if neither (a) nor (c) applies
   */
-object WeakAbstraction extends Abstraction {
+object Weak extends Abstraction {
 
-  override val name = "Weak Abstraction"
-
-  import systems.SKISystem._
+  val name   = "Weak Abstraction"
+  val system = SKI
 
   override def apply(x: Var, M: Term): Term = M match {
-    case _ if !M.FV.contains(x) ⇒ K ^ M
-    case `x`                    ⇒ I
-    case _U ^ _V                ⇒ S ^ apply(x, _U) ^ apply(x, _V)
+    case _ if !M.FV.contains(x) ⇒ system.K ^ M
+    case `x`                    ⇒ system.I
+    case _U ^ _V                ⇒ system.S ^ apply(x, _U) ^ apply(x, _V)
   }
 
 }

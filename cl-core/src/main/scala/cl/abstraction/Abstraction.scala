@@ -1,6 +1,7 @@
 package cl.abstraction
 
 import cl._
+import cl.systems.CLSystem
 
 /** Abstraction algorithm.
   *
@@ -9,6 +10,7 @@ import cl._
 trait Abstraction extends ((Var, Term) ⇒ Term) {
 
   def name: String
+  def system: CLSystem
 
   /** Applies the abstraction.
     *
@@ -18,19 +20,7 @@ trait Abstraction extends ((Var, Term) ⇒ Term) {
     */
   override def apply(x: Var, M: Term): Term
 
-}
-
-object Abstraction {
-
-  object Implicits {
-
-    implicit def primitive: Abstraction = PrimitiveAbstraction
-
-    implicit def weak: Abstraction = WeakAbstraction
-
-    implicit def eta: Abstraction = EtaAbstraction
-
-  }
+  override def toString: String = s"${system.name} $name"
 
 }
 

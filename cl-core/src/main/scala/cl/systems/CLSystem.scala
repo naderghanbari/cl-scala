@@ -24,9 +24,9 @@ object CLSystem {
 
   object Implicits {
 
-    implicit def SK: CLSystem = SKSystem
+    implicit def SK: CLSystem = sk.SK
 
-    implicit def SKI: CLSystem = SKISystem
+    implicit def SKI: CLSystem = ski.SKI
 
   }
 

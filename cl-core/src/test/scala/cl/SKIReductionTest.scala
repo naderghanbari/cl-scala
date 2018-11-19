@@ -8,7 +8,7 @@ import org.scalatest.{Matchers, WordSpec}
 class SKIReductionTest extends WordSpec with Matchers {
 
   import cl.systems.CLSystem.Implicits.SKI
-  import cl.systems.SKISystem.{I, K, S}
+  import cl.systems.ski.SKI.{I, K, S}
 
   "Weak Redexes are known and respected" in ∀(weakRedexGen) { R ⇒
     R.isWeakRedex      shouldEqual true
