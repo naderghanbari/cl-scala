@@ -3,9 +3,8 @@ package cl.repl
 import cl.abstraction.{Abstraction => AbstractionStrategy}
 import cl.systems.ski.SKI
 import cl.systems.sk.SK
-import cl.systems.ski.abstraction.{SKIEtaAbstraction => SKIEtaAbs}
-import cl.systems.ski.abstraction.{SKIPrimitiveAbstraction => SKIPrimitiveAbs}
-import cl.systems.ski.abstraction.{SKIWeakAbstraction => SKIWeakAbs}
+import cl.systems.ski.abstraction._
+import cl.systems.sk.abstraction._
 import cl.systems.CLSystem
 
 object Commands {
@@ -22,14 +21,17 @@ object Commands {
   case class Statement(input: String) extends Command
 
   private val Catalog = Map(
-    ":q"             -> Quit,
-    ":r"             -> Refresh,
-    ""               -> Blank,
-    "-sys:SKI"       -> SystemDirective(SKI),
-    "-sys:SK"        -> SystemDirective(SK),
-    "-abs:primitive" -> AbsDirective(SKIPrimitiveAbs),
-    "-abs:weak"      -> AbsDirective(SKIWeakAbs),
-    "-abs:eta"       -> AbsDirective(SKIEtaAbs),
+    ":q"                 -> Quit,
+    ":r"                 -> Refresh,
+    ""                   -> Blank,
+    "-sys:SKI"           -> SystemDirective(SKI),
+    "-sys:SK"            -> SystemDirective(SK),
+    "-abs:SKI:primitive" -> AbsDirective(SKIPrimitiveAbstraction),
+    "-abs:SKI:weak"      -> AbsDirective(SKIWeakAbstraction),
+    "-abs:SKI:eta"       -> AbsDirective(SKIEtaAbstraction),
+    "-abs:SK:primitive"  -> AbsDirective(SKPrimitiveAbstraction),
+    "-abs:SK:weak"       -> AbsDirective(SKWeakAbstraction),
+    "-abs:SK:eta"        -> AbsDirective(SKEtaAbstraction),
   )
 
   def classify(s: String): Command = Catalog.getOrElse(s, Statement(s))

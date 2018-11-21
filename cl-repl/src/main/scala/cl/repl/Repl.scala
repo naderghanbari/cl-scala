@@ -48,7 +48,7 @@ object Repl extends App with JLineSupport {
     case (_, Commands.SystemDirective(unknown)) ⇒
       throw new IllegalArgumentException(s"Unknown state: $unknown")
     case (s, Commands.AbsDirective(abs)) ⇒
-      goto(s.copy(abs = abs)) and putLine(s"${BLUE}Ok! Abstraction strategy changed to $abs.$RESET")
+      goto(s.copy(abs = abs)) and putLine(s"${BLUE}Ok! Abstraction strategy changed to ${abs.name}.$RESET")
     case (s, Commands.Refresh) ⇒
       goto(s.copy(ρ = Env.pureSKI)) and putLine(s"${BLUE}Ok! Here's your Fresh ${s.system.name} Environment.$RESET")
     case (s, Commands.Statement(input)) ⇒
