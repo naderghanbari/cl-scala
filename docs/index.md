@@ -116,27 +116,42 @@ supported.
 REPL directives start with a dash `-`. Here is a list of supported
 directives:
 
-  - `-abs:primitive`: changes the abstraction strategy to primitive, aka
-  Curry's algorithm fab).
-  - `-abs:weak`: changes the abstraction strategy to weak, aka
+  - `-sys:SKI`: changes the CL System to SKI, this is the default.
+  - `-sys:SK`: changes the CL System to SK. I is not defined in this
+  system but you can define it yourself as `I := SKK`.
+  - `-abs:SKI:primitive`: changes the abstraction strategy to
+  SKI primitive, aka Curry's algorithm fab).
+  - `-abs:SKI:weak`: changes the abstraction strategy to SKI weak, aka
   Curry's algorithm abf).
-  - `-abs:eta`: changes the abstraction strategy to eta, aka Curry's
-  algorithm abcf. This is the default strategy.
+  - `-abs:SKI:eta`: changes the abstraction strategy to SKI eta, aka
+  Curry's algorithm abcf. This is the default strategy.
+  - `-abs:SK:primitive`: changes the abstraction strategy to
+  SK primitive.
+  - `-abs:SK:weak`: changes the abstraction strategy to SK weak.
+  - `-abs:SK:eta`: changes the abstraction strategy to SK eta.
 
 Here's an example of directives in action:
 
 ```
 CL > [x,y,z].xz(yz)
 S
-CL > -abs:weak
-Ok! Abstraction strategy changed to Weak Abstraction.
+CL > -abs:SKI:weak
+Ok! Abstraction strategy changed to SKI Weak Abstraction.
 CL > [x,y,z].xz(yz)
 S(S(KS)(S(KK)(S(KS)(S(S(KS)(S(KK)I))(KI)))))(K(S(S(KS)(S(KK)I))(KI)))
-CL > -abs:primitive
-Ok! Abstraction strategy changed to Primitive Abstraction.
+CL > -abs:SKI:primitive
+Ok! Abstraction strategy changed to SKI Primitive Abstraction.
 CL > [x,y,z].xz(yz)
 S(S(KS)(S ... A very long term ... K)(KI)))
 ```
+
+Note: abstractions work independent of the chosen system as long as
+combinators they need (basic combinators in their system) exist in the
+target (current) system. This has the assumption that combinators
+have the same meaning in the target system. In a nutshell, abstractions
+work even if their respective system is not the same as the
+target system but it's the programmer's responsibility to make sure
+their use is meaningful.
 
 ## Project Structure
   - `cl-core`: CL ADT and DSL are implemented in this sub-project.
