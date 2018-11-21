@@ -1,7 +1,7 @@
 package cl.systems.ski.abstraction
 
 import cl.abstraction.Abstraction
-import cl.systems.ski.SKI
+import cl.systems.ski.SKI.{I, K, S}
 import cl.{^, Atom, Term, Var}
 
 /** Primitive Abstraction, Aka Curry's algorithm (fab) in an SKI System.
@@ -12,15 +12,14 @@ import cl.{^, Atom, Term, Var}
   * - Clause b -        [x].x ≡ I
   * - Clause f -        [x].UV ≡ S([x].U)([x].V )  if neither (a) nor (b) applies
   */
-object Primitive extends Abstraction {
+object SKIPrimitiveAbstraction extends Abstraction {
 
-  val name   = "Primitive Abstraction"
-  val system = SKI
+  val name = "Primitive Abstraction"
 
   override def apply(x: Var, M: Term): Term = M match {
-    case a @ Atom(_) if a != x ⇒ system.K ^ a
-    case `x`                   ⇒ system.I
-    case _U ^ _V               ⇒ system.S ^ apply(x, _U) ^ apply(x, _V)
+    case a @ Atom(_) if a != x ⇒ K ^ a
+    case `x`                   ⇒ I
+    case _U ^ _V               ⇒ S ^ apply(x, _U) ^ apply(x, _V)
   }
 
 }

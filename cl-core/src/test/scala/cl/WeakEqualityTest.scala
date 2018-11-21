@@ -20,7 +20,7 @@ class WeakEqualityTest extends WordSpec with Matchers {
   "D ≡ [x,y,z].zxy and D1 ≡ [u].u([x, y]x)" should {
 
     import cl.abstraction.|
-    import cl.systems.ski.SKI.Implicits.Abstraction.eta
+    import cl.systems.ski.SKI.Implicits.skiEtaAbstraction
 
     val (x1, x2, z) = (Var('x'), Var('y'), Var('z'))
     val D           = |(x1, x2, z) | (z ^ x1 ^ x2)

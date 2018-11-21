@@ -1,7 +1,7 @@
 package cl.systems.ski
 import cl.abstraction.Abstraction
 import cl.systems.CLSystem
-import cl.systems.ski.abstraction.{Eta, Primitive, Weak}
+import cl.systems.ski.abstraction.{SKIEtaAbstraction, SKIPrimitiveAbstraction, SKIWeakAbstraction}
 import cl.{^, BasicCombinator, Term}
 
 object SKI extends CLSystem {
@@ -29,13 +29,9 @@ object SKI extends CLSystem {
   }
 
   object Implicits {
-
-    object Abstraction {
-      implicit def primitive: Abstraction = Primitive
-      implicit def weak: Abstraction      = Weak
-      implicit def eta: Abstraction       = Eta
-    }
-
+    implicit def skiPrimitiveAbstraction: Abstraction = SKIPrimitiveAbstraction
+    implicit def skiWeakAbstraction: Abstraction      = SKIWeakAbstraction
+    implicit def skiEtaAbstraction: Abstraction       = SKIEtaAbstraction
   }
 
 }

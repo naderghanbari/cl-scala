@@ -3,9 +3,9 @@ package cl.repl
 import cl.abstraction.{Abstraction => AbstractionStrategy}
 import cl.systems.ski.SKI
 import cl.systems.sk.SK
-import cl.systems.ski.abstraction.{Eta => SKIEtaAbs}
-import cl.systems.ski.abstraction.{Primitive => SKIPrimitiveAbs}
-import cl.systems.ski.abstraction.{Weak => SKIWeakAbs}
+import cl.systems.ski.abstraction.{SKIEtaAbstraction => SKIEtaAbs}
+import cl.systems.ski.abstraction.{SKIPrimitiveAbstraction => SKIPrimitiveAbs}
+import cl.systems.ski.abstraction.{SKIWeakAbstraction => SKIWeakAbs}
 import cl.systems.CLSystem
 
 object Commands {

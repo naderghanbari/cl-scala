@@ -9,7 +9,7 @@ import org.jline.reader.EndOfFileException
 
 import scala.io.AnsiColor._
 import scala.util.control.Exception
-import cl.systems.ski.abstraction.{Eta => SKIEtaAbs}
+import cl.systems.ski.abstraction.{SKIEtaAbstraction => SKIEtaAbs}
 
 object Repl extends App with JLineSupport {
 
