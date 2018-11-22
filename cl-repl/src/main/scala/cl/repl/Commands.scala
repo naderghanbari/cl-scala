@@ -20,10 +20,7 @@ object Commands {
 
   case class Statement(input: String) extends Command
 
-  private val Catalog = Map(
-    ":q"                 -> Quit,
-    ":r"                 -> Refresh,
-    ""                   -> Blank,
+  val Directives = Map[String, Command](
     "-sys:SKI"           -> SystemDirective(SKI),
     "-sys:SK"            -> SystemDirective(SK),
     "-abs:SKI:primitive" -> AbsDirective(SKIPrimitiveAbstraction),
@@ -34,6 +31,12 @@ object Commands {
     "-abs:SK:eta"        -> AbsDirective(SKEtaAbstraction),
   )
 
-  def classify(s: String): Command = Catalog.getOrElse(s, Statement(s))
+  private val Catalog = Map[String, Command](
+    ":q" -> Quit,
+    ":r" -> Refresh,
+    ""   -> Blank
+  )
+
+  def classify(s: String): Command = Directives.orElse(Catalog).lift.apply(s).getOrElse(Statement(s))
 
 }

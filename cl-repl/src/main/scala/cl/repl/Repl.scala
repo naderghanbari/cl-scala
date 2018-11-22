@@ -1,19 +1,23 @@
 package cl.repl
 
-import cl.lang.{CLCompileError, CLCompiler}
 import cl.eval.Eval.Out
 import cl.eval.{Env, Eval, EvalError}
+import cl.lang.{CLCompileError, CLCompiler}
 import cl.systems.sk.SK
 import cl.systems.ski.SKI
+import cl.systems.ski.abstraction.{SKIEtaAbstraction => SKIEtaAbs}
 import org.jline.reader.EndOfFileException
+import cl.repl.ReplStateMachine.State
 
 import scala.io.AnsiColor._
 import scala.util.control.Exception
-import cl.systems.ski.abstraction.{SKIEtaAbstraction => SKIEtaAbs}
 
-object Repl extends App with JLineSupport {
+object Repl extends JLineSupport with App with ReplStateMachine {
 
-  import ReplStateMachine._
+  var state                     = State(None, Env.pureSKI, SKIEtaAbs, SKI)
+  def setState(newState: State) = state = newState
+
+  override def onStateChange(newState: State, oldState: State): Unit = updateJLine(newState)
 
   def welcome(): Unit = {
     putLine(s"Welcome to Simple CL.")
@@ -56,15 +60,13 @@ object Repl extends App with JLineSupport {
       evalSuccess(s) orElse evalError(s) apply result
   }
 
-  val initialState = State(None, Env.pureSKI, SKIEtaAbs, SKI)
-
   def ignite(): Unit =
     Exception.failAsValue(classOf[EndOfFileException])(Unit) {
       Iterator
         .continually(readCommand())
         .map(Commands.classify)
         .takeWhile(_ != Commands.Quit)
-        .foldLeft(initialState)(transitionFunction)
+        .foldLeft(state)(transitionFunction)
     }
 
   welcome()
