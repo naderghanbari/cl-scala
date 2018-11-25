@@ -28,7 +28,7 @@ Here are some of the basic things you can do in the REPL:
 - In order to define a new CL Term use the `:=` notation:
 
 ```
-CL > M := SII
+CL SKI > M := SII
 ```
 
 - You can't rebind/re-assign an existing term but you can clear
@@ -37,7 +37,7 @@ all defined terms with the `:r` REPL command.
 - Once a term is defined you can use it in later expressions:
 
 ```
-CL > Mx
+CL SKI > Mx
 xx
 ```
 
@@ -49,9 +49,9 @@ the bracket). Abstracting over multiple variables, or nesting
 multiple abstractions (right-associative) is also supported:
 
 ```
-CL > [x,y,z].xz(yz)
+CL SKI > [x,y,z].xz(yz)
 S
-CL > [x].[y].[z].xz(yz)
+CL SKI > [x].[y].[z].xz(yz)
 S
 ```
 
@@ -60,7 +60,7 @@ terms but as abstraction is not part of the CL syntax you can't
 use it within a term itself. For instance the following won't work:
 
 ```
-CL > ([x,y].y)uv
+CL SKI > ([x,y].y)uv
 Compile error ...
 ```
 
@@ -68,16 +68,16 @@ You can first assign the abstraction to a new term to force the
 evaluation and then use it in future expressions.
 
 ```
-CL > K' := [x,y].y
+CL SKI > K' := [x,y].y
 Ok!
-CL > K'uv
+CL SKI > K'uv
 v
 ```
 
 - For substitution use the bracket syntax.
 
 ```
-CL > [y/x]x
+CL SKI > [y/x]x
 y
 ```
 
@@ -86,7 +86,7 @@ For now only single substitution is supported at the language,
  sequential substitution is supported though (and associates to right)
 
 ```
-CL > [SS/x][xx/y]yz
+CL SKI > [SS/x][xx/y]yz
 Sz(SSz)
 ```
 
@@ -95,9 +95,9 @@ in a term. You can assign the result of a substitution to a new term
 though.
 
 ```
-CL > N := [SS/x][xx/y]yz
+CL SKI > N := [SS/x][xx/y]yz
 Ok!
-CL > Na
+CL SKI > Na
 za(Sa(za))
 ```
 
@@ -105,7 +105,7 @@ za(Sa(za))
 hash sign:
 
 ```
-CL > Q := KI   # Kite combinator
+CL SKI > Q := KI   # Kite combinator
 Ok!
 ```
 
@@ -133,15 +133,15 @@ directives:
 Here's an example of directives in action:
 
 ```
-CL > [x,y,z].xz(yz)
+CL SKI > [x,y,z].xz(yz)
 S
-CL > -abs:SKI:weak
+CL SKI > -abs:SKI:weak
 Ok! Abstraction strategy changed to SKI Weak Abstraction.
-CL > [x,y,z].xz(yz)
+CL SKI > [x,y,z].xz(yz)
 S(S(KS)(S(KK)(S(KS)(S(S(KS)(S(KK)I))(KI)))))(K(S(S(KS)(S(KK)I))(KI)))
-CL > -abs:SKI:primitive
+CL SKI > -abs:SKI:primitive
 Ok! Abstraction strategy changed to SKI Primitive Abstraction.
-CL > [x,y,z].xz(yz)
+CL SKI > [x,y,z].xz(yz)
 S(S(KS)(S ... A very long term ... K)(KI)))
 ```
 
