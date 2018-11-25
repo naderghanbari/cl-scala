@@ -22,7 +22,8 @@ object Repl extends JLineSupport with App with ReplStateMachine {
   def welcome(): Unit = {
     putLine(s"Welcome to Simple CL.")
     putLine(s"A weakly eager pure ${`<u>`("IKS")} Combinatory Logic interpreter.")
-    putLine("Type in expressions for evaluation. I, K, and S are predefined.")
+    putLine("Type in expressions for evaluation or press <TAB> for autocomplete.")
+    putLine("Default system is SKI and I, K, and S combinators are predefined.")
     putLine(s"Try ${`<u>`(":q")} or ${`<u>`("<Ctrl-D>")} to quit and ${`<u>`(":r")} to refresh all variables.")
     putLine("")
   }
