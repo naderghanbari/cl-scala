@@ -25,12 +25,26 @@ trait Applicable { self: Term ⇒
     * {{{
     *   val (U, V, M) = .... // Some Lambda Terms
     *   U ^ V                // Equivalent to (UV) in the official syntax
-    *   V ^ U(M)             // V(UM)
+    *   V ^ U ^ M            // (VU)M
     * }}}
     *
     * @param arg Argument.
     * @return Application of this to arg.
     */
   def ^(arg: Term) = Application(self, arg)
+
+  /** Right-associative higher-precedence alias for application (similar to $ in Haskell).
+    *
+    * Usage:
+    * {{{
+    *   val (U, V, M) = .... // Some Lambda Terms
+    *   U ^: V               // Equivalent to (UV) in the official syntax
+    *   V ^: U ^: M          // V(UM)
+    * }}}
+    *
+    * @param arg Argument.
+    * @return Application of this to arg.
+    */
+  def ^:(arg: Term) = Application(self, arg)
 
 }

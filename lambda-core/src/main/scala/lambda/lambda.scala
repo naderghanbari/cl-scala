@@ -41,7 +41,8 @@ package object lambda {
     */
   case class Application(M: Term, N: Term) extends Term
 
-  val ^ = Application
+  val ^  = Application
+  val ^: = Application
 
   /** Abstraction (λx.M).
     *
