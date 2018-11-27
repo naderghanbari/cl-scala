@@ -160,7 +160,7 @@ their use is meaningful.
   - `cl-lang`: A Mini CL Language with a parser and AST.
   - `cl-eval`: An evaluator (interpreter) for the Mini CL language.
   - `cl-repl`: REPL for the Mini CL language.
-  - `lambda-core`: Lambda Calculus ADT and DSL.
+  - `lc-core`: Lambda Calculus ADT and DSL.
 
 ## CL Term ADT
 

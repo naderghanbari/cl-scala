@@ -1,4 +1,4 @@
-package lambda
+package lc
 
 trait Occurrence { P: Term ⇒
 

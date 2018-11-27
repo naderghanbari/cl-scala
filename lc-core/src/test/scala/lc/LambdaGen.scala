@@ -1,4 +1,4 @@
-package lambda
+package lc
 import org.scalacheck.Gen
 
 object LambdaGen {

@@ -1,4 +1,4 @@
-package lambda
+package lc
 
 trait Show { this: Term ⇒
 

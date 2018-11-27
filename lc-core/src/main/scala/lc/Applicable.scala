@@ -1,4 +1,4 @@
-package lambda
+package lc
 
 /** Enrichment of Lambda Terms with an application operator and a left-associative
   * infix alias of it, namely `^`.

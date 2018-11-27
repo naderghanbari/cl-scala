@@ -1,4 +1,4 @@
-package lambda
+package lc
 
 /** Enrichment of Lambda Terms with a syntactical equality
   * relation denoted by `≡`.

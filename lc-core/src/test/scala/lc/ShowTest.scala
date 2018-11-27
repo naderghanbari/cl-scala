@@ -1,4 +1,4 @@
-package lambda
+package lc
 
 import LambdaGen.termGen
 import org.scalatest.prop.GeneratorDrivenPropertyChecks.{forAll ⇒ ∀}

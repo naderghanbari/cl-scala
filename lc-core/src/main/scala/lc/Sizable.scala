@@ -1,4 +1,4 @@
-package lambda
+package lc
 
 trait Sizable { self: Term ⇒
 

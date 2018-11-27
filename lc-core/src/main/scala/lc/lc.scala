@@ -1,4 +1,4 @@
-package object lambda {
+package object lc {
 
   /** Lambda Term ADT, either
     * - an Atom,
