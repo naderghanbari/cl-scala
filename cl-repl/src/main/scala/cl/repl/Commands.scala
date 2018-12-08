@@ -31,12 +31,16 @@ object Commands {
     "-abs:SK:eta"        -> AbsDirective(SKEtaAbstraction),
   )
 
-  private val Catalog = Map[String, Command](
+  val ReplCommands = Map[String, Command](
     ":q" -> Quit,
-    ":r" -> Refresh,
-    ""   -> Blank
+    ":r" -> Refresh
   )
 
-  def classify(s: String): Command = Directives.orElse(Catalog).lift.apply(s).getOrElse(Statement(s))
+  val NoOp = Map[String, Command](
+    "" -> Blank
+  )
+
+  def classify(s: String): Command =
+    Directives.orElse(ReplCommands).orElse(NoOp).lift.apply(s).getOrElse(Statement(s))
 
 }
