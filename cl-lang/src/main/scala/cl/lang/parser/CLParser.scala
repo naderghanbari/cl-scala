@@ -26,7 +26,7 @@ object CLParser extends Parsers {
   private def subBra: Parser[(Term, Var)] = pair { BRAOPEN ~> term ~ (SLASH ~> `var`) <~ BRACLOSE }
   private def sub: Parser[Substitution]   = pair { subBra ~ expr } ^^ Substitution.tupled
   private def exprGrp: Parser[Expr]       = PAROPEN ~> expr <~ PARCLOSE
-  private def expr: Parser[Expr]          = exprGrp | sub | abst | term
+  private def expr: Parser[Expr]          = phrase(exprGrp | sub | abst | term)
   private def defn: Parser[Defn]          = pair { (ref <~ DEFN) ~ phrase(expr) } ^^ Defn.tupled
   private def ast: Parser[AST]            = phrase(defn | expr)
 
