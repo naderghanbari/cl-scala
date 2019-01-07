@@ -30,4 +30,18 @@ trait Show { this: Term ⇒
     case _U ^ _V                     ⇒ s"${_U.short}(${_V.short})"
   }
 
+  /** De Bruijn of this Lambda Term.
+    *
+    * - x in De Bruijn notation remains x
+    * - λx.M in De Bruijn notation becomes [x]M
+    * - (MN) in De Bruijn notation becomes (N)M
+    *
+    * @see https://en.wikipedia.org/wiki/De_Bruijn_notation
+    */
+  lazy val deBruijn: String = this match {
+    case Atom(name)  ⇒ name.toString
+    case _M ^ _N     ⇒ s"(${_N.deBruijn})${_M.deBruijn}"
+    case Var(x) λ _M ⇒ s"[${x.toString}]${_M.deBruijn}"
+  }
+
 }

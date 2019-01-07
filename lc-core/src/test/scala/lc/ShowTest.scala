@@ -12,18 +12,21 @@ class ShowTest extends WordSpec with Matchers {
 
       val (x, y, z) = (Var('x'), Var('y'), Var('z'))
 
-      val I      = λ(x) { x }
-      val IFull  = "(λx.x)"
-      val IShort = "λx.x"
+      val I         = λ(x) { x }
+      val IFull     = "(λx.x)"
+      val IShort    = "λx.x"
+      val IDeBruijn = "[x]x"
 
-      val K      = λ(x)(λ(y) { x })
-      val KFull  = "(λx.(λy.x))"
-      val KShort = "λxy.x"
+      val K         = λ(x)(λ(y) { x })
+      val KFull     = "(λx.(λy.x))"
+      val KShort    = "λxy.x"
+      val KDeBruijn = "[x][y]x"
 
-      val SBody  = x(z) ^ y(z)
-      val S      = λ(x)(λ(y)(λ(z) { SBody }))
-      val SFull  = "(λx.(λy.(λz.((xz)(yz)))))"
-      val SShort = "λxyz.xz(yz)"
+      val SBody     = x(z) ^ y(z)
+      val S         = λ(x)(λ(y)(λ(z) { SBody }))
+      val SFull     = "(λx.(λy.(λz.((xz)(yz)))))"
+      val SShort    = "λxyz.xz(yz)"
+      val SDeBruijn = "[x][y][z]((z)y)(z)x"
 
       val Kx                   = K(x)
       val Kxy                  = Kx(y)
@@ -61,11 +64,24 @@ class ShowTest extends WordSpec with Matchers {
         S_Kx_SKK.short shouldBe s"($SShort)(($KShort)x)(($SShort)($KShort)($KShort))"
       }
 
+      "show Terms in De Bruijn format" in {
+        x.deBruijn    shouldBe "x"
+        y.deBruijn    shouldBe "y"
+        z.deBruijn    shouldBe "z"
+        K.deBruijn    shouldBe KDeBruijn
+        S.deBruijn    shouldBe SDeBruijn
+        I.deBruijn    shouldBe IDeBruijn
+        Kx.deBruijn   shouldBe s"(x)$KDeBruijn"
+        Kxy.deBruijn  shouldBe s"(y)(x)$KDeBruijn"
+        K_xy.deBruijn shouldBe s"((y)x)$KDeBruijn"
+        SKxy.deBruijn shouldBe s"(y)(x)($KDeBruijn)$SDeBruijn"
+      }
+
     }
 
     "given arbitrary Terms" should {
 
-      "satisfy basic properties for the full and short representations" in ∀(termGen, termGen) { (U, V) ⇒
+      "satisfy basic properties for the full, short, and De Bruijn representations" in ∀(termGen, termGen) { (U, V) ⇒
         U.full.length + V.full.length + 2   shouldEqual U(V).full.length
         U.short.length + V.short.length + 2 should be >= U(V).short.length
         U(V).full contains U.full           shouldBe true
@@ -74,9 +90,14 @@ class ShowTest extends WordSpec with Matchers {
         U(V).short contains V.short         shouldBe true
         U.short.length                      should be <= U.full.length
         V.short.length                      should be <= V.full.length
+        U.deBruijn.count(_ == '(')          shouldEqual U.deBruijn.count(_ == ')')
+        U.full.count(_ == '(')              shouldEqual U.full.count(_ == ')')
+        U.short.count(_ == '(')             should be <= U.deBruijn.count(_ == '(')
+        U.deBruijn.count(_ == '(')          should be <= U.full.count(_ == '(')
       }
 
     }
+
   }
 
 }
