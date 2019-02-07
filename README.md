@@ -240,6 +240,7 @@ The `apply` and the `^` will both be left associative, just like the
  convention used in the CL literature.
 `^` and `^:` can be used to avoid parenthesises in some cases.
 
+```scala
 val H = S(K)(I)(K(S(S)))
 val E = S(K)(I) ^ (K ^ S(S))       // Same thing, more readable
 ```
