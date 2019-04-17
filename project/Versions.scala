@@ -6,8 +6,8 @@ object Versions {
 
   val ScalaCheck = "1.14.0"
 
-  val ParserCombinators = "1.1.1"
+  val ParserCombinators = "1.1.2"
 
-  val JLine3 = "3.9.0"
+  val JLine3 = "3.11.0"
 
 }
